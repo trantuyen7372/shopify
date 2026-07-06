@@ -117,6 +117,41 @@
   width: 100%;
 }
 
+.card__inner:has(.card__wishlist-button) {
+  position: relative;
+}
+
+.card__wishlist-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+}
+
+.card__wishlist-button button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(var(--color-background));
+  cursor: pointer;
+}
+
+.card__wishlist-button button .icon-heart {
+  width: 1.8rem;
+  height: 1.8rem;
+  fill: rgba(var(--color-foreground), 0.4);
+  transition: fill var(--duration-short) ease;
+}
+
+.card__wishlist-button button[aria-pressed='true'] .icon-heart {
+  fill: rgb(var(--color-foreground));
+}
+
 .card--media .card__inner .card__content {
   position: relative;
   padding: calc(var(--image-padding) + 1rem);
