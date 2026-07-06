@@ -119,6 +119,7 @@
 
 .card__inner:has(.card__wishlist-button) {
   position: relative;
+  z-index: 2;
 }
 
 .card__wishlist-button {

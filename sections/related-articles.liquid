@@ -18,28 +18,32 @@
   assign related_count = 0
 -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="page-width section-{{ section.id }}-padding">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="title {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
-    {%- endif -%}
-    <ul
-      class="grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--2-col-tablet-down"
-      role="list"
-    >
-      {%- for related_article in blog.articles -%}
-        {%- unless related_article.id == article.id -%}
-          {%- if related_count < section.settings.articles_to_show -%}
-            <li class="grid__item">
-              {% render 'article-card', blog: blog, article: related_article, show_image: true, show_date: true %}
-            </li>
-            {%- assign related_count = related_count | plus: 1 -%}
-          {%- endif -%}
-        {%- endunless -%}
-      {%- endfor -%}
-    </ul>
+{%- if blog.articles_count > 1 -%}
+  <div class="color-{{ section.settings.color_scheme }} gradient">
+    <div class="page-width section-{{ section.id }}-padding">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="title {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      <ul
+        class="grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--2-col-tablet-down"
+        role="list"
+      >
+        {%- for related_article in blog.articles -%}
+          {%- unless related_article.id == article.id -%}
+            {%- if related_count < section.settings.articles_to_show -%}
+              <li class="grid__item">
+                {% render 'article-card', blog: blog, article: related_article, show_image: true, show_date: true %}
+              </li>
+              {%- assign related_count = related_count | plus: 1 -%}
+            {%- else -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </ul>
+    </div>
   </div>
-</div>
+{%- endif -%}
 
 {% schema %}
 {

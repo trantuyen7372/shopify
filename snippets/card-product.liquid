@@ -634,12 +634,12 @@
   class WishlistButton extends HTMLElement {
     constructor() {
       super();
-      this.button = this.querySelector('button');
       this.productId = this.dataset.productId;
       this.storageKey = 'wishlist';
     }
 
     connectedCallback() {
+      this.button = this.querySelector('button');
       this.updateState(this.isWishlisted());
       this.button.addEventListener('click', this.toggle.bind(this));
     }
@@ -664,7 +664,11 @@
       } else {
         wishlist.push(this.productId);
       }
-      localStorage.setItem(this.storageKey, JSON.stringify(wishlist));
+      try {
+        localStorage.setItem(this.storageKey, JSON.stringify(wishlist));
+      } catch (error) {
+        return;
+      }
       this.updateState(index === -1);
     }
 
