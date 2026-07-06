@@ -59,11 +59,6 @@
           class="card__inner {% if settings.card_style == 'standard' %}color-{{ settings.card_color_scheme }} gradient{% endif %}{% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}"
           style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
         >
-          <wishlist-button class="card__wishlist-button" data-product-id="{{ card_product.id }}">
-            <button type="button" aria-pressed="false" aria-label="Add to wishlist">
-              <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
-            </button>
-          </wishlist-button>
           {%- if card_product.featured_media -%}
             <div class="card__media{% if image_shape and image_shape != 'default' %} shape--{{ image_shape }} color-{{ settings.card_color_scheme }} gradient{% endif %}">
               <div class="media media--transparent media--hover-effect">
@@ -150,6 +145,11 @@
             </div>
           </div>
         </div>
+        <wishlist-button class="card__wishlist-button" data-product-id="{{ card_product.id }}">
+          <button type="button" aria-pressed="false" aria-label="Add to wishlist">
+            <span class="svg-wrapper">{{ 'icon-heart.svg' | inline_asset_content }}</span>
+          </button>
+        </wishlist-button>
         <div class="card__content">
           <div class="card__information">
             <h3
