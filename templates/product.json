@@ -33,8 +33,44 @@
             "show_gift_card_recipient": true
           }
         },
+        "trust_badges": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "horizontal",
+            "icon_1": "truck",
+            "heading_1": "Free Shipping",
+            "icon_2": "lock",
+            "heading_2": "Secure Checkout",
+            "icon_3": "return",
+            "heading_3": "Easy Returns"
+          }
+        },
         "description": {
           "type": "description"
+        },
+        "tab_shipping": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Shipping",
+            "icon": "truck",
+            "content": "<p>Orders ship within 2 business days. Replace this placeholder with your real shipping policy.</p>"
+          }
+        },
+        "tab_returns": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Returns",
+            "icon": "return",
+            "content": "<p>Returns are accepted within 30 days of delivery. Replace this placeholder with your real returns policy.</p>"
+          }
+        },
+        "tab_size_guide": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Size Guide",
+            "icon": "ruler",
+            "content": "<p>Replace this placeholder with your size chart.</p>"
+          }
         },
         "share": {
           "type": "share",
@@ -50,7 +86,11 @@
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
+        "trust_badges",
         "description",
+        "tab_shipping",
+        "tab_returns",
+        "tab_size_guide",
         "share"
       ],
       "settings": {
