@@ -130,7 +130,7 @@ async function findMainMenu() {
   return menu;
 }
 
-async function updateMainMenu(menuId, baseUrl) {
+async function updateMainMenu(menu, baseUrl) {
   const items = menuTree.map((node) => toMenuItemInput(node, baseUrl));
   if (dryRun) {
     console.log('--dry-run: menuUpdate items payload:');
@@ -139,20 +139,20 @@ async function updateMainMenu(menuId, baseUrl) {
   }
   const data = await adminGraphql(
     `
-      mutation UpdateMainMenu($id: ID!, $items: [MenuItemUpdateInput!]) {
-        menuUpdate(id: $id, items: $items) {
+      mutation UpdateMainMenu($id: ID!, $title: String!, $items: [MenuItemUpdateInput!]!) {
+        menuUpdate(id: $id, title: $title, items: $items) {
           menu { id handle }
           userErrors { field message }
         }
       }
     `,
-    { id: menuId, items }
+    { id: menu.id, title: menu.title, items }
   );
-  const { userErrors, menu } = data.menuUpdate;
+  const { userErrors, menu: updatedMenu } = data.menuUpdate;
   if (userErrors.length) {
     throw new Error(`menuUpdate userErrors: ${JSON.stringify(userErrors)}`);
   }
-  console.log(`Updated menu ${menu.handle} (${menu.id})`);
+  console.log(`Updated menu ${updatedMenu.handle} (${updatedMenu.id})`);
 }
 
 async function ensurePages() {
@@ -199,7 +199,7 @@ async function ensurePages() {
 async function main() {
   const baseUrl = `https://${await getPrimaryDomainHost()}`;
   const menu = await findMainMenu();
-  await updateMainMenu(menu.id, baseUrl);
+  await updateMainMenu(menu, baseUrl);
   await ensurePages();
   console.log(dryRun ? 'Dry run complete.' : 'Navigation setup complete.');
 }
