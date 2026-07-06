@@ -132,15 +132,79 @@
     "category_grid_apparel": {
       "type": "multicolumn",
       "blocks": {
-        "c1": { "type": "column", "settings": { "title": "Tartan T-Shirt", "link_label": "Shop now", "link": "/collections/all" } },
-        "c2": { "type": "column", "settings": { "title": "Tartan Polo Shirt", "link_label": "Shop now", "link": "/collections/all" } },
-        "c3": { "type": "column", "settings": { "title": "Women's Polo Shirt", "link_label": "Shop now", "link": "/collections/all" } },
-        "c4": { "type": "column", "settings": { "title": "Tartan Sweatshirt", "link_label": "Shop now", "link": "/collections/all" } },
-        "c5": { "type": "column", "settings": { "title": "Tartan Long Sleeve Button Shirts", "link_label": "Shop now", "link": "/collections/all" } },
-        "c6": { "type": "column", "settings": { "title": "Tartan Women's Casual Shirt", "link_label": "Shop now", "link": "/collections/all" } },
-        "c7": { "type": "column", "settings": { "title": "Tartan Hawaiian Shirt", "link_label": "Shop now", "link": "/collections/all" } }
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan T-Shirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Polo Shirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Women's Polo Shirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c4": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Sweatshirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c5": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Long Sleeve Button Shirts",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c6": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Women's Casual Shirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c7": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Hawaiian Shirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
       "settings": {
         "title": "Apparel & Clothing",
         "heading_size": "h1",
@@ -161,16 +225,89 @@
     "category_grid_hoodies": {
       "type": "multicolumn",
       "blocks": {
-        "c1": { "type": "column", "settings": { "title": "Casual Hoodie", "link_label": "Shop now", "link": "/collections/all" } },
-        "c2": { "type": "column", "settings": { "title": "Sherpa Hoodie", "link_label": "Shop now", "link": "/collections/all" } },
-        "c3": { "type": "column", "settings": { "title": "Tartan Bomber Jacket", "link_label": "Shop now", "link": "/collections/all" } },
-        "c4": { "type": "column", "settings": { "title": "Tartan Padded Jacket", "link_label": "Shop now", "link": "/collections/all" } },
-        "c5": { "type": "column", "settings": { "title": "Borg Fleece Hoodie", "link_label": "Shop now", "link": "/collections/all" } },
-        "c6": { "type": "column", "settings": { "title": "Knitted Hoodie", "link_label": "Shop now", "link": "/collections/all" } },
-        "c7": { "type": "column", "settings": { "title": "Baseball Jacket", "link_label": "Shop now", "link": "/collections/all" } },
-        "c8": { "type": "column", "settings": { "title": "Sleeveless Puffer Jacket", "link_label": "Shop now", "link": "/collections/all" } }
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "Casual Hoodie",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Sherpa Hoodie",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Bomber Jacket",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c4": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Padded Jacket",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c5": {
+          "type": "column",
+          "settings": {
+            "title": "Borg Fleece Hoodie",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c6": {
+          "type": "column",
+          "settings": {
+            "title": "Knitted Hoodie",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c7": {
+          "type": "column",
+          "settings": {
+            "title": "Baseball Jacket",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c8": {
+          "type": "column",
+          "settings": {
+            "title": "Sleeveless Puffer Jacket",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8"
+      ],
       "settings": {
         "title": "Hoodies & Jackets",
         "heading_size": "h1",
@@ -191,15 +328,79 @@
     "category_grid_dresses": {
       "type": "multicolumn",
       "blocks": {
-        "c1": { "type": "column", "settings": { "title": "Sleeveless Midi Dresses", "link_label": "Shop now", "link": "/collections/all" } },
-        "c2": { "type": "column", "settings": { "title": "Women's Casual Dresses", "link_label": "Shop now", "link": "/collections/all" } },
-        "c3": { "type": "column", "settings": { "title": "Off Shoulder Long Dress", "link_label": "Shop now", "link": "/collections/all" } },
-        "c4": { "type": "column", "settings": { "title": "Off Shoulder Lady Dress", "link_label": "Shop now", "link": "/collections/all" } },
-        "c5": { "type": "column", "settings": { "title": "Tartan Hoodie Dress", "link_label": "Shop now", "link": "/collections/all" } },
-        "c6": { "type": "column", "settings": { "title": "Full Length Skirt", "link_label": "Shop now", "link": "/collections/all" } },
-        "c7": { "type": "column", "settings": { "title": "Pleated Midi Skirt", "link_label": "Shop now", "link": "/collections/all" } }
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "Sleeveless Midi Dresses",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Women's Casual Dresses",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Off Shoulder Long Dress",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c4": {
+          "type": "column",
+          "settings": {
+            "title": "Off Shoulder Lady Dress",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c5": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Hoodie Dress",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c6": {
+          "type": "column",
+          "settings": {
+            "title": "Full Length Skirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c7": {
+          "type": "column",
+          "settings": {
+            "title": "Pleated Midi Skirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
       "settings": {
         "title": "Dresses & Skirts",
         "heading_size": "h1",
@@ -220,16 +421,89 @@
     "category_grid_decor": {
       "type": "multicolumn",
       "blocks": {
-        "c1": { "type": "column", "settings": { "title": "Premium Quilts", "link_label": "Shop now", "link": "/collections/all" } },
-        "c2": { "type": "column", "settings": { "title": "Tartan Bedding Set", "link_label": "Shop now", "link": "/collections/all" } },
-        "c3": { "type": "column", "settings": { "title": "Tartan Blanket", "link_label": "Shop now", "link": "/collections/all" } },
-        "c4": { "type": "column", "settings": { "title": "Tartan Pillow Cover", "link_label": "Shop now", "link": "/collections/all" } },
-        "c5": { "type": "column", "settings": { "title": "Door Mat Collection", "link_label": "Shop now", "link": "/collections/all" } },
-        "c6": { "type": "column", "settings": { "title": "Tartan Tablecloth", "link_label": "Shop now", "link": "/collections/all" } },
-        "c7": { "type": "column", "settings": { "title": "Tartan Flags", "link_label": "Shop now", "link": "/collections/all" } },
-        "c8": { "type": "column", "settings": { "title": "Christmas Tree Skirt", "link_label": "Shop now", "link": "/collections/all" } }
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "Premium Quilts",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Bedding Set",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Blanket",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c4": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Pillow Cover",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c5": {
+          "type": "column",
+          "settings": {
+            "title": "Door Mat Collection",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c6": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Tablecloth",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c7": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Flags",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c8": {
+          "type": "column",
+          "settings": {
+            "title": "Christmas Tree Skirt",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8"
+      ],
       "settings": {
         "title": "Home Decor",
         "heading_size": "h1",
@@ -250,15 +524,79 @@
     "category_grid_accessories": {
       "type": "multicolumn",
       "blocks": {
-        "c1": { "type": "column", "settings": { "title": "Tartan Classic Cap", "link_label": "Shop now", "link": "/collections/all" } },
-        "c2": { "type": "column", "settings": { "title": "Tartan Beanies", "link_label": "Shop now", "link": "/collections/all" } },
-        "c3": { "type": "column", "settings": { "title": "Canvas Bag", "link_label": "Shop now", "link": "/collections/all" } },
-        "c4": { "type": "column", "settings": { "title": "Leather Bag", "link_label": "Shop now", "link": "/collections/all" } },
-        "c5": { "type": "column", "settings": { "title": "Leather Tote Bags", "link_label": "Shop now", "link": "/collections/all" } },
-        "c6": { "type": "column", "settings": { "title": "Tartan Saddle Bag", "link_label": "Shop now", "link": "/collections/all" } },
-        "c7": { "type": "column", "settings": { "title": "Tartan Umbrellas", "link_label": "Shop now", "link": "/collections/all" } }
+        "c1": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Classic Cap",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c2": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Beanies",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c3": {
+          "type": "column",
+          "settings": {
+            "title": "Canvas Bag",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c4": {
+          "type": "column",
+          "settings": {
+            "title": "Leather Bag",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c5": {
+          "type": "column",
+          "settings": {
+            "title": "Leather Tote Bags",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c6": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Saddle Bag",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        },
+        "c7": {
+          "type": "column",
+          "settings": {
+            "title": "Tartan Umbrellas",
+            "link_label": "Shop now",
+            "link": "/collections/all",
+            "text": ""
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7"
+      ],
       "settings": {
         "title": "Accessories",
         "heading_size": "h1",
@@ -304,7 +642,11 @@
           }
         }
       },
-      "block_order": ["t1", "t2", "t3"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
       "settings": {
         "heading": "What Our Customers Say",
         "subheading": "Real reviews from real customers",
@@ -333,12 +675,29 @@
     "press_logos": {
       "type": "press-logos",
       "blocks": {
-        "p1": { "type": "press_logo", "settings": {} },
-        "p2": { "type": "press_logo", "settings": {} },
-        "p3": { "type": "press_logo", "settings": {} },
-        "p4": { "type": "press_logo", "settings": {} }
+        "p1": {
+          "type": "press_logo",
+          "settings": {}
+        },
+        "p2": {
+          "type": "press_logo",
+          "settings": {}
+        },
+        "p3": {
+          "type": "press_logo",
+          "settings": {}
+        },
+        "p4": {
+          "type": "press_logo",
+          "settings": {}
+        }
       },
-      "block_order": ["p1", "p2", "p3", "p4"],
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
       "settings": {
         "heading": "As Seen On",
         "subheading": "And over 400 news sites",
