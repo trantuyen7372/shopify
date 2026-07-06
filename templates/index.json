@@ -6,8 +6,15 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Browse our latest products",
+            "heading": "Wear Your Heritage",
             "heading_size": "h0"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Original tartan-inspired apparel and home goods, made to last.</p>",
+            "text_style": "subtitle"
           }
         },
         "button": {
@@ -16,14 +23,15 @@
             "button_label_1": "Shop all",
             "button_link_1": "shopify://collections/all",
             "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "button_label_2": "Find your clan",
+            "button_link_2": "#",
+            "button_style_secondary_2": true
           }
         }
       },
       "block_order": [
         "heading",
+        "text",
         "button"
       ],
       "settings": {
@@ -37,6 +45,60 @@
         "mobile_content_alignment": "center",
         "stack_images_on_mobile": false,
         "show_text_below": false
+      }
+    },
+    "clan_finder": {
+      "type": "clan-finder",
+      "blocks": {
+        "clan-a-l": {
+          "type": "clan_link",
+          "settings": {
+            "title": "Clans A-L",
+            "link": "/collections/all"
+          }
+        },
+        "clan-m-y": {
+          "type": "clan_link",
+          "settings": {
+            "title": "Clans M-Y",
+            "link": "/collections/all"
+          }
+        },
+        "canada-province": {
+          "type": "clan_link",
+          "settings": {
+            "title": "Canada Province Tartan",
+            "link": "/collections/all"
+          }
+        },
+        "ireland-a-k": {
+          "type": "clan_link",
+          "settings": {
+            "title": "Ireland County Tartan A-K",
+            "link": "/collections/all"
+          }
+        },
+        "ireland-l-w": {
+          "type": "clan_link",
+          "settings": {
+            "title": "Ireland County Tartan L-W",
+            "link": "/collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "clan-a-l",
+        "clan-m-y",
+        "canada-province",
+        "ireland-a-k",
+        "ireland-l-w"
+      ],
+      "settings": {
+        "heading": "Find Your Tartan",
+        "description": "<p>Search our full range of clan and regional tartans.</p>",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "featured_collection": {
@@ -61,15 +123,242 @@
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "quick_add": "none",
+        "quick_add": "standard",
         "columns_mobile": "2",
         "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "category_grid_apparel": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": { "type": "column", "settings": { "title": "Tartan T-Shirt", "link_label": "Shop now", "link": "/collections/all" } },
+        "c2": { "type": "column", "settings": { "title": "Tartan Polo Shirt", "link_label": "Shop now", "link": "/collections/all" } },
+        "c3": { "type": "column", "settings": { "title": "Women's Polo Shirt", "link_label": "Shop now", "link": "/collections/all" } },
+        "c4": { "type": "column", "settings": { "title": "Tartan Sweatshirt", "link_label": "Shop now", "link": "/collections/all" } },
+        "c5": { "type": "column", "settings": { "title": "Tartan Long Sleeve Button Shirts", "link_label": "Shop now", "link": "/collections/all" } },
+        "c6": { "type": "column", "settings": { "title": "Tartan Women's Casual Shirt", "link_label": "Shop now", "link": "/collections/all" } },
+        "c7": { "type": "column", "settings": { "title": "Tartan Hawaiian Shirt", "link_label": "Shop now", "link": "/collections/all" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+      "settings": {
+        "title": "Apparel & Clothing",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "square",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "scheme-1",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "category_grid_hoodies": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": { "type": "column", "settings": { "title": "Casual Hoodie", "link_label": "Shop now", "link": "/collections/all" } },
+        "c2": { "type": "column", "settings": { "title": "Sherpa Hoodie", "link_label": "Shop now", "link": "/collections/all" } },
+        "c3": { "type": "column", "settings": { "title": "Tartan Bomber Jacket", "link_label": "Shop now", "link": "/collections/all" } },
+        "c4": { "type": "column", "settings": { "title": "Tartan Padded Jacket", "link_label": "Shop now", "link": "/collections/all" } },
+        "c5": { "type": "column", "settings": { "title": "Borg Fleece Hoodie", "link_label": "Shop now", "link": "/collections/all" } },
+        "c6": { "type": "column", "settings": { "title": "Knitted Hoodie", "link_label": "Shop now", "link": "/collections/all" } },
+        "c7": { "type": "column", "settings": { "title": "Baseball Jacket", "link_label": "Shop now", "link": "/collections/all" } },
+        "c8": { "type": "column", "settings": { "title": "Sleeveless Puffer Jacket", "link_label": "Shop now", "link": "/collections/all" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"],
+      "settings": {
+        "title": "Hoodies & Jackets",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "square",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "primary",
+        "color_scheme": "scheme-2",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "category_grid_dresses": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": { "type": "column", "settings": { "title": "Sleeveless Midi Dresses", "link_label": "Shop now", "link": "/collections/all" } },
+        "c2": { "type": "column", "settings": { "title": "Women's Casual Dresses", "link_label": "Shop now", "link": "/collections/all" } },
+        "c3": { "type": "column", "settings": { "title": "Off Shoulder Long Dress", "link_label": "Shop now", "link": "/collections/all" } },
+        "c4": { "type": "column", "settings": { "title": "Off Shoulder Lady Dress", "link_label": "Shop now", "link": "/collections/all" } },
+        "c5": { "type": "column", "settings": { "title": "Tartan Hoodie Dress", "link_label": "Shop now", "link": "/collections/all" } },
+        "c6": { "type": "column", "settings": { "title": "Full Length Skirt", "link_label": "Shop now", "link": "/collections/all" } },
+        "c7": { "type": "column", "settings": { "title": "Pleated Midi Skirt", "link_label": "Shop now", "link": "/collections/all" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+      "settings": {
+        "title": "Dresses & Skirts",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "square",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "scheme-1",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "category_grid_decor": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": { "type": "column", "settings": { "title": "Premium Quilts", "link_label": "Shop now", "link": "/collections/all" } },
+        "c2": { "type": "column", "settings": { "title": "Tartan Bedding Set", "link_label": "Shop now", "link": "/collections/all" } },
+        "c3": { "type": "column", "settings": { "title": "Tartan Blanket", "link_label": "Shop now", "link": "/collections/all" } },
+        "c4": { "type": "column", "settings": { "title": "Tartan Pillow Cover", "link_label": "Shop now", "link": "/collections/all" } },
+        "c5": { "type": "column", "settings": { "title": "Door Mat Collection", "link_label": "Shop now", "link": "/collections/all" } },
+        "c6": { "type": "column", "settings": { "title": "Tartan Tablecloth", "link_label": "Shop now", "link": "/collections/all" } },
+        "c7": { "type": "column", "settings": { "title": "Tartan Flags", "link_label": "Shop now", "link": "/collections/all" } },
+        "c8": { "type": "column", "settings": { "title": "Christmas Tree Skirt", "link_label": "Shop now", "link": "/collections/all" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"],
+      "settings": {
+        "title": "Home Decor",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "square",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "primary",
+        "color_scheme": "scheme-2",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "category_grid_accessories": {
+      "type": "multicolumn",
+      "blocks": {
+        "c1": { "type": "column", "settings": { "title": "Tartan Classic Cap", "link_label": "Shop now", "link": "/collections/all" } },
+        "c2": { "type": "column", "settings": { "title": "Tartan Beanies", "link_label": "Shop now", "link": "/collections/all" } },
+        "c3": { "type": "column", "settings": { "title": "Canvas Bag", "link_label": "Shop now", "link": "/collections/all" } },
+        "c4": { "type": "column", "settings": { "title": "Leather Bag", "link_label": "Shop now", "link": "/collections/all" } },
+        "c5": { "type": "column", "settings": { "title": "Leather Tote Bags", "link_label": "Shop now", "link": "/collections/all" } },
+        "c6": { "type": "column", "settings": { "title": "Tartan Saddle Bag", "link_label": "Shop now", "link": "/collections/all" } },
+        "c7": { "type": "column", "settings": { "title": "Tartan Umbrellas", "link_label": "Shop now", "link": "/collections/all" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7"],
+      "settings": {
+        "title": "Accessories",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "square",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "none",
+        "color_scheme": "scheme-1",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "This is the best tartan gear I've ever owned. Warm, well made, and true to the pattern.",
+            "author": "Alex R.",
+            "rating": 5
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Found my exact clan tartan in minutes and the quality blew me away.",
+            "author": "Jamie K.",
+            "rating": 5
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Fast shipping and the blanket is even softer than the photos suggested.",
+            "author": "Morgan T.",
+            "rating": 4
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {
+        "heading": "What Our Customers Say",
+        "subheading": "Real reviews from real customers",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_blog": {
+      "type": "featured-blog",
+      "settings": {
+        "heading": "From the Journal",
+        "heading_size": "h1",
+        "blog": "news",
+        "post_limit": 3,
+        "columns_desktop": 3,
+        "show_view_all": true,
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "press_logos": {
+      "type": "press-logos",
+      "blocks": {
+        "p1": { "type": "press_logo", "settings": {} },
+        "p2": { "type": "press_logo", "settings": {} },
+        "p3": { "type": "press_logo", "settings": {} },
+        "p4": { "type": "press_logo", "settings": {} }
+      },
+      "block_order": ["p1", "p2", "p3", "p4"],
+      "settings": {
+        "heading": "As Seen On",
+        "subheading": "And over 400 news sites",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
         "padding_bottom": 36
       }
     }
   },
   "order": [
     "image_banner",
-    "featured_collection"
+    "clan_finder",
+    "featured_collection",
+    "category_grid_apparel",
+    "category_grid_hoodies",
+    "category_grid_dresses",
+    "category_grid_decor",
+    "category_grid_accessories",
+    "testimonials",
+    "featured_blog",
+    "press_logos"
   ]
 }
