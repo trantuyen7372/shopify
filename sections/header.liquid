@@ -470,7 +470,7 @@
 {
   "name": "t:sections.header.name",
   "class": "section-header",
-  "max_blocks": 3,
+  "max_blocks": 8,
   "settings": [
     {
       "type": "select",
@@ -650,6 +650,40 @@
     }
   ],
   "blocks": [
+    {
+      "type": "mega_menu_promotion",
+      "name": "Mega menu promotion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item_title",
+          "label": "Attach to top-level menu title",
+          "info": "Must exactly match a top-level menu item's title, e.g. \"Find Your Clans\". Desktop mega menu only."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Find Your Tartan"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "Shop now"
+        }
+      ]
+    },
     {
       "type": "@app"
     }
