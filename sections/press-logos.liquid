@@ -1,0 +1,163 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .press-logos__header {
+    text-align: center;
+  }
+
+  .press-logos__subheading {
+    margin-top: 0.4rem;
+  }
+
+  .press-logos__strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    margin-top: 3rem;
+  }
+
+  .press-logos__logo {
+    display: block;
+    width: 12rem;
+    height: 6rem;
+  }
+
+  .press-logos__logo img,
+  .press-logos__logo svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="press-logos__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="h2">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="press-logos__subheading">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </div>
+    <div class="press-logos__strip">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign logo_alt = block.settings.image.alt | default: 'Press logo' | escape
+        -%}
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}" class="press-logos__logo" {{ block.shopify_attributes }}>
+        {%- else -%}
+          <span class="press-logos__logo" {{ block.shopify_attributes }}>
+        {%- endif -%}
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: logo_alt }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+        {%- if block.settings.link != blank -%}
+          </a>
+        {%- else -%}
+          </span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Press logos",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "As Seen On"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "And over 400 news sites"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "press_logo",
+      "name": "Press logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Press logos",
+      "blocks": [
+        { "type": "press_logo" },
+        { "type": "press_logo" },
+        { "type": "press_logo" },
+        { "type": "press_logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}
