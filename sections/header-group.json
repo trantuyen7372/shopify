@@ -30,12 +30,26 @@
     },
     "header": {
       "type": "header",
+      "blocks": {
+        "mega-menu-promo-clans": {
+          "type": "mega_menu_promotion",
+          "settings": {
+            "menu_item_title": "Find Your Clans",
+            "heading": "Find Your Tartan",
+            "link": "/collections/all",
+            "link_label": "Shop now"
+          }
+        }
+      },
+      "block_order": [
+        "mega-menu-promo-clans"
+      ],
       "settings": {
         "color_scheme": "scheme-1",
         "menu_color_scheme": "scheme-1",
         "logo_position": "middle-left",
         "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
+        "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
         "enable_country_selector": true,
