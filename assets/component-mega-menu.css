@@ -85,3 +85,62 @@
 .mega-menu__list--condensed .mega-menu__link {
   font-weight: normal;
 }
+
+.mega-menu__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 4rem;
+}
+
+.mega-menu__list {
+  flex: 1 1 auto;
+}
+
+.mega-menu__promotions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2rem;
+}
+
+.mega-menu__promotions:empty {
+  display: none;
+}
+
+.mega-menu__promotion-tile {
+  display: block;
+  width: 20rem;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.mega-menu__promotion-image {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  margin-bottom: 1.2rem;
+}
+
+.mega-menu__promotion-image img,
+.mega-menu__promotion-image svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mega-menu__promotion-heading {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+}
+
+.mega-menu__promotion-link {
+  font-size: 1.3rem;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 1200px) {
+  .mega-menu__inner {
+    flex-direction: column;
+  }
+}
