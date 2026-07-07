@@ -130,7 +130,7 @@ async function ensureMenu(menuDef, baseUrl) {
   }
   const data = await adminGraphql(
     `
-      mutation CreateFooterMenu($title: String!, $handle: String, $items: [MenuItemCreateInput!]!) {
+      mutation CreateFooterMenu($title: String!, $handle: String!, $items: [MenuItemCreateInput!]!) {
         menuCreate(title: $title, handle: $handle, items: $items) {
           menu { id handle }
           userErrors { field message }
