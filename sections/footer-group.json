@@ -4,8 +4,41 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "blocks": {},
-      "block_order": [],
+      "blocks": {
+        "shop_by_category": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Shop By Category",
+            "menu": "footer-shop-by-category"
+          }
+        },
+        "customer_care": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Customer Care",
+            "menu": "footer-customer-care"
+          }
+        },
+        "connect_us": {
+          "type": "text",
+          "settings": {
+            "heading": "Connect With Us",
+            "subtext": "<p>123 Placeholder Street, Anytown, USA</p><p>hello@example.com</p>"
+          }
+        },
+        "brand": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": true
+          }
+        }
+      },
+      "block_order": [
+        "shop_by_category",
+        "customer_care",
+        "connect_us",
+        "brand"
+      ],
       "settings": {
         "color_scheme": "scheme-1",
         "newsletter_enable": true,
