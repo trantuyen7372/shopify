@@ -20,11 +20,11 @@
         "button": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
+            "button_label_1": "Shop New Arrivals",
+            "button_link_1": "shopify://collections/new-arrivals",
             "button_style_secondary_1": true,
             "button_label_2": "Find your clan",
-            "button_link_2": "shopify://collections/all",
+            "button_link_2": "shopify://collections/clans-a-l",
             "button_style_secondary_2": true
           }
         }
@@ -54,35 +54,35 @@
           "type": "clan_link",
           "settings": {
             "title": "Clans A-L",
-            "link": "/collections/all"
+            "link": "/collections/clans-a-l"
           }
         },
         "clan-m-y": {
           "type": "clan_link",
           "settings": {
             "title": "Clans M-Y",
-            "link": "/collections/all"
+            "link": "/collections/clans-m-y"
           }
         },
         "canada-province": {
           "type": "clan_link",
           "settings": {
             "title": "Canada Province Tartan",
-            "link": "/collections/all"
+            "link": "/collections/canada-province-tartan"
           }
         },
         "ireland-a-k": {
           "type": "clan_link",
           "settings": {
             "title": "Ireland County Tartan A-K",
-            "link": "/collections/all"
+            "link": "/collections/ireland-county-tartan-a-k"
           }
         },
         "ireland-l-w": {
           "type": "clan_link",
           "settings": {
             "title": "Ireland County Tartan L-W",
-            "link": "/collections/all"
+            "link": "/collections/ireland-county-tartan-l-w"
           }
         }
       },
@@ -104,12 +104,12 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "title": "New Arrivals",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "all",
+        "collection": "new-arrivals",
         "products_to_show": 8,
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
@@ -137,7 +137,7 @@
           "settings": {
             "title": "Tartan T-Shirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/tartan-tees",
             "text": ""
           }
         },
@@ -146,7 +146,7 @@
           "settings": {
             "title": "Tartan Polo Shirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/tartan-polos",
             "text": ""
           }
         },
@@ -155,7 +155,7 @@
           "settings": {
             "title": "Women's Polo Shirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/tartan-polos",
             "text": ""
           }
         },
@@ -164,7 +164,7 @@
           "settings": {
             "title": "Tartan Sweatshirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/men-shirts-tops",
             "text": ""
           }
         },
@@ -173,7 +173,7 @@
           "settings": {
             "title": "Tartan Long Sleeve Button Shirts",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/men-shirts-tops",
             "text": ""
           }
         },
@@ -182,7 +182,7 @@
           "settings": {
             "title": "Tartan Women's Casual Shirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-shirts-tops",
             "text": ""
           }
         },
@@ -191,7 +191,7 @@
           "settings": {
             "title": "Tartan Hawaiian Shirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/men-shirts-tops",
             "text": ""
           }
         }
@@ -230,7 +230,7 @@
           "settings": {
             "title": "Casual Hoodie",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/men-outerwear-jackets",
             "text": ""
           }
         },
@@ -239,7 +239,7 @@
           "settings": {
             "title": "Sherpa Hoodie",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/men-outerwear-jackets",
             "text": ""
           }
         },
@@ -248,7 +248,7 @@
           "settings": {
             "title": "Tartan Bomber Jacket",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/men-outerwear-jackets",
             "text": ""
           }
         },
@@ -257,7 +257,7 @@
           "settings": {
             "title": "Tartan Padded Jacket",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-outerwear-jackets",
             "text": ""
           }
         },
@@ -266,7 +266,7 @@
           "settings": {
             "title": "Borg Fleece Hoodie",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-outerwear-jackets",
             "text": ""
           }
         },
@@ -275,7 +275,7 @@
           "settings": {
             "title": "Knitted Hoodie",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-outerwear-jackets",
             "text": ""
           }
         },
@@ -284,7 +284,7 @@
           "settings": {
             "title": "Baseball Jacket",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/men-outerwear-jackets",
             "text": ""
           }
         },
@@ -293,7 +293,7 @@
           "settings": {
             "title": "Sleeveless Puffer Jacket",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-outerwear-jackets",
             "text": ""
           }
         }
@@ -333,7 +333,7 @@
           "settings": {
             "title": "Sleeveless Midi Dresses",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-dresses",
             "text": ""
           }
         },
@@ -342,7 +342,7 @@
           "settings": {
             "title": "Women's Casual Dresses",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-dresses",
             "text": ""
           }
         },
@@ -351,7 +351,7 @@
           "settings": {
             "title": "Off Shoulder Long Dress",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-dresses",
             "text": ""
           }
         },
@@ -360,7 +360,7 @@
           "settings": {
             "title": "Off Shoulder Lady Dress",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-dresses",
             "text": ""
           }
         },
@@ -369,7 +369,7 @@
           "settings": {
             "title": "Tartan Hoodie Dress",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-dresses",
             "text": ""
           }
         },
@@ -378,7 +378,7 @@
           "settings": {
             "title": "Full Length Skirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-bottoms",
             "text": ""
           }
         },
@@ -387,7 +387,7 @@
           "settings": {
             "title": "Pleated Midi Skirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-bottoms",
             "text": ""
           }
         }
@@ -426,7 +426,7 @@
           "settings": {
             "title": "Premium Quilts",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/home-decor",
             "text": ""
           }
         },
@@ -435,7 +435,7 @@
           "settings": {
             "title": "Tartan Bedding Set",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/home-decor",
             "text": ""
           }
         },
@@ -444,7 +444,7 @@
           "settings": {
             "title": "Tartan Blanket",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/home-decor",
             "text": ""
           }
         },
@@ -453,7 +453,7 @@
           "settings": {
             "title": "Tartan Pillow Cover",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/home-decor",
             "text": ""
           }
         },
@@ -462,7 +462,7 @@
           "settings": {
             "title": "Door Mat Collection",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/home-decor",
             "text": ""
           }
         },
@@ -471,7 +471,7 @@
           "settings": {
             "title": "Tartan Tablecloth",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/home-decor",
             "text": ""
           }
         },
@@ -480,7 +480,7 @@
           "settings": {
             "title": "Tartan Flags",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/home-decor",
             "text": ""
           }
         },
@@ -489,7 +489,7 @@
           "settings": {
             "title": "Christmas Tree Skirt",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/home-decor",
             "text": ""
           }
         }
@@ -529,7 +529,7 @@
           "settings": {
             "title": "Tartan Classic Cap",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/tartan-flat-caps",
             "text": ""
           }
         },
@@ -538,7 +538,7 @@
           "settings": {
             "title": "Tartan Beanies",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/men-accessories",
             "text": ""
           }
         },
@@ -547,7 +547,7 @@
           "settings": {
             "title": "Canvas Bag",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-handbags",
             "text": ""
           }
         },
@@ -556,7 +556,7 @@
           "settings": {
             "title": "Leather Bag",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-handbags",
             "text": ""
           }
         },
@@ -565,7 +565,7 @@
           "settings": {
             "title": "Leather Tote Bags",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-handbags",
             "text": ""
           }
         },
@@ -574,7 +574,7 @@
           "settings": {
             "title": "Tartan Saddle Bag",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-handbags",
             "text": ""
           }
         },
@@ -583,7 +583,7 @@
           "settings": {
             "title": "Tartan Umbrellas",
             "link_label": "Shop now",
-            "link": "/collections/all",
+            "link": "/collections/women-accessories",
             "text": ""
           }
         }
