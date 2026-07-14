@@ -218,8 +218,200 @@ function productSetInput(p) {
   };
 }
 
+async function getOnlineStorePublicationId() {
+  const data = await adminGraphql('query { publications(first: 20) { nodes { id name } } }');
+  const pub = data.publications.nodes.find((p) => p.name === 'Online Store');
+  if (!pub) throw new Error('Online Store publication not found. Check the app has read_publications scope.');
+  return pub.id;
+}
+
+async function publish(id, publicationId) {
+  const data = await adminGraphql(
+    `
+      mutation Publish($id: ID!, $input: [PublicationInput!]!) {
+        publishablePublish(id: $id, input: $input) {
+          userErrors { field message }
+        }
+      }
+    `,
+    { id, input: [{ publicationId }] }
+  );
+  if (data.publishablePublish.userErrors.length) {
+    throw new Error(`publishablePublish userErrors: ${JSON.stringify(data.publishablePublish.userErrors)}`);
+  }
+}
+
+async function ensureCollections(publicationId) {
+  let created = 0;
+  let skipped = 0;
+  for (const c of COLLECTIONS) {
+    const existing = await adminGraphql(
+      'query FindCollection($q: String!) { collections(first: 1, query: $q) { nodes { id handle } } }',
+      { q: `handle:${c.handle}` }
+    );
+    if (existing.collections.nodes.length) {
+      console.log(`Collection "${c.handle}" already exists, skipping.`);
+      skipped++;
+      continue;
+    }
+    const data = await adminGraphql(
+      `
+        mutation CreateCollection($input: CollectionInput!) {
+          collectionCreate(input: $input) {
+            collection { id handle }
+            userErrors { field message }
+          }
+        }
+      `,
+      {
+        input: {
+          title: c.title,
+          handle: c.handle,
+          ruleSet: {
+            appliedDisjunctively: false,
+            rules: [{ column: 'TAG', relation: 'EQUALS', condition: c.handle }],
+          },
+        },
+      }
+    );
+    const { userErrors, collection } = data.collectionCreate;
+    if (userErrors.length) throw new Error(`collectionCreate userErrors for "${c.handle}": ${JSON.stringify(userErrors)}`);
+    await publish(collection.id, publicationId);
+    console.log(`Created collection "${collection.handle}" (${collection.id})`);
+    created++;
+  }
+  console.log(`Collections: ${created} created, ${skipped} skipped.`);
+}
+
+async function attachImage(productId, product) {
+  const png = tartanPNG(PALETTES[product.palette]);
+  const staged = await adminGraphql(
+    `
+      mutation Stage($input: [StagedUploadInput!]!) {
+        stagedUploadsCreate(input: $input) {
+          stagedTargets { url resourceUrl parameters { name value } }
+          userErrors { field message }
+        }
+      }
+    `,
+    {
+      input: [{
+        filename: `${product.handle}.png`,
+        mimeType: 'image/png',
+        httpMethod: 'POST',
+        resource: 'IMAGE',
+        fileSize: String(png.length),
+      }],
+    }
+  );
+  if (staged.stagedUploadsCreate.userErrors.length) {
+    throw new Error(`stagedUploadsCreate userErrors for "${product.handle}": ${JSON.stringify(staged.stagedUploadsCreate.userErrors)}`);
+  }
+  const target = staged.stagedUploadsCreate.stagedTargets[0];
+  const form = new FormData();
+  for (const { name, value } of target.parameters) form.append(name, value);
+  form.append('file', new Blob([png], { type: 'image/png' }), `${product.handle}.png`);
+  const uploadResponse = await fetch(target.url, { method: 'POST', body: form });
+  if (!uploadResponse.ok) {
+    throw new Error(`staged upload failed for "${product.handle}": HTTP ${uploadResponse.status}`);
+  }
+  const media = await adminGraphql(
+    `
+      mutation Attach($productId: ID!, $media: [CreateMediaInput!]!) {
+        productCreateMedia(productId: $productId, media: $media) {
+          mediaUserErrors { field message }
+        }
+      }
+    `,
+    {
+      productId,
+      media: [{ originalSource: target.resourceUrl, alt: product.title, mediaContentType: 'IMAGE' }],
+    }
+  );
+  if (media.productCreateMedia.mediaUserErrors.length) {
+    throw new Error(`productCreateMedia userErrors for "${product.handle}": ${JSON.stringify(media.productCreateMedia.mediaUserErrors)}`);
+  }
+}
+
+async function ensureProducts(publicationId) {
+  let created = 0;
+  let skipped = 0;
+  for (const p of PRODUCTS) {
+    const existing = await adminGraphql(
+      'query FindProduct($q: String!) { products(first: 1, query: $q) { nodes { id handle } } }',
+      { q: `handle:${p.handle}` }
+    );
+    if (existing.products.nodes.length) {
+      console.log(`Product "${p.handle}" already exists, skipping.`);
+      skipped++;
+      continue;
+    }
+    const data = await adminGraphql(
+      `
+        mutation CreateProduct($input: ProductSetInput!) {
+          productSet(input: $input, synchronous: true) {
+            product { id handle }
+            userErrors { field message }
+          }
+        }
+      `,
+      { input: productSetInput(p) }
+    );
+    const { userErrors, product } = data.productSet;
+    if (userErrors.length) throw new Error(`productSet userErrors for "${p.handle}": ${JSON.stringify(userErrors)}`);
+    await attachImage(product.id, p);
+    await publish(product.id, publicationId);
+    console.log(`Created product "${product.handle}" (${product.id})`);
+    created++;
+  }
+  console.log(`Products: ${created} created, ${skipped} skipped.`);
+}
+
+async function verify() {
+  let failures = 0;
+  for (const c of COLLECTIONS) {
+    const data = await adminGraphql(
+      'query VerifyCollection($q: String!) { collections(first: 1, query: $q) { nodes { handle productsCount { count } } } }',
+      { q: `handle:${c.handle}` }
+    );
+    const node = data.collections.nodes[0];
+    const count = node ? node.productsCount.count : 0;
+    if (count < 2) {
+      console.error(`FAIL collection ${c.handle}: ${count} products (<2)`);
+      failures++;
+    } else {
+      console.log(`ok collection ${c.handle}: ${count} products`);
+    }
+  }
+  for (const p of PRODUCTS) {
+    const data = await adminGraphql(
+      'query VerifyProduct($q: String!) { products(first: 1, query: $q) { nodes { handle onlineStoreUrl media(first: 1) { nodes { id } } } } }',
+      { q: `handle:${p.handle}` }
+    );
+    const node = data.products.nodes[0];
+    if (!node) {
+      console.error(`FAIL product ${p.handle}: not found`);
+      failures++;
+    } else if (!node.onlineStoreUrl) {
+      console.error(`FAIL product ${p.handle}: not published to Online Store`);
+      failures++;
+    } else if (!node.media.nodes.length) {
+      console.error(`FAIL product ${p.handle}: no image`);
+      failures++;
+    } else {
+      console.log(`ok product ${p.handle}`);
+    }
+  }
+  if (failures) throw new Error(`Verification failed: ${failures} problem(s).`);
+  console.log('Verification passed: all collections have >=2 products; all products published with images.');
+}
+
 async function main() {
   validateCatalog();
+  if (verifyOnly) {
+    await verify();
+    return;
+  }
   if (dryRun) {
     console.log(`--dry-run: would ensure ${COLLECTIONS.length} smart collections:`);
     for (const c of COLLECTIONS) {
@@ -233,7 +425,10 @@ async function main() {
     console.log('Dry run complete.');
     return;
   }
-  throw new Error('Live seeding not implemented yet (Task 3).');
+  const publicationId = await getOnlineStorePublicationId();
+  await ensureCollections(publicationId);
+  await ensureProducts(publicationId);
+  console.log('Catalog seeding complete. Run with --verify to check results.');
 }
 
 main().catch((error) => {
