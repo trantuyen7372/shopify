@@ -250,6 +250,7 @@ async function ensureCollections(publicationId) {
       { q: `handle:${c.handle}` }
     );
     if (existing.collections.nodes.length) {
+      await publish(existing.collections.nodes[0].id, publicationId);
       console.log(`Collection "${c.handle}" already exists, skipping.`);
       skipped++;
       continue;
@@ -338,11 +339,25 @@ async function ensureProducts(publicationId) {
   let skipped = 0;
   for (const p of PRODUCTS) {
     const existing = await adminGraphql(
-      'query FindProduct($q: String!) { products(first: 1, query: $q) { nodes { id handle } } }',
+      'query FindProduct($q: String!) { products(first: 1, query: $q) { nodes { id handle onlineStoreUrl media(first: 1) { nodes { id } } } } }',
       { q: `handle:${p.handle}` }
     );
     if (existing.products.nodes.length) {
-      console.log(`Product "${p.handle}" already exists, skipping.`);
+      const node = existing.products.nodes[0];
+      let repaired = false;
+      if (!node.media.nodes.length) {
+        await attachImage(node.id, p);
+        console.log(`Product "${p.handle}" already exists, attached missing image.`);
+        repaired = true;
+      }
+      if (!node.onlineStoreUrl) {
+        await publish(node.id, publicationId);
+        console.log(`Product "${p.handle}" already exists, published to Online Store.`);
+        repaired = true;
+      }
+      if (!repaired) {
+        console.log(`Product "${p.handle}" already exists, skipping.`);
+      }
       skipped++;
       continue;
     }
