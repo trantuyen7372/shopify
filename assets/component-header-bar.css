@@ -1,0 +1,136 @@
+/* Storefront-style header: logo + search + account/cart on one row, with the
+   navigation on its own full-bleed dark bar underneath. Applied only when the
+   section's "Show search bar in header" setting is on. */
+
+.header__search-bar {
+  grid-area: search;
+  position: relative;
+  max-width: 62rem;
+  width: 100%;
+  justify-self: center;
+}
+
+.header__search-bar .search {
+  width: 100%;
+}
+
+.header__search-bar .field__input {
+  border-radius: var(--inputs-radius, 0.4rem);
+  padding-right: 5.6rem;
+}
+
+.header__search-bar .search .search__button {
+  background-color: rgb(var(--color-button));
+  border-radius: 0 var(--inputs-radius, 0.4rem) var(--inputs-radius, 0.4rem) 0;
+  color: rgb(var(--color-button-text));
+  height: 100%;
+  right: 0;
+  top: 0;
+  width: 5.2rem;
+}
+
+.header__search-bar .search__button:not(:disabled):hover {
+  filter: brightness(0.92);
+}
+
+.header__search-bar .search__button .svg-wrapper {
+  color: rgb(var(--color-button-text));
+  height: 1.9rem;
+  width: 1.9rem;
+}
+
+.header__search-bar .reset__button {
+  right: 5.2rem;
+}
+
+.header__search-bar .predictive-search {
+  top: calc(100% + 0.4rem);
+}
+
+@media screen and (max-width: 989px) {
+  .header__search-bar {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .header--search-bar {
+    grid-template-areas:
+      'heading search icons'
+      'navigation navigation navigation';
+    grid-template-columns: auto minmax(24rem, 1fr) auto;
+    column-gap: 3rem;
+    row-gap: 1.6rem;
+  }
+
+  /* The nav must sit flush with the wrapper's bottom edge, since that is where
+     the bar is painted. */
+  .header.header--search-bar {
+    padding-bottom: 0;
+  }
+
+  /* The bar itself is painted on the full-width wrapper rather than on the menu,
+     because a clip-path or box-shadow here would also clip the mega menu panel
+     that lives inside it. */
+  .header-wrapper:has(.header--search-bar) {
+    --nav-bar-height: 4.8rem;
+    position: relative;
+  }
+
+  .header-wrapper:has(.header--search-bar)::after {
+    background-color: rgb(var(--color-nav-bar, 18 18 18));
+    bottom: 0;
+    content: '';
+    height: var(--nav-bar-height);
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+  }
+
+  .header--search-bar .header__inline-menu {
+    align-items: center;
+    margin-left: 0;
+    margin-top: 0;
+    min-height: var(--nav-bar-height);
+    /* Sits above the painted bar so the mega menu panel stays visible. */
+    position: relative;
+    z-index: 1;
+  }
+
+  .header--search-bar .header__inline-menu > .list-menu--inline {
+    gap: 0.4rem 1.6rem;
+  }
+
+  .header--search-bar .header__menu-item {
+    color: rgb(var(--color-nav-bar-text, 255 255 255));
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.07rem;
+    padding: 1.4rem 1.2rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Dawn pins the caret 0.8rem from the item's right edge, so a parent item
+     needs room for it on top of its own padding. */
+  .header--search-bar .header__menu-item:has(.icon-caret) {
+    padding-right: 2.2rem;
+  }
+
+  .header--search-bar .header__menu-item:hover,
+  .header--search-bar .header__active-menu-item {
+    color: rgb(var(--color-nav-bar-text, 255 255 255));
+    text-decoration: underline;
+    text-underline-offset: 0.4rem;
+  }
+
+  .header--search-bar .header__menu-item .svg-wrapper {
+    color: rgb(var(--color-nav-bar-text, 255 255 255));
+  }
+
+  /* The mega menu panel keeps the page background, so its links stay dark. */
+  .header--search-bar .mega-menu__content {
+    margin-top: 0;
+  }
+}

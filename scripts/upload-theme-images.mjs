@@ -142,7 +142,7 @@ function collectSlots(template) {
         key: 'image',
         width: 1600,
         height: 900,
-        threadPx: 14,
+        threadPx: 5,
       });
       continue;
     }

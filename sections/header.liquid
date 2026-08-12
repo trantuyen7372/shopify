@@ -16,6 +16,11 @@
   <link rel="stylesheet" href="{{ 'component-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 {%- endif -%}
 
+{%- if section.settings.show_search_bar -%}
+  <link rel="stylesheet" href="{{ 'component-header-bar.css' | asset_url }}" media="print" onload="this.media='all'">
+  <noscript>{{ 'component-header-bar.css' | asset_url | stylesheet_tag }}</noscript>
+{%- endif -%}
+
 <style>
   header-drawer {
     justify-self: start;
@@ -136,7 +141,7 @@
       assign localization_forms = true
     endif
   -%}
-  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
+  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}{% if section.settings.show_search_bar %} header--search-bar{% endif %}">
     {%- liquid
       if section.settings.menu != blank
         render 'header-drawer'
@@ -178,6 +183,10 @@
       {%- if request.page_type == 'index' -%}
         </h1>
       {%- endif -%}
+    {%- endif -%}
+
+    {%- if section.settings.show_search_bar -%}
+      {%- render 'header-search-bar', input_id: 'Search-In-Bar' -%}
     {%- endif -%}
 
     {%- liquid
@@ -247,7 +256,15 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
+      {%- comment -%}
+        With the search bar on, the field is already visible on desktop, so the
+        modal toggle is only kept for the narrow viewports that hide the bar.
+      {%- endcomment -%}
+      {%- if section.settings.show_search_bar -%}
+        <div class="medium-hide large-up-hide">{% render 'header-search', input_id: 'Search-In-Modal' %}</div>
+      {%- else -%}
+        {% render 'header-search', input_id: 'Search-In-Modal' %}
+      {%- endif -%}
 
       {%- if shop.customer_accounts_enabled -%}
         <a
@@ -518,6 +535,13 @@
       "id": "menu",
       "default": "main-menu",
       "label": "t:sections.header.settings.menu.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search_bar",
+      "default": false,
+      "label": "Show search bar in header",
+      "info": "Replaces the search icon with an always-visible field and moves the menu onto its own bar."
     },
     {
       "type": "select",

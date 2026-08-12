@@ -277,8 +277,8 @@ export const TAXONOMY = [
   },
   { title: 'Blog', url: '/blogs/news' },
   { title: 'Tartan Club', url: '/pages/tartan-club' },
-  { title: 'About Us', url: '/pages/about-us' },
-  { title: 'Contact Us', url: '/pages/contact-us' },
+  // About Us and Contact Us live in the footer's customer-care menu; keeping them
+  // out of the header holds the nav bar to a single row.
 ];
 
 // Walks the taxonomy and returns every collection node with its parent chain of
