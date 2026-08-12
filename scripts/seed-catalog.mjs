@@ -339,18 +339,21 @@ async function ensureProducts(publicationId) {
   let skipped = 0;
   for (const p of PRODUCTS) {
     const existing = await adminGraphql(
-      'query FindProduct($q: String!) { products(first: 1, query: $q) { nodes { id handle onlineStoreUrl media(first: 1) { nodes { id } } } } }',
+      'query FindProduct($q: String!) { products(first: 1, query: $q) { nodes { id handle media(first: 1) { nodes { id } } resourcePublicationsV2(first: 10) { nodes { publication { id } isPublished } } } } }',
       { q: `handle:${p.handle}` }
     );
     if (existing.products.nodes.length) {
       const node = existing.products.nodes[0];
+      const published = node.resourcePublicationsV2.nodes.some(
+        (pub) => pub.publication.id === publicationId && pub.isPublished
+      );
       let repaired = false;
       if (!node.media.nodes.length) {
         await attachImage(node.id, p);
         console.log(`Product "${p.handle}" already exists, attached missing image.`);
         repaired = true;
       }
-      if (!node.onlineStoreUrl) {
+      if (!published) {
         await publish(node.id, publicationId);
         console.log(`Product "${p.handle}" already exists, published to Online Store.`);
         repaired = true;
@@ -383,6 +386,10 @@ async function ensureProducts(publicationId) {
 }
 
 async function verify() {
+  // onlineStoreUrl is unreliable here: Shopify always returns it as null on a
+  // password-protected storefront (true for any un-launched dev store),
+  // regardless of publish state. Check the Online Store publication join directly.
+  const publicationId = await getOnlineStorePublicationId();
   let failures = 0;
   for (const c of COLLECTIONS) {
     const data = await adminGraphql(
@@ -400,14 +407,17 @@ async function verify() {
   }
   for (const p of PRODUCTS) {
     const data = await adminGraphql(
-      'query VerifyProduct($q: String!) { products(first: 1, query: $q) { nodes { handle onlineStoreUrl media(first: 1) { nodes { id } } } } }',
+      'query VerifyProduct($q: String!) { products(first: 1, query: $q) { nodes { handle media(first: 1) { nodes { id } } resourcePublicationsV2(first: 10) { nodes { publication { id } isPublished } } } } }',
       { q: `handle:${p.handle}` }
     );
     const node = data.products.nodes[0];
+    const published = node?.resourcePublicationsV2.nodes.some(
+      (pub) => pub.publication.id === publicationId && pub.isPublished
+    );
     if (!node) {
       console.error(`FAIL product ${p.handle}: not found`);
       failures++;
-    } else if (!node.onlineStoreUrl) {
+    } else if (!published) {
       console.error(`FAIL product ${p.handle}: not published to Online Store`);
       failures++;
     } else if (!node.media.nodes.length) {
