@@ -63,12 +63,12 @@ function hexToRgb(hex) {
   ];
 }
 
-export function tartanPNG(sett, size = 800, threadPx = 6) {
+export function tartanPNG(sett, size = 800, threadPx = 6, height = size) {
   // Mirror the sett (excluding the endpoints to avoid doubled bands).
   const bands = [...sett, ...sett.slice(1, -1).reverse()];
   const threads = bands.flatMap((band) => Array(band.count).fill(hexToRgb(band.color)));
   const threadAt = (px) => threads[Math.floor(px / threadPx) % threads.length];
-  return encodePNG(size, size, (x, y) => {
+  return encodePNG(size, height, (x, y) => {
     const warp = threadAt(x);
     const weft = threadAt(y);
     return (x + y) % 4 < 2 ? warp : weft; // 2/2 twill weave

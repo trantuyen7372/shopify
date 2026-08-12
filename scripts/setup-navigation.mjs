@@ -6,6 +6,7 @@
 //   node --env-file=.env scripts/setup-navigation.mjs [--dry-run]
 
 import { createMenuItemBuilder } from './menu-items.mjs';
+import { TAXONOMY } from './taxonomy.mjs';
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN;
 const token = process.env.SHOPIFY_ADMIN_TOKEN;
@@ -35,51 +36,9 @@ async function adminGraphql(query, variables) {
   return json.data;
 }
 
-const menuTree = [
-  {
-    title: 'Find Your Clans',
-    url: '/collections/all',
-    items: [
-      { title: 'Clans A-L', url: '/collections/clans-a-l' },
-      { title: 'Clans M-Y', url: '/collections/clans-m-y' },
-      { title: 'Canada Province Tartan', url: '/collections/canada-province-tartan' },
-      { title: 'Ireland County Tartan A-K', url: '/collections/ireland-county-tartan-a-k' },
-      { title: 'Ireland County Tartan L-W', url: '/collections/ireland-county-tartan-l-w' },
-    ],
-  },
-  {
-    title: 'For Men',
-    url: '/collections/all',
-    items: [
-      { title: 'Shirts & Tops', url: '/collections/men-shirts-tops' },
-      { title: 'Outerwear & Jacket', url: '/collections/men-outerwear-jackets' },
-      { title: 'Pants', url: '/collections/men-pants' },
-      { title: 'Clothing Accessories', url: '/collections/men-accessories' },
-      { title: 'Sleepwear', url: '/collections/men-sleepwear' },
-    ],
-  },
-  {
-    title: 'For Women',
-    url: '/collections/all',
-    items: [
-      { title: 'Shirts & Tops', url: '/collections/women-shirts-tops' },
-      { title: 'Outerwear & Jacket', url: '/collections/women-outerwear-jackets' },
-      { title: 'Bottoms', url: '/collections/women-bottoms' },
-      { title: 'Dresses', url: '/collections/women-dresses' },
-      { title: 'Handbags', url: '/collections/women-handbags' },
-      { title: 'Clothing Accessories', url: '/collections/women-accessories' },
-      { title: 'Sleepwear', url: '/collections/women-sleepwear' },
-      { title: 'Swimwear', url: '/collections/women-swimwear' },
-    ],
-  },
-  { title: 'New Arrivals', url: '/collections/new-arrivals' },
-  { title: 'Home Decor', url: '/collections/home-decor' },
-  { title: 'Footwears', url: '/collections/footwear' },
-  { title: 'Blog', url: '/blogs/news' },
-  { title: 'Tartan Club', url: '/pages/tartan-club' },
-  { title: 'About Us', url: '/pages/about-us' },
-  { title: 'Contact Us', url: '/pages/contact-us' },
-];
+// The menu mirrors the shared catalog taxonomy, so a collection can never
+// appear in the nav without existing in the catalog.
+const menuTree = TAXONOMY;
 
 const pagesToEnsure = [
   {

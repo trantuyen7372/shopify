@@ -31,22 +31,24 @@ export function createMenuItemBuilder(adminGraphql, baseUrl) {
 
   return async function toMenuItemInput(node) {
     const input = { title: node.title };
+    // Taxonomy nodes carry a bare collection handle; menu-only nodes carry a path.
+    const url = node.url ?? `/collections/${node.handle}`;
     // '/collections/all' is the built-in all-products page, not a real collection.
-    if (node.url === '/collections/all') {
+    if (url === '/collections/all') {
       input.type = 'CATALOG';
     } else {
-      const match = RESOURCE_TYPES.find((r) => node.url.startsWith(r.prefix));
-      const handle = match ? node.url.slice(match.prefix.length) : null;
+      const match = RESOURCE_TYPES.find((r) => url.startsWith(r.prefix));
+      const handle = match ? url.slice(match.prefix.length) : null;
       const resourceId = match && handle ? await resolveId(match.field, handle) : null;
       if (resourceId) {
         input.type = match.type;
         input.resourceId = resourceId;
       } else {
         if (match) {
-          console.warn(`No ${match.type} found for "${node.url}" — falling back to an absolute link.`);
+          console.warn(`No ${match.type} found for "${url}" — falling back to an absolute link.`);
         }
         input.type = 'HTTP';
-        input.url = `${baseUrl}${node.url}`;
+        input.url = `${baseUrl}${url}`;
       }
     }
     if (node.items) {
