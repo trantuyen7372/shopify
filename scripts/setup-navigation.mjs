@@ -5,6 +5,8 @@
 // Usage:
 //   node --env-file=.env scripts/setup-navigation.mjs [--dry-run]
 
+import { createMenuItemBuilder } from './menu-items.mjs';
+
 const domain = process.env.SHOPIFY_STORE_DOMAIN;
 const token = process.env.SHOPIFY_ADMIN_TOKEN;
 const dryRun = process.argv.includes('--dry-run');
@@ -98,18 +100,6 @@ const pagesToEnsure = [
   },
 ];
 
-function toMenuItemInput(node, baseUrl) {
-  const input = {
-    title: node.title,
-    type: 'HTTP',
-    url: `${baseUrl}${node.url}`,
-  };
-  if (node.items) {
-    input.items = node.items.map((child) => toMenuItemInput(child, baseUrl));
-  }
-  return input;
-}
-
 async function getPrimaryDomainHost() {
   const data = await adminGraphql('query { shop { primaryDomain { host } } }');
   return data.shop.primaryDomain.host;
@@ -131,7 +121,9 @@ async function findMainMenu() {
 }
 
 async function updateMainMenu(menu, baseUrl) {
-  const items = menuTree.map((node) => toMenuItemInput(node, baseUrl));
+  const toMenuItemInput = createMenuItemBuilder(adminGraphql, baseUrl);
+  const items = [];
+  for (const node of menuTree) items.push(await toMenuItemInput(node));
   if (dryRun) {
     console.log('--dry-run: menuUpdate items payload:');
     console.log(JSON.stringify(items, null, 2));
