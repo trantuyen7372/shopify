@@ -32,13 +32,20 @@ was visibly shallower than the reference.
 - [x] `templates/index.json` — 37 category cards re-pointed at their specific collections
 - [x] `scripts/upload-theme-images.mjs` — generates and uploads one tartan image per homepage
       slot (hero + 37 cards), then rewrites the template with `shopify://shop_images/...` refs
-- [ ] Live run: seed taxonomy → run nav script → upload theme images
-- [ ] Live browser QA with real pointer clicks (three-level menu, category cards, product page)
+- [x] Live run: 112 collections + 182 products seeded, menu pushed (10/40/95 items), 38 images uploaded
+- [x] Live browser QA with real pointer clicks (three-level menu, category cards, collection pages)
+- [x] Header rebuilt: inline search bar + full-width dark nav bar
+- [x] Journal seeded with four demo articles so the blog section stops showing placeholders
 
-## Blocker
+## Resolved blocker
 
-`upload-theme-images.mjs` needs the **`write_files`** scope, which the custom app token does
-not currently have (`stagedUploadsCreate` with `resource: FILE` returns ACCESS_DENIED).
-Product images work because they fall under `write_products`. Add `write_files` in
-Admin → Settings → Apps and sales channels → Develop apps → [app] → Configuration, reinstall,
-then update `SHOPIFY_ADMIN_TOKEN` in `.env` if it changes.
+`upload-theme-images.mjs` needs the **`write_files`** scope (`stagedUploadsCreate` with
+`resource: FILE` returns ACCESS_DENIED without it; product images work because they fall
+under `write_products`). The scope was added to the custom app on 2026-08-12 and the
+existing token kept working.
+
+## Left for the merchant
+
+- Press logos ("As Seen On") — real, licensed outlet logos
+- Real product photography to replace the generated tartan swatches
+- The reference's five separate blog categories; this store has one `news` blog
