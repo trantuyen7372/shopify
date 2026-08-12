@@ -31,10 +31,18 @@
           "settings": {
             "show_social": true
           }
+        },
+        "information": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Information",
+            "menu": "footer-information"
+          }
         }
       },
       "block_order": [
         "shop_by_category",
+        "information",
         "customer_care",
         "connect_us",
         "brand"

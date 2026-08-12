@@ -53,6 +53,15 @@
   }
 }
 
+/* The icon row leaves the shop name a narrow column on phones, which breaks a
+   long name across two lines. */
+@media screen and (max-width: 749px) {
+  .header--search-bar .header__heading-link .h2 {
+    font-size: 1.6rem;
+    white-space: nowrap;
+  }
+}
+
 @media screen and (min-width: 990px) {
   .header--search-bar {
     grid-template-areas:

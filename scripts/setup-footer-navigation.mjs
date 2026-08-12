@@ -50,6 +50,17 @@ const footerMenus = [
     ],
   },
   {
+    handle: 'footer-information',
+    title: 'Footer Information',
+    items: [
+      { title: 'Shipping Policy', url: '/pages/shipping-policy' },
+      { title: 'Privacy Policy', url: '/pages/privacy-policy' },
+      { title: 'Terms Of Service', url: '/pages/terms-of-service' },
+      { title: 'Refund Policy', url: '/pages/refund-policy' },
+      { title: 'Return Policy', url: '/pages/return-policy' },
+    ],
+  },
+  {
     handle: 'footer-customer-care',
     title: 'Footer Customer Care',
     items: [
@@ -62,7 +73,24 @@ const footerMenus = [
   },
 ];
 
+// The policy pages are deliberately empty placeholders: the real text is legal
+// content only the merchant can write. Shopify's own /policies/* URLs stay 404
+// until they are filled in under Settings → Policies, which is why these are
+// ordinary pages rather than links to those.
+const policyPages = [
+  ['shipping-policy', 'Shipping Policy'],
+  ['privacy-policy', 'Privacy Policy'],
+  ['terms-of-service', 'Terms Of Service'],
+  ['refund-policy', 'Refund Policy'],
+  ['return-policy', 'Return Policy'],
+].map(([handle, title]) => ({
+  handle,
+  title,
+  body: `<p>Placeholder ${title.toLowerCase()}. Replace this with your own policy text before launch — this page is not legal advice and contains no real terms.</p>`,
+}));
+
 const pagesToEnsure = [
+  ...policyPages,
   {
     handle: 'faqs',
     title: 'FAQs',
@@ -180,10 +208,12 @@ async function ensurePages() {
 
 async function main() {
   const baseUrl = `https://${await getPrimaryDomainHost()}`;
+  // Pages first: the menu builder resolves each page link to its resource id, so
+  // a page that does not exist yet would fall back to an absolute HTTP link.
+  await ensurePages();
   for (const menuDef of footerMenus) {
     await ensureMenu(menuDef, baseUrl);
   }
-  await ensurePages();
   console.log(dryRun ? 'Dry run complete.' : 'Footer navigation setup complete.');
 }
 
