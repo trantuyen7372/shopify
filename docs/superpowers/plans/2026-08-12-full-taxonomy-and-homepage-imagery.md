@@ -36,6 +36,9 @@ was visibly shallower than the reference.
 - [x] Live browser QA with real pointer clicks (three-level menu, category cards, collection pages)
 - [x] Header rebuilt: inline search bar + full-width dark nav bar
 - [x] Journal seeded with four demo articles so the blog section stops showing placeholders
+- [x] Mobile QA: header wrapping fixed, 3-level drawer menu verified with real taps
+- [x] Footer Information column added (5 placeholder policy pages + Sitemap link), 4-column grid fix
+- [x] Blog menu item split into 5 category blogs (Holiday/Culture/History/Fashion/How To), matching the reference's menu depth
 
 ## Resolved blocker
 
@@ -48,4 +51,4 @@ existing token kept working.
 
 - Press logos ("As Seen On") — real, licensed outlet logos
 - Real product photography to replace the generated tartan swatches
-- The reference's five separate blog categories; this store has one `news` blog
+- Real policy text for the 5 placeholder pages (shipping, privacy, terms, refund, return)
