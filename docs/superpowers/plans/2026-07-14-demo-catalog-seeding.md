@@ -31,7 +31,7 @@
 - Consumes: nothing (pure module, no side effects at import).
 - Produces: `encodePNG(width, height, pixelAt) -> Buffer` where `pixelAt(x, y)` returns `[r, g, b]`; `tartanPNG(sett, size = 800, threadPx = 6) -> Buffer` where `sett` is `[{ color: '#rrggbb', count: <threads> }, ...]`. Task 2/3's `seed-catalog.mjs` imports `tartanPNG` via `import { tartanPNG } from './tartan-png.mjs'`.
 
-- [ ] **Step 1: Write the module**
+- [x] **Step 1: Write the module**
 
 ```js
 // scripts/tartan-png.mjs
@@ -112,7 +112,7 @@ export function tartanPNG(sett, size = 800, threadPx = 6) {
 }
 ```
 
-- [ ] **Step 2: Run the structural test (decode what we encoded)**
+- [x] **Step 2: Run the structural test (decode what we encoded)**
 
 ```bash
 cd /Users/duka/Work/Gin/Lucas/shopify && node --input-type=module -e "
@@ -140,7 +140,7 @@ console.log('tartan-png structural test OK');
 
 Expected: `tartan-png structural test OK`
 
-- [ ] **Step 3: Visual check — write an 800px sample and look at it**
+- [x] **Step 3: Visual check — write an 800px sample and look at it**
 
 ```bash
 node --input-type=module -e "
@@ -157,7 +157,7 @@ sips -g pixelWidth -g pixelHeight <scratchpad>/tartan-sample.png
 
 Expected: `pixelWidth: 800`, `pixelHeight: 800`. Then **Read the PNG file with the Read tool** and confirm it visually reads as a tartan plaid (crossing color bands with twill texture), not stripes or noise.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add scripts/tartan-png.mjs
@@ -175,7 +175,7 @@ git commit -m "feat: add zero-dep procedural tartan PNG generator"
 - Consumes: `tartanPNG` from Task 1 (imported now, used live in Task 3).
 - Produces: module-internal `PALETTES`, `COLLECTIONS` (24 entries `{ handle, title }`), `PRODUCTS` (40 entries `{ handle, title, type, price, sizes, palette, tags, description }`), `validateCatalog()`, `productSetInput(p)`, `adminGraphql(query, variables)`. Task 3 extends this same file with the live mutation flow.
 
-- [ ] **Step 1: Write the script with full catalog data**
+- [x] **Step 1: Write the script with full catalog data**
 
 ```js
 #!/usr/bin/env node
@@ -422,7 +422,7 @@ main().catch((error) => {
 });
 ```
 
-- [ ] **Step 2: Run dry-run to verify data validates and payloads print**
+- [x] **Step 2: Run dry-run to verify data validates and payloads print**
 
 ```bash
 node --env-file=.env scripts/seed-catalog.mjs --dry-run
@@ -430,7 +430,7 @@ node --env-file=.env scripts/seed-catalog.mjs --dry-run
 
 Expected: 24 collection lines (each showing ≥ 2 products), 40 product JSON payloads, then `Dry run complete.` — exit code 0. If `validateCatalog` throws, fix the data table (do not weaken the validation).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add scripts/seed-catalog.mjs
@@ -448,7 +448,7 @@ git commit -m "feat: add demo catalog data and dry-run for seed script"
 - Consumes: everything from Task 2, plus `tartanPNG(sett)` from Task 1.
 - Produces: a complete, idempotent live run plus a `--verify` mode used by Task 4. No exports.
 
-- [ ] **Step 1: Add the live-flow functions above `main()`**
+- [x] **Step 1: Add the live-flow functions above `main()`**
 
 ```js
 async function getOnlineStorePublicationId() {
@@ -640,7 +640,7 @@ async function verify() {
 }
 ```
 
-- [ ] **Step 2: Replace `main()` with the full flow**
+- [x] **Step 2: Replace `main()` with the full flow**
 
 ```js
 async function main() {
@@ -669,7 +669,7 @@ async function main() {
 }
 ```
 
-- [ ] **Step 3: Re-run dry-run to confirm nothing regressed**
+- [x] **Step 3: Re-run dry-run to confirm nothing regressed**
 
 ```bash
 node --env-file=.env scripts/seed-catalog.mjs --dry-run
@@ -677,7 +677,7 @@ node --env-file=.env scripts/seed-catalog.mjs --dry-run
 
 Expected: same output as Task 2 Step 2 — 24 collections, 40 payloads, `Dry run complete.`, exit 0, **no network mutations**.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add scripts/seed-catalog.mjs
@@ -694,7 +694,7 @@ git commit -m "feat: add live seeding flow with images and channel publishing"
 
 **Files:** none (runs Task 3's script; code changes only if live errors reveal bugs — fix in `scripts/seed-catalog.mjs` and commit fixes).
 
-- [ ] **Step 1: Live run**
+- [x] **Step 1: Live run**
 
 ```bash
 node --env-file=.env scripts/seed-catalog.mjs
@@ -702,7 +702,7 @@ node --env-file=.env scripts/seed-catalog.mjs
 
 Expected: `Collections: 24 created, 0 skipped.` … `Products: 40 created, 0 skipped.` … `Catalog seeding complete.` (If a partial earlier run happened, skipped counts > 0 are fine.) On any `userErrors`, fix the root cause and re-run — idempotency makes re-runs safe.
 
-- [ ] **Step 2: Verify via API**
+- [x] **Step 2: Verify via API**
 
 ```bash
 node --env-file=.env scripts/seed-catalog.mjs --verify
@@ -710,7 +710,7 @@ node --env-file=.env scripts/seed-catalog.mjs --verify
 
 Expected: `ok` for all 24 collections and 40 products, ending `Verification passed…`. Smart-collection membership can lag a few seconds after seeding — if collection counts fail immediately after Step 1, wait ~30 seconds and re-run `--verify` before debugging.
 
-- [ ] **Step 3: Idempotency re-run**
+- [x] **Step 3: Idempotency re-run**
 
 ```bash
 node --env-file=.env scripts/seed-catalog.mjs
@@ -718,7 +718,7 @@ node --env-file=.env scripts/seed-catalog.mjs
 
 Expected: `Collections: 0 created, 24 skipped.` and `Products: 0 created, 40 skipped.`
 
-- [ ] **Step 4: Commit (only if fixes were needed)**
+- [x] **Step 4: Commit (only if fixes were needed)**
 
 ```bash
 git add scripts/seed-catalog.mjs
@@ -737,7 +737,7 @@ git commit -m "fix: <describe live-run fix>"
 - Consumes: collection handles created in Task 4 (they must exist live before re-running these scripts).
 - Produces: updated live menus in the store; later tasks assume header/footer links resolve to populated collections.
 
-- [ ] **Step 1: Replace `menuTree` in `scripts/setup-navigation.mjs` with:**
+- [x] **Step 1: Replace `menuTree` in `scripts/setup-navigation.mjs` with:**
 
 ```js
 const menuTree = [
@@ -789,7 +789,7 @@ const menuTree = [
 
 The three top-level `/collections/all` parents are **intentional** (spec §4): after seeding, "all" is a legitimate populated shop-all page.
 
-- [ ] **Step 2: Update the `footer-shop-by-category` items in `scripts/setup-footer-navigation.mjs` to:**
+- [x] **Step 2: Update the `footer-shop-by-category` items in `scripts/setup-footer-navigation.mjs` to:**
 
 ```js
       { title: 'Shop By Clan & Tartan', url: '/collections/clans-a-l' },
@@ -803,7 +803,7 @@ The three top-level `/collections/all` parents are **intentional** (spec §4): a
 
 (Leave the `footer-customer-care` menu untouched — it links pages, not collections.)
 
-- [ ] **Step 3: Dry-run both scripts**
+- [x] **Step 3: Dry-run both scripts**
 
 ```bash
 node --env-file=.env scripts/setup-navigation.mjs --dry-run
@@ -812,7 +812,7 @@ node --env-file=.env scripts/setup-footer-navigation.mjs --dry-run
 
 Expected: printed payloads show the new `/collections/<handle>` URLs; only the three top-level parents still contain `/collections/all`.
 
-- [ ] **Step 4: Live-run both scripts**
+- [x] **Step 4: Live-run both scripts**
 
 ```bash
 node --env-file=.env scripts/setup-navigation.mjs
@@ -821,7 +821,7 @@ node --env-file=.env scripts/setup-footer-navigation.mjs
 
 Expected: `Updated menu main-menu (…)` / footer script reports menus updated (its idempotent re-run path updates existing menus) with no `userErrors`. Existing pages report "already exists, skipping."
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add scripts/setup-navigation.mjs scripts/setup-footer-navigation.mjs
@@ -839,7 +839,7 @@ git commit -m "feat: point header and footer nav at seeded collections"
 - Consumes: collection handles from Task 4.
 - Produces: a homepage whose every link targets a populated collection; Task 7 QA depends on this.
 
-- [ ] **Step 1: Apply this exact link mapping** (each row is a JSON settings edit; everything else in the file stays untouched):
+- [x] **Step 1: Apply this exact link mapping** (each row is a JSON settings edit; everything else in the file stays untouched):
 
 | Section → block | Setting | New value |
 |---|---|---|
@@ -870,7 +870,7 @@ git commit -m "feat: point header and footer nav at seeded collections"
 | `category_grid_accessories` → `c3`–`c6` (bags) | `link` | `"/collections/women-handbags"` |
 | `category_grid_accessories` → `c7` (Tartan Umbrellas) | `link` | `"/collections/women-accessories"` |
 
-- [ ] **Step 2: Validate**
+- [x] **Step 2: Validate**
 
 ```bash
 python3 -c "import json; json.load(open('templates/index.json')); print('valid JSON')"
@@ -879,7 +879,7 @@ grep -c '/collections/all' templates/index.json
 
 Expected: `valid JSON` and grep count `0` (grep exits 1 when count is 0 — that is the pass condition).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add templates/index.json
@@ -894,7 +894,7 @@ git commit -m "feat: point homepage links at seeded collections"
 
 **Process constraint (from project memory, non-negotiable):** use REAL pointer-based clicks via Playwright MCP `browser_click` — never JS `.click()`/`dispatchEvent()` — because JS-triggered clicks bypass hit-testing and have already masked a real bug in Phase 3.
 
-- [ ] **Step 1: Start the live preview**
+- [x] **Step 1: Start the live preview**
 
 ```bash
 shopify theme dev
@@ -902,32 +902,32 @@ shopify theme dev
 
 Run in background; wait for the local preview URL (default `http://127.0.0.1:9292`). This also syncs the Task 6 `templates/index.json` change to the development theme.
 
-- [ ] **Step 2: Homepage checks (Playwright, real clicks)**
+- [x] **Step 2: Homepage checks (Playwright, real clicks)**
 
 1. Navigate to `http://127.0.0.1:9292`. Confirm the featured-collection section is titled "New Arrivals" and shows 8 product cards **with tartan images and prices** (not placeholder SVGs).
 2. Click the banner button "Shop New Arrivals" → lands on `/collections/new-arrivals` with 12 products.
 3. Back; click the clan-finder tile "Clans A-L" → `/collections/clans-a-l`, non-empty grid.
 4. Back; click one category card per grid (e.g. "Tartan T-Shirt" → `/collections/tartan-tees` with 2 products; "Premium Quilts" → `/collections/home-decor` with 4 products).
 
-- [ ] **Step 3: Header mega menu checks**
+- [x] **Step 3: Header mega menu checks**
 
 1. Open "Find Your Clans" mega menu; click "Ireland County Tartan A-K" → 4 products.
 2. Open "For Men"; click "Pants" → 2 products.
 3. Open "For Women"; click "Dresses" → 2 products.
 4. Click top-level "New Arrivals" → 12 products; "Footwears" → 2 products.
 
-- [ ] **Step 4: Product page check**
+- [x] **Step 4: Product page check**
 
 Click the "Gordon Tartan Trousers" card from `/collections/men-pants` → product page shows: tartan image, price `$79.00`, and a Size picker with S / M / L / XL. Select size "L" and click "Add to cart" → cart drawer/notification shows the item.
 
-- [ ] **Step 5: Footer check**
+- [x] **Step 5: Footer check**
 
 Scroll to footer; click "Tartan Polos" under Shop By Category → `/collections/tartan-polos` with 2 products.
 
-- [ ] **Step 6: No-stray-placeholder check**
+- [x] **Step 6: No-stray-placeholder check**
 
 On the homepage, evaluate `[...document.querySelectorAll('a[href*="/collections/all"]')].map(a => a.textContent.trim())`. Expected: only the three top-level mega-menu parents ("Find Your Clans", "For Men", "For Women"). Anything else is a missed link — fix it and re-check.
 
-- [ ] **Step 7: Report**
+- [x] **Step 7: Report**
 
 Summarize QA results (pass/fail per step, screenshots of homepage and one product page). Fix and commit any bugs found; re-run the failed check after each fix.
