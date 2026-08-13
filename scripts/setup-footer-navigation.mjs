@@ -58,6 +58,9 @@ const footerMenus = [
       { title: 'Terms Of Service', url: '/pages/terms-of-service' },
       { title: 'Refund Policy', url: '/pages/refund-policy' },
       { title: 'Return Policy', url: '/pages/return-policy' },
+      // Shopify auto-generates this at the store root; it is not a page or
+      // collection, so it stays a plain absolute link.
+      { title: 'Sitemap', url: '/sitemap.xml' },
     ],
   },
   {

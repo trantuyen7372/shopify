@@ -275,7 +275,17 @@ export const TAXONOMY = [
       shoe('Socks', 'socks', '16.00'),
     ],
   },
-  { title: 'Blog', url: '/blogs/news' },
+  {
+    title: 'Blog',
+    url: '/blogs/news',
+    items: [
+      { title: 'Holiday', url: '/blogs/holiday' },
+      { title: 'Culture', url: '/blogs/culture' },
+      { title: 'History', url: '/blogs/history' },
+      { title: 'Fashion', url: '/blogs/fashion' },
+      { title: 'How To', url: '/blogs/how-to' },
+    ],
+  },
   { title: 'Tartan Club', url: '/pages/tartan-club' },
   // About Us and Contact Us live in the footer's customer-care menu; keeping them
   // out of the header holds the nav bar to a single row.
