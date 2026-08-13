@@ -41,10 +41,10 @@
         }
       },
       "block_order": [
+        "connect_us",
         "shop_by_category",
         "information",
         "customer_care",
-        "connect_us",
         "brand"
       ],
       "settings": {
