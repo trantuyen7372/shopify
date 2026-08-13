@@ -39,6 +39,7 @@ was visibly shallower than the reference.
 - [x] Mobile QA: header wrapping fixed, 3-level drawer menu verified with real taps
 - [x] Footer Information column added (5 placeholder policy pages + Sitemap link), 4-column grid fix
 - [x] Blog menu item split into 5 category blogs (Holiday/Culture/History/Fashion/How To), matching the reference's menu depth
+- [x] Hero converted from a single static banner to a 3-slide slideshow (New Arrivals / Outerwear / Home Decor), matching the reference's rotating hero — verified with real dot-navigation clicks and no overflow on mobile
 
 ## Resolved blocker
 
