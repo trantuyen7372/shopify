@@ -1,51 +1,64 @@
 {
   "sections": {
     "image_banner": {
-      "type": "image-banner",
+      "type": "slideshow",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "slide-heritage": {
+          "type": "slide",
           "settings": {
             "heading": "Wear Your Heritage",
-            "heading_size": "h0"
+            "heading_size": "h0",
+            "subheading": "Original tartan-inspired apparel and home goods, made to last.",
+            "button_label": "Shop New Arrivals",
+            "link": "shopify://collections/new-arrivals",
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/hero-image-banner_19fabf71-1668-4d85-8287-b685cb1ac651.png"
           }
         },
-        "text": {
-          "type": "text",
+        "slide-outerwear": {
+          "type": "slide",
           "settings": {
-            "text": "Original tartan-inspired apparel and home goods, made to last.",
-            "text_style": "subtitle"
+            "heading": "Layer Up For Autumn",
+            "heading_size": "h0",
+            "subheading": "Bombers, parkas and hoodies cut from tartans built to last the season.",
+            "button_label": "Shop Outerwear",
+            "link": "shopify://collections/men-outerwear-jackets",
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/hero-slide-outerwear.png"
           }
         },
-        "button": {
-          "type": "buttons",
+        "slide-decor": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Shop New Arrivals",
-            "button_link_1": "shopify://collections/new-arrivals",
-            "button_style_secondary_1": true,
-            "button_label_2": "Find your clan",
-            "button_link_2": "shopify://collections/clans-a-l",
-            "button_style_secondary_2": true
+            "heading": "Tartan For The Home",
+            "heading_size": "h0",
+            "subheading": "Throws, quilts and table linens woven in the same setts as the clothing.",
+            "button_label": "Shop Home Decor",
+            "link": "shopify://collections/home-decor",
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "color_scheme": "scheme-3",
+            "image": "shopify://shop_images/hero-slide-decor.png"
           }
         }
       },
       "block_order": [
-        "heading",
-        "text",
-        "button"
+        "slide-heritage",
+        "slide-outerwear",
+        "slide-decor"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
+        "layout": "full_bleed",
+        "slide_height": "large",
+        "slider_visual": "dots",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
         "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false,
-        "image": "shopify://shop_images/hero-image-banner_19fabf71-1668-4d85-8287-b685cb1ac651.png"
+        "show_text_below": false
       }
     },
     "clan_finder": {

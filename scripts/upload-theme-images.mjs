@@ -146,6 +146,19 @@ function collectSlots(template) {
       });
       continue;
     }
+    if (section.type === 'slideshow') {
+      for (const [blockId, block] of Object.entries(section.blocks ?? {})) {
+        slots.push({
+          label: `hero-${slug(blockId)}`,
+          settings: block.settings,
+          key: 'image',
+          width: 1600,
+          height: 900,
+          threadPx: 5,
+        });
+      }
+      continue;
+    }
     if (section.type !== 'multicolumn') continue;
     for (const [blockId, block] of Object.entries(section.blocks ?? {})) {
       slots.push({
