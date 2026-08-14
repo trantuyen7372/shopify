@@ -2,6 +2,18 @@
    navigation on its own full-bleed dark bar underneath. Applied only when the
    section's "Show search bar in header" setting is on. */
 
+/* Dawn's .page-width caps the header at the theme's content max-width and
+   centers it, leaving large empty margins on wide screens (reference sites in
+   this style run the logo/search/icons row edge-to-edge instead, with only the
+   section's own horizontal padding as breathing room). Drop the cap so the row
+   uses the full header-wrapper width; .header's own inline padding (3rem,
+   set in sections/header.liquid) keeps the edge spacing. */
+@media screen and (min-width: 990px) {
+  .header.header--search-bar.page-width {
+    max-width: none;
+  }
+}
+
 .header__search-bar {
   grid-area: search;
   position: relative;

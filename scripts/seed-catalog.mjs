@@ -33,7 +33,8 @@ async function adminGraphql(query, variables, attempt = 0) {
   });
   const json = await response.json();
   if (json.errors) {
-    const throttled = json.errors.some((e) => e.extensions?.code === 'THROTTLED');
+    const errors = Array.isArray(json.errors) ? json.errors : [json.errors];
+    const throttled = errors.some((e) => e?.extensions?.code === 'THROTTLED');
     if (throttled && attempt < 5) {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       return adminGraphql(query, variables, attempt + 1);
