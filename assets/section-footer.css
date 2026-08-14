@@ -41,12 +41,25 @@
 }
 
 .footer__content-bottom {
-  border-top: solid 0.1rem rgba(var(--color-foreground), 0.08);
-  padding-top: 3rem;
+  /* The reference site runs the copyright/payment row as a distinct light
+     band under the dark column area, rather than one uniform dark footer —
+     matches that two-tone split rather than Dawn's single-scheme default. */
+  background-color: #fcf8f4;
+  border-top: 0;
+  color: #121212;
+  margin-top: 3rem;
+  padding: 2rem 0;
 }
 
 .footer__content-bottom:only-child {
   border-top: 0;
+}
+
+.footer__content-bottom .footer__copyright,
+.footer__content-bottom .copyright__content a,
+.footer__content-bottom a,
+.footer__content-bottom .footer__localization h2 {
+  color: #121212;
 }
 
 .footer__content-bottom-wrapper {
@@ -340,6 +353,13 @@
 .footer-block__details-content .list-menu__item--link,
 .copyright__content a {
   color: rgba(var(--color-foreground), 0.75);
+}
+
+/* The reference site's footer column links are fully opaque white, not
+   dimmed — the 0.75 opacity above is Dawn's default but reads too muted on
+   our dark scheme-4 footer next to the reference's crisper white text. */
+.footer__content-top .footer-block__details-content .list-menu__item--link {
+  color: rgb(var(--color-foreground));
 }
 
 .footer-block__details-content .list-menu__item--active {
