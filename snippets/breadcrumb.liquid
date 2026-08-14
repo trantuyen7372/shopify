@@ -1,0 +1,73 @@
+{% comment %}
+  Renders a Home > Department > Category > Current trail by matching the
+  current collection (or product's collection context) against the
+  `main-menu` linklist, up to its 3 levels deep. The menu is built from the
+  same taxonomy tree as the catalog (see scripts/taxonomy.mjs), so a match
+  here reflects a real position in the site structure rather than a guess.
+
+  Usage:
+  {% render 'breadcrumb' %}
+{% endcomment %}
+
+{%- liquid
+  assign crumb_url = blank
+  assign crumb_title = blank
+  if collection
+    assign crumb_url = collection.url
+    assign crumb_title = collection.title
+  elsif product
+    assign crumb_title = product.title
+    if collection
+      assign crumb_url = collection.url
+    elsif product.collections.first
+      assign crumb_url = product.collections.first.url
+    endif
+  endif
+
+  assign parent_1_title = blank
+  assign parent_1_url = blank
+  assign parent_2_title = blank
+  assign parent_2_url = blank
+
+  if crumb_url != blank
+    for level_1 in linklists['main-menu'].links
+      for level_2 in level_1.links
+        if level_2.url == crumb_url
+          assign parent_1_title = level_1.title
+          assign parent_1_url = level_1.url
+        endif
+        for level_3 in level_2.links
+          if level_3.url == crumb_url
+            assign parent_1_title = level_1.title
+            assign parent_1_url = level_1.url
+            assign parent_2_title = level_2.title
+            assign parent_2_url = level_2.url
+          endif
+        endfor
+      endfor
+    endfor
+  endif
+-%}
+
+<nav class="breadcrumb page-width" aria-label="{{ 'general.breadcrumbs.label' | t }}">
+  <ol class="breadcrumb__list" role="list">
+    <li class="breadcrumb__item">
+      <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a>
+    </li>
+    {%- if parent_1_title != blank -%}
+      <li class="breadcrumb__item">
+        <a href="{{ parent_1_url }}">{{ parent_1_title | escape }}</a>
+      </li>
+    {%- endif -%}
+    {%- if parent_2_title != blank -%}
+      <li class="breadcrumb__item">
+        <a href="{{ parent_2_url }}">{{ parent_2_title | escape }}</a>
+      </li>
+    {%- endif -%}
+    {%- if crumb_title != blank -%}
+      <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">
+        {{ crumb_title | escape }}
+      </li>
+    {%- endif -%}
+  </ol>
+</nav>
