@@ -14,6 +14,31 @@
   }
 }
 
+/* Dawn hides the "Log in" / "Cart" wording behind .visually-hidden, leaving bare
+   icons — the reference site shows both as a small label under the icon. Reveal
+   only the label span that is a direct child of the icon link, not the nested
+   cart-count-bubble announcement span, which should stay screen-reader-only. */
+@media screen and (min-width: 990px) {
+  .header--search-bar .header__icon--account,
+  .header--search-bar .header__icon--cart {
+    flex-direction: column;
+    gap: 0.2rem;
+    height: auto;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .header--search-bar .header__icon--account > .visually-hidden,
+  .header--search-bar .header__icon--cart > .visually-hidden {
+    clip: auto;
+    font-size: 1.1rem;
+    height: auto;
+    margin: 0;
+    position: static !important;
+    white-space: nowrap;
+    width: auto;
+  }
+}
+
 .header__search-bar {
   grid-area: search;
   position: relative;
