@@ -57,9 +57,11 @@
 }
 
 .header__search-bar .search .search__button {
-  background-color: rgb(var(--color-button));
+  /* Matches the reference site's search button, sampled directly from its
+     rendered page rather than guessed: rgb(0, 85, 164). */
+  background-color: #0055a4;
   border-radius: 0 var(--inputs-radius, 0.4rem) var(--inputs-radius, 0.4rem) 0;
-  color: rgb(var(--color-button-text));
+  color: #ffffff;
   height: 100%;
   right: 0;
   top: 0;
@@ -71,7 +73,7 @@
 }
 
 .header__search-bar .search__button .svg-wrapper {
-  color: rgb(var(--color-button-text));
+  color: #ffffff;
   height: 1.9rem;
   width: 1.9rem;
 }
