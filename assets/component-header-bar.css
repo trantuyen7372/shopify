@@ -137,7 +137,13 @@
   }
 
   .header--search-bar .header__inline-menu {
+    /* Dawn's .header__inline-menu is a block container, so its inline-flex
+       .list-menu--inline child only ever sits at the start (left). The
+       reference site centers the item group as a whole within the full-width
+       bar, so this needs to be a flex container itself to center that child. */
     align-items: center;
+    display: flex;
+    justify-content: center;
     margin-left: 0;
     margin-top: 0;
     min-height: var(--nav-bar-height);
