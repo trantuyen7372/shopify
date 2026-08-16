@@ -15,7 +15,7 @@
         "slide-heritage": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/banner_0.webp",
+            "image": "shopify://shop_images/hero-slide-heritage-photo.jpg",
             "image_overlay_opacity": 0,
             "heading": "Wear Your Heritage",
             "heading_size": "h0",
@@ -33,7 +33,7 @@
         "slide-outerwear": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/banner_1.webp",
+            "image": "shopify://shop_images/hero-slide-outerwear-photo.jpg",
             "image_overlay_opacity": 0,
             "heading": "Layer Up For Autumn",
             "heading_size": "h0",
@@ -51,7 +51,7 @@
         "slide-decor": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/banner_1.webp",
+            "image": "shopify://shop_images/hero-slide-decor-photo.jpg",
             "image_overlay_opacity": 0,
             "heading": "Tartan For The Home",
             "heading_size": "h0",
@@ -65,31 +65,12 @@
             "text_alignment_mobile": "center",
             "color_scheme": "scheme-3"
           }
-        },
-        "slide_yLQiDy": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/banner_3.webp",
-            "image_overlay_opacity": 0,
-            "heading": "Image slide",
-            "heading_size": "h1",
-            "subheading": "Tell your brand's story through images",
-            "button_label": "Button label",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": true,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-1"
-          }
         }
       },
       "block_order": [
         "slide-heritage",
         "slide-outerwear",
-        "slide-decor",
-        "slide_yLQiDy"
+        "slide-decor"
       ],
       "settings": {
         "layout": "full_bleed",
