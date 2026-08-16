@@ -52,6 +52,53 @@
     font-weight: 600;
     margin: 0;
   }
+
+  .testimonials__summary {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem 1.2rem;
+    justify-content: center;
+    margin-top: 1.6rem;
+  }
+
+  .testimonials__summary-word {
+    font-weight: 700;
+  }
+
+  .testimonials__summary .rating-star {
+    --letter-spacing: 0.8;
+    --font-size: 1.6;
+  }
+
+  .testimonials__summary-count {
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  .testimonials__card-meta {
+    align-items: center;
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 0.6rem;
+  }
+
+  .testimonials__verified {
+    align-items: center;
+    color: rgba(var(--color-foreground), 0.7);
+    display: inline-flex;
+    font-size: 1.2rem;
+    gap: 0.4rem;
+  }
+
+  .testimonials__verified svg {
+    height: 1.3rem;
+    width: 1.3rem;
+  }
+
+  .testimonials__date {
+    color: rgba(var(--color-foreground), 0.55);
+    font-size: 1.2rem;
+  }
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
@@ -62,6 +109,34 @@
       {%- endif -%}
       {%- if section.settings.subheading != blank -%}
         <p class="testimonials__subheading">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.show_summary and section.settings.average_rating > 0 -%}
+        {%- liquid
+          assign avg = section.settings.average_rating
+          if avg >= 4.5
+            assign rating_word = 'Excellent'
+          elsif avg >= 4.0
+            assign rating_word = 'Great'
+          elsif avg >= 3.5
+            assign rating_word = 'Average'
+          elsif avg >= 2.5
+            assign rating_word = 'Poor'
+          else
+            assign rating_word = 'Bad'
+          endif
+        -%}
+        <div class="testimonials__summary">
+          <span class="testimonials__summary-word">{{ rating_word }}</span>
+          <div class="rating" role="img" aria-label="{{ avg }} out of 5 stars average">
+            <span
+              aria-hidden="true"
+              class="rating-star"
+              style="--rating: {{ avg | floor }}; --rating-max: 5; --rating-decimal: 0;"
+            ></span>
+          </div>
+          <span aria-hidden="true">{{ avg }} average</span>
+          <span class="testimonials__summary-count">· {{ section.settings.review_count }} reviews</span>
+        </div>
       {%- endif -%}
     </div>
     <div class="testimonials__grid">
@@ -79,6 +154,22 @@
           {%- endif -%}
           {%- if block.settings.author != blank -%}
             <p class="testimonials__author">{{ block.settings.author | escape }}</p>
+          {%- endif -%}
+          {%- if block.settings.verified or block.settings.date_label != blank -%}
+            <div class="testimonials__card-meta">
+              {%- if block.settings.verified -%}
+                <span class="testimonials__verified">
+                  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path d="M10 1.5 12.2 4l3.3-.5.9 3.3 3 1.7-1.5 3 1.5 3-3 1.7-.9 3.3-3.3-.5L10 18.5 7.8 16l-3.3.5-.9-3.3-3-1.7 1.5-3-1.5-3 3-1.7.9-3.3 3.3.5L10 1.5Z" />
+                    <path d="m7.2 10.2 1.9 1.9 3.7-3.9" stroke="var(--color-scheme-background, #fff)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Verified Customer
+                </span>
+              {%- endif -%}
+              {%- if block.settings.date_label != blank -%}
+                <span class="testimonials__date">{{ block.settings.date_label | escape }}</span>
+              {%- endif -%}
+            </div>
           {%- endif -%}
         </div>
       {%- endfor -%}
@@ -112,6 +203,32 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Rating summary"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Show average rating summary",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "average_rating",
+      "min": 0,
+      "max": 5,
+      "step": 0.1,
+      "label": "Average rating",
+      "info": "Set to 0 to hide the summary even when the checkbox above is on.",
+      "default": 4.8
+    },
+    {
+      "type": "number",
+      "id": "review_count",
+      "label": "Total review count",
+      "default": 214
     },
     {
       "type": "header",
@@ -163,6 +280,19 @@
           "step": 1,
           "label": "Rating",
           "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Show \"Verified Customer\" badge",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "date_label",
+          "label": "Date label",
+          "info": "Free text, e.g. \"2 months ago\" — not a live date.",
+          "default": "2 months ago"
         }
       ]
     }

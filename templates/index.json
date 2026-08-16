@@ -673,7 +673,9 @@
           "settings": {
             "quote": "This is the best tartan gear I've ever owned. Warm, well made, and true to the pattern.",
             "author": "Alex R.",
-            "rating": 5
+            "rating": 5,
+            "verified": true,
+            "date_label": "2 months ago"
           }
         },
         "t2": {
@@ -681,7 +683,9 @@
           "settings": {
             "quote": "Found my exact clan tartan in minutes and the quality blew me away.",
             "author": "Jamie K.",
-            "rating": 5
+            "rating": 5,
+            "verified": true,
+            "date_label": "3 weeks ago"
           }
         },
         "t3": {
@@ -689,7 +693,9 @@
           "settings": {
             "quote": "Fast shipping and the blanket is even softer than the photos suggested.",
             "author": "Morgan T.",
-            "rating": 4
+            "rating": 4,
+            "verified": true,
+            "date_label": "1 month ago"
           }
         }
       },
@@ -701,6 +707,9 @@
       "settings": {
         "heading": "What Our Customers Say",
         "subheading": "Real reviews from real customers",
+        "show_summary": true,
+        "average_rating": 4.8,
+        "review_count": 214,
         "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
