@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "image_banner": {
@@ -6,50 +15,81 @@
         "slide-heritage": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/banner_0.webp",
+            "image_overlay_opacity": 0,
             "heading": "Wear Your Heritage",
             "heading_size": "h0",
             "subheading": "Original tartan-inspired apparel and home goods, made to last.",
             "button_label": "Shop New Arrivals",
             "link": "shopify://collections/new-arrivals",
+            "button_style_secondary": false,
+            "show_text_box": true,
             "box_align": "middle-center",
             "text_alignment": "center",
-            "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/hero-slide-heritage.png"
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
           }
         },
         "slide-outerwear": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/banner_1.webp",
+            "image_overlay_opacity": 0,
             "heading": "Layer Up For Autumn",
             "heading_size": "h0",
             "subheading": "Bombers, parkas and hoodies cut from tartans built to last the season.",
             "button_label": "Shop Outerwear",
             "link": "shopify://collections/men-outerwear-jackets",
+            "button_style_secondary": false,
+            "show_text_box": true,
             "box_align": "middle-center",
             "text_alignment": "center",
-            "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/hero-slide-outerwear.png"
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
           }
         },
         "slide-decor": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/banner_1.webp",
+            "image_overlay_opacity": 0,
             "heading": "Tartan For The Home",
             "heading_size": "h0",
             "subheading": "Throws, quilts and table linens woven in the same setts as the clothing.",
             "button_label": "Shop Home Decor",
             "link": "shopify://collections/home-decor",
+            "button_style_secondary": false,
+            "show_text_box": true,
             "box_align": "middle-center",
             "text_alignment": "center",
-            "color_scheme": "scheme-3",
-            "image": "shopify://shop_images/hero-slide-decor.png"
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-3"
+          }
+        },
+        "slide_yLQiDy": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/banner_3.webp",
+            "image_overlay_opacity": 0,
+            "heading": "Image slide",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": true,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": "scheme-1"
           }
         }
       },
       "block_order": [
         "slide-heritage",
         "slide-outerwear",
-        "slide-decor"
+        "slide-decor",
+        "slide_yLQiDy"
       ],
       "settings": {
         "layout": "full_bleed",
@@ -58,7 +98,8 @@
         "auto_rotate": false,
         "change_slides_speed": 5,
         "image_behavior": "none",
-        "show_text_below": false
+        "show_text_below": false,
+        "accessibility_info": "Slideshow about our brand"
       }
     },
     "clan_finder": {
@@ -118,20 +159,19 @@
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
+        "collection": "new-arrivals",
+        "products_to_show": 8,
         "title": "New Arrivals",
         "heading_size": "h2",
         "description": "",
         "show_description": false,
         "description_style": "body",
-        "collection": "new-arrivals",
-        "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
+        "enable_desktop_slider": true,
         "full_width": false,
         "show_view_all": true,
         "view_all_style": "solid",
-        "enable_desktop_slider": true,
-        "swipe_on_mobile": true,
+        "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
         "show_secondary_image": true,
@@ -139,6 +179,7 @@
         "show_rating": true,
         "quick_add": "standard",
         "columns_mobile": "2",
+        "swipe_on_mobile": true,
         "padding_top": 44,
         "padding_bottom": 36
       }
@@ -149,71 +190,71 @@
         "c1": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-t-shirt.png",
             "title": "Tartan T-Shirt",
-            "link_label": "Shop now",
-            "link": "/collections/tartan-tees",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-t-shirt.png"
+            "link_label": "Shop now",
+            "link": "/collections/tartan-tees"
           }
         },
         "c2": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-polo-shirt.png",
             "title": "Tartan Polo Shirt",
-            "link_label": "Shop now",
-            "link": "/collections/tartan-polos",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-polo-shirt.png"
+            "link_label": "Shop now",
+            "link": "/collections/tartan-polos"
           }
         },
         "c3": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-womens-polo-shirt.png",
             "title": "Women's Polo Shirt",
-            "link_label": "Shop now",
-            "link": "/collections/womens-polo-shirt",
             "text": "",
-            "image": "shopify://shop_images/category-womens-polo-shirt.png"
+            "link_label": "Shop now",
+            "link": "/collections/womens-polo-shirt"
           }
         },
         "c4": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-sweatshirt.png",
             "title": "Tartan Sweatshirt",
-            "link_label": "Shop now",
-            "link": "/collections/sweatshirt",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-sweatshirt.png"
+            "link_label": "Shop now",
+            "link": "/collections/sweatshirt"
           }
         },
         "c5": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-long-sleeve-button-shirts.png",
             "title": "Tartan Long Sleeve Button Shirts",
-            "link_label": "Shop now",
-            "link": "/collections/long-sleeve-button-shirt",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-long-sleeve-button-shirts.png"
+            "link_label": "Shop now",
+            "link": "/collections/long-sleeve-button-shirt"
           }
         },
         "c6": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-womens-casual-shirt.png",
             "title": "Tartan Women's Casual Shirt",
-            "link_label": "Shop now",
-            "link": "/collections/womens-casual-shirt",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-womens-casual-shirt.png"
+            "link_label": "Shop now",
+            "link": "/collections/womens-casual-shirt"
           }
         },
         "c7": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-hawaiian-shirt.png",
             "title": "Tartan Hawaiian Shirt",
-            "link_label": "Shop now",
-            "link": "/collections/hawaiian-shirt",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-hawaiian-shirt.png"
+            "link_label": "Shop now",
+            "link": "/collections/hawaiian-shirt"
           }
         }
       },
@@ -249,81 +290,81 @@
         "c1": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-casual-hoodie.png",
             "title": "Casual Hoodie",
-            "link_label": "Shop now",
-            "link": "/collections/hoodie",
             "text": "",
-            "image": "shopify://shop_images/category-casual-hoodie.png"
+            "link_label": "Shop now",
+            "link": "/collections/hoodie"
           }
         },
         "c2": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-sherpa-hoodie.png",
             "title": "Sherpa Hoodie",
-            "link_label": "Shop now",
-            "link": "/collections/sherpa-hoodie",
             "text": "",
-            "image": "shopify://shop_images/category-sherpa-hoodie.png"
+            "link_label": "Shop now",
+            "link": "/collections/sherpa-hoodie"
           }
         },
         "c3": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-bomber-jacket.png",
             "title": "Tartan Bomber Jacket",
-            "link_label": "Shop now",
-            "link": "/collections/bomber-jacket",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-bomber-jacket.png"
+            "link_label": "Shop now",
+            "link": "/collections/bomber-jacket"
           }
         },
         "c4": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-padded-jacket.png",
             "title": "Tartan Padded Jacket",
-            "link_label": "Shop now",
-            "link": "/collections/padded-jacket",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-padded-jacket.png"
+            "link_label": "Shop now",
+            "link": "/collections/padded-jacket"
           }
         },
         "c5": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-borg-fleece-hoodie.png",
             "title": "Borg Fleece Hoodie",
-            "link_label": "Shop now",
-            "link": "/collections/borg-fleece-hoodie",
             "text": "",
-            "image": "shopify://shop_images/category-borg-fleece-hoodie.png"
+            "link_label": "Shop now",
+            "link": "/collections/borg-fleece-hoodie"
           }
         },
         "c6": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-knitted-hoodie.png",
             "title": "Knitted Hoodie",
-            "link_label": "Shop now",
-            "link": "/collections/knitted-hoodie",
             "text": "",
-            "image": "shopify://shop_images/category-knitted-hoodie.png"
+            "link_label": "Shop now",
+            "link": "/collections/knitted-hoodie"
           }
         },
         "c7": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-baseball-jacket.png",
             "title": "Baseball Jacket",
-            "link_label": "Shop now",
-            "link": "/collections/baseball-jacket",
             "text": "",
-            "image": "shopify://shop_images/category-baseball-jacket.png"
+            "link_label": "Shop now",
+            "link": "/collections/baseball-jacket"
           }
         },
         "c8": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-sleeveless-puffer-jacket.png",
             "title": "Sleeveless Puffer Jacket",
-            "link_label": "Shop now",
-            "link": "/collections/puffer-vest",
             "text": "",
-            "image": "shopify://shop_images/category-sleeveless-puffer-jacket.png"
+            "link_label": "Shop now",
+            "link": "/collections/puffer-vest"
           }
         }
       },
@@ -360,71 +401,71 @@
         "c1": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-sleeveless-midi-dresses.png",
             "title": "Sleeveless Midi Dresses",
-            "link_label": "Shop now",
-            "link": "/collections/sleeveless-midi-dress",
             "text": "",
-            "image": "shopify://shop_images/category-sleeveless-midi-dresses.png"
+            "link_label": "Shop now",
+            "link": "/collections/sleeveless-midi-dress"
           }
         },
         "c2": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-womens-casual-dresses.png",
             "title": "Women's Casual Dresses",
-            "link_label": "Shop now",
-            "link": "/collections/womens-casual-dress",
             "text": "",
-            "image": "shopify://shop_images/category-womens-casual-dresses.png"
+            "link_label": "Shop now",
+            "link": "/collections/womens-casual-dress"
           }
         },
         "c3": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-off-shoulder-long-dress.png",
             "title": "Off Shoulder Long Dress",
-            "link_label": "Shop now",
-            "link": "/collections/off-shoulder-long-dress",
             "text": "",
-            "image": "shopify://shop_images/category-off-shoulder-long-dress.png"
+            "link_label": "Shop now",
+            "link": "/collections/off-shoulder-long-dress"
           }
         },
         "c4": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-off-shoulder-lady-dress.png",
             "title": "Off Shoulder Lady Dress",
-            "link_label": "Shop now",
-            "link": "/collections/off-shoulder-lady-dress",
             "text": "",
-            "image": "shopify://shop_images/category-off-shoulder-lady-dress.png"
+            "link_label": "Shop now",
+            "link": "/collections/off-shoulder-lady-dress"
           }
         },
         "c5": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-hoodie-dress.png",
             "title": "Tartan Hoodie Dress",
-            "link_label": "Shop now",
-            "link": "/collections/hoodie-dress",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-hoodie-dress.png"
+            "link_label": "Shop now",
+            "link": "/collections/hoodie-dress"
           }
         },
         "c6": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-full-length-skirt.png",
             "title": "Full Length Skirt",
-            "link_label": "Shop now",
-            "link": "/collections/full-length-skirt",
             "text": "",
-            "image": "shopify://shop_images/category-full-length-skirt.png"
+            "link_label": "Shop now",
+            "link": "/collections/full-length-skirt"
           }
         },
         "c7": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-pleated-midi-skirt.png",
             "title": "Pleated Midi Skirt",
-            "link_label": "Shop now",
-            "link": "/collections/pleated-midi-skirt",
             "text": "",
-            "image": "shopify://shop_images/category-pleated-midi-skirt.png"
+            "link_label": "Shop now",
+            "link": "/collections/pleated-midi-skirt"
           }
         }
       },
@@ -460,81 +501,81 @@
         "c1": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-premium-quilts.png",
             "title": "Premium Quilts",
-            "link_label": "Shop now",
-            "link": "/collections/premium-quilt",
             "text": "",
-            "image": "shopify://shop_images/category-premium-quilts.png"
+            "link_label": "Shop now",
+            "link": "/collections/premium-quilt"
           }
         },
         "c2": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-bedding-set.png",
             "title": "Tartan Bedding Set",
-            "link_label": "Shop now",
-            "link": "/collections/bedding-set",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-bedding-set.png"
+            "link_label": "Shop now",
+            "link": "/collections/bedding-set"
           }
         },
         "c3": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-blanket.png",
             "title": "Tartan Blanket",
-            "link_label": "Shop now",
-            "link": "/collections/blanket",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-blanket.png"
+            "link_label": "Shop now",
+            "link": "/collections/blanket"
           }
         },
         "c4": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-pillow-cover.png",
             "title": "Tartan Pillow Cover",
-            "link_label": "Shop now",
-            "link": "/collections/pillow-cover",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-pillow-cover.png"
+            "link_label": "Shop now",
+            "link": "/collections/pillow-cover"
           }
         },
         "c5": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-door-mat-collection.png",
             "title": "Door Mat Collection",
-            "link_label": "Shop now",
-            "link": "/collections/door-mat",
             "text": "",
-            "image": "shopify://shop_images/category-door-mat-collection.png"
+            "link_label": "Shop now",
+            "link": "/collections/door-mat"
           }
         },
         "c6": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-tablecloth.png",
             "title": "Tartan Tablecloth",
-            "link_label": "Shop now",
-            "link": "/collections/tablecloth",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-tablecloth.png"
+            "link_label": "Shop now",
+            "link": "/collections/tablecloth"
           }
         },
         "c7": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-flags.png",
             "title": "Tartan Flags",
-            "link_label": "Shop now",
-            "link": "/collections/garden-flag",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-flags.png"
+            "link_label": "Shop now",
+            "link": "/collections/garden-flag"
           }
         },
         "c8": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-tapestry.png",
             "title": "Tartan Tapestry",
-            "link_label": "Shop now",
-            "link": "/collections/tapestry",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-tapestry.png"
+            "link_label": "Shop now",
+            "link": "/collections/tapestry"
           }
         }
       },
@@ -571,71 +612,71 @@
         "c1": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-classic-cap.png",
             "title": "Tartan Classic Cap",
-            "link_label": "Shop now",
-            "link": "/collections/classic-cap",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-classic-cap.png"
+            "link_label": "Shop now",
+            "link": "/collections/classic-cap"
           }
         },
         "c2": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-beanies.png",
             "title": "Tartan Beanies",
-            "link_label": "Shop now",
-            "link": "/collections/beanies",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-beanies.png"
+            "link_label": "Shop now",
+            "link": "/collections/beanies"
           }
         },
         "c3": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-canvas-bag.png",
             "title": "Canvas Bag",
-            "link_label": "Shop now",
-            "link": "/collections/canvas-bag",
             "text": "",
-            "image": "shopify://shop_images/category-canvas-bag.png"
+            "link_label": "Shop now",
+            "link": "/collections/canvas-bag"
           }
         },
         "c4": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-leather-bag.png",
             "title": "Leather Bag",
-            "link_label": "Shop now",
-            "link": "/collections/leather-bag",
             "text": "",
-            "image": "shopify://shop_images/category-leather-bag.png"
+            "link_label": "Shop now",
+            "link": "/collections/leather-bag"
           }
         },
         "c5": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-leather-tote-bags.png",
             "title": "Leather Tote Bags",
-            "link_label": "Shop now",
-            "link": "/collections/leather-tote-bag",
             "text": "",
-            "image": "shopify://shop_images/category-leather-tote-bags.png"
+            "link_label": "Shop now",
+            "link": "/collections/leather-tote-bag"
           }
         },
         "c6": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-saddle-bag.png",
             "title": "Tartan Saddle Bag",
-            "link_label": "Shop now",
-            "link": "/collections/saddle-bag",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-saddle-bag.png"
+            "link_label": "Shop now",
+            "link": "/collections/saddle-bag"
           }
         },
         "c7": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/category-tartan-watches.png",
             "title": "Tartan Watches",
-            "link_label": "Shop now",
-            "link": "/collections/tartan-watches",
             "text": "",
-            "image": "shopify://shop_images/category-tartan-watches.png"
+            "link_label": "Shop now",
+            "link": "/collections/tartan-watches"
           }
         }
       },
@@ -707,10 +748,10 @@
       "settings": {
         "heading": "What Our Customers Say",
         "subheading": "Real reviews from real customers",
+        "color_scheme": "scheme-1",
         "show_summary": true,
         "average_rating": 4.8,
         "review_count": 214,
-        "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -718,10 +759,10 @@
     "featured_blog": {
       "type": "featured-blog",
       "settings": {
-        "heading": "From the Journal",
-        "heading_size": "h1",
         "blog": "news",
         "post_limit": 3,
+        "heading": "From the Journal",
+        "heading_size": "h1",
         "columns_desktop": 3,
         "show_view_all": true,
         "show_image": true,
@@ -737,19 +778,27 @@
       "blocks": {
         "p1": {
           "type": "press_logo",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "p2": {
           "type": "press_logo",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "p3": {
           "type": "press_logo",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         },
         "p4": {
           "type": "press_logo",
-          "settings": {}
+          "settings": {
+            "link": ""
+          }
         }
       },
       "block_order": [
