@@ -25,6 +25,17 @@
   {%- endstyle -%}
 {%- endif -%}
 
+{%- style -%}
+  /* visibility:hidden rather than display:none — this element also carries
+     the .banner__content class, which is what gives the slide its min-height
+     on mobile (Dawn's .banner--large rules target .banner__content, not the
+     image, below 750px). Removing it from layout entirely collapsed the
+     slide to zero height and hid the background image along with the text. */
+  #shopify-section-{{ section.id }} .slideshow__text-wrapper {
+    visibility: hidden;
+  }
+{%- endstyle -%}
+
 <slideshow-component
   class="slider-mobile-gutter{% if section.settings.layout == 'grid' %} page-width{% endif %}{% if section.settings.show_text_below %} mobile-text-below{% endif %}"
   role="region"
