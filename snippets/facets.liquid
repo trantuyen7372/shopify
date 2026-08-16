@@ -28,6 +28,8 @@
   endif
 -%}
 
+{%- render 'clan-finder-sidebar' -%}
+
 <div
   class="facets-container{% if filter_type == 'drawer' %} facets-container-drawer{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
   data-collection-id="{{ results.id }}"

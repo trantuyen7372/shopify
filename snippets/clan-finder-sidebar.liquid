@@ -1,0 +1,54 @@
+{% comment %}
+  Renders the "Find Your Clan" trigger button plus its off-canvas search
+  panel: a searchable, alphabetised directory of Scottish clan and Irish
+  county names (assets/clan-finder.js holds the name list and behaviour).
+  Selecting a name searches the storefront catalog for it, so every entry
+  resolves against real products.
+
+  Usage:
+  {% render 'clan-finder-sidebar' %}
+{% endcomment %}
+
+<clan-finder class="clan-finder">
+  <button type="button" class="clan-finder__trigger button button--secondary" data-clan-finder-open>
+    <span class="svg-wrapper">{{- 'icon-filter.svg' | inline_asset_content -}}</span>
+    Find Your Clan
+  </button>
+
+  <div class="clan-finder__backdrop" data-clan-finder-backdrop></div>
+
+  <div class="clan-finder__panel" data-clan-finder-panel role="dialog" aria-modal="true" aria-label="Find your clan">
+    <div class="clan-finder__header">
+      <p class="clan-finder__title">Find Your Clan</p>
+      <button type="button" class="clan-finder__close" data-clan-finder-close aria-label="Close">
+        <span class="svg-wrapper">{{- 'icon-close.svg' | inline_asset_content -}}</span>
+      </button>
+    </div>
+
+    <div class="clan-finder__tabs" role="tablist">
+      <button type="button" class="clan-finder__tab clan-finder__tab--active" data-clan-finder-tab="scottish">Scottish</button>
+      <button type="button" class="clan-finder__tab" data-clan-finder-tab="irish">Irish</button>
+    </div>
+
+    <div class="clan-finder__search" data-clan-finder-form>
+      <div class="field">
+        <input
+          type="search"
+          class="field__input"
+          placeholder="Search clan name…"
+          aria-label="Search clan name"
+          data-clan-finder-search
+        >
+        <label class="field__label">Search clan name…</label>
+      </div>
+    </div>
+
+    <div class="clan-finder__alphabet" data-clan-finder-alphabet></div>
+
+    <ul class="clan-finder__list" data-clan-finder-list></ul>
+
+    <button type="button" class="clan-finder__submit button" data-clan-finder-search-button>Search</button>
+  </div>
+</clan-finder>
+
+<script src="{{ 'clan-finder.js' | asset_url }}" defer="defer"></script>
