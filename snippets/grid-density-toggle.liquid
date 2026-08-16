@@ -1,0 +1,28 @@
+{% comment %}
+  Renders a row of buttons letting the visitor switch the product grid between
+  1-5 columns on desktop, matching the reference site's grid-density control.
+  Preference persists across pages via localStorage; falls back to the
+  section's own columns_desktop setting when nothing is stored yet.
+
+  Usage:
+  {% render 'grid-density-toggle' %}
+{% endcomment %}
+
+<grid-density-toggle class="grid-density-toggle" role="group" aria-label="Grid columns">
+  {%- for count in (1..5) -%}
+    <button
+      type="button"
+      class="grid-density-toggle__button"
+      data-columns="{{ count }}"
+      aria-label="{{ count }} column{% if count != 1 %}s{% endif %}"
+    >
+      <span class="grid-density-toggle__bars" aria-hidden="true">
+        {%- for bar in (1..count) -%}
+          <span></span>
+        {%- endfor -%}
+      </span>
+    </button>
+  {%- endfor -%}
+</grid-density-toggle>
+
+<script src="{{ 'grid-density-toggle.js' | asset_url }}" defer="defer"></script>
