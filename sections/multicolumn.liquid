@@ -18,6 +18,43 @@
     justify-content: center;
     text-align: center;
   }
+
+  /* Match the reference site: pagination dots sit in the same row as the
+     title (top-right), not below the grid. slider-dots-component is
+     display:contents so its children (the grid + the dots/arrows row)
+     become direct flex items of this row instead of stacking inside it. */
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} .multicolumn > .page-width {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    #shopify-section-{{ section.id }} .multicolumn__title {
+      flex: 1 1 auto;
+      order: 1;
+      margin-bottom: 0;
+    }
+
+    #shopify-section-{{ section.id }} slider-dots-component {
+      display: contents;
+    }
+
+    #shopify-section-{{ section.id }} .slider-buttons {
+      order: 2;
+      margin-bottom: 0;
+    }
+
+    #shopify-section-{{ section.id }} .multicolumn-list {
+      order: 3;
+      flex-basis: 100%;
+    }
+
+    #shopify-section-{{ section.id }} .multicolumn > .page-width > .center {
+      order: 4;
+      flex-basis: 100%;
+    }
+  }
 {%- endstyle -%}
 
 {%- liquid
