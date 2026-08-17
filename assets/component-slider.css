@@ -239,15 +239,14 @@ slider-component.slider-component-full-width {
     --desktop-margin-left-first-item: 0px;
   }
 
-  /* slider-component-desktop is normally full-bleed to the viewport edge
-     on purpose (so the peek margin above can reveal content right up to
-     the screen edge). We removed that peek margin, so without this the
-     grid would sit flush against the browser edge instead of respecting
-     the page margin like every other section. */
+  /* Checked against the reference site directly: its product/category
+     carousels render edge-to-edge (a few px of overflow past the
+     viewport in either direction, not the ~50px page margin used
+     elsewhere) rather than sitting inside the normal page-width
+     container. slider-component-desktop is full-bleed by default, so a
+     small gutter is enough — no need to re-impose the page margin. */
   slider-dots-component.slider-component-desktop {
-    max-width: var(--page-width);
-    margin: 0 auto;
-    padding: 0 5rem;
+    padding: 0 1.5rem;
   }
 
   slider-dots-component .slider--desktop .grid__item:first-child {

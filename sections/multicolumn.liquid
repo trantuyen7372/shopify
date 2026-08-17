@@ -43,6 +43,20 @@
       right: 5rem;
       margin-bottom: 0;
     }
+
+    /* Reference site's category-grid carousels render edge-to-edge (not
+       inside the ~50px page margin the title above still uses) — break
+       the grid out of its centered container while the title/dots stay
+       put, matching that. */
+    #shopify-section-{{ section.id }} .multicolumn-list {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      padding: 0 1.5rem;
+    }
   }
 {%- endstyle -%}
 
