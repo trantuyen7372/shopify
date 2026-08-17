@@ -826,6 +826,76 @@ class SliderComponent extends HTMLElement {
 
 customElements.define('slider-component', SliderComponent);
 
+// A slider-component variant that renders dot pagination (one dot per
+// scroll page) instead of the numeric "1 / N" counter, for sliders that
+// show several items per page (product/category rows) rather than one
+// full-bleed slide at a time.
+class SliderDotsComponent extends SliderComponent {
+  constructor() {
+    super();
+    this.dotsWrapper = this.querySelector('.slider-counter--dots');
+    // The base constructor's own initPages() call runs before this.dotsWrapper
+    // is assigned above (it fires mid-way through super()), so it can't build
+    // dots yet even though totalPages is already known by now — build them here.
+    this.buildDots();
+    this.updateDots();
+  }
+
+  initPages() {
+    super.initPages();
+    this.buildDots();
+    this.updateDots();
+  }
+
+  buildDots() {
+    if (!this.dotsWrapper) return;
+    this.dotsWrapper.innerHTML = '';
+    if (!this.totalPages || this.totalPages < 2) {
+      this.dotsWrapper.hidden = true;
+      return;
+    }
+    this.dotsWrapper.hidden = false;
+    for (let i = 0; i < this.totalPages; i++) {
+      const link = document.createElement('button');
+      link.type = 'button';
+      link.className = 'slider-counter__link slider-counter__link--dots link';
+      link.setAttribute(
+        'aria-label',
+        `${(window.accessibilityStrings && window.accessibilityStrings.loadSlide) || 'Load slide'} ${i + 1}`
+      );
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      link.appendChild(dot);
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.setSlidePosition(this.slider.scrollLeft + this.sliderItemOffset * (i + 1 - this.currentPage));
+      });
+      this.dotsWrapper.appendChild(link);
+    }
+  }
+
+  update() {
+    super.update();
+    this.updateDots();
+  }
+
+  updateDots() {
+    if (!this.dotsWrapper) return;
+    const links = this.dotsWrapper.querySelectorAll('.slider-counter__link');
+    links.forEach((link, index) => {
+      const isActive = index === this.currentPage - 1;
+      link.classList.toggle('slider-counter__link--active', isActive);
+      if (isActive) {
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+}
+
+customElements.define('slider-dots-component', SliderDotsComponent);
+
 class SlideshowComponent extends SliderComponent {
   constructor() {
     super();
