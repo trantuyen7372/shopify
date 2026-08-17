@@ -1,10 +1,30 @@
-slider-component {
+slider-component,
+slider-dots-component {
   --desktop-margin-left-first-item: max(
     5rem,
     calc((100vw - var(--page-width) + 10rem - var(--grid-desktop-horizontal-spacing)) / 2)
   );
   position: relative;
   display: block;
+}
+
+/* Reference site's product/category sliders navigate by dot + drag only,
+   no arrow buttons. The buttons stay in the DOM (SliderComponent's JS
+   requires a next/prev button to initialize at all) but are hidden. */
+slider-dots-component .slider-button {
+  display: none;
+}
+
+slider-dots-component .slider-counter__link--dots .dot {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: none;
+  background-color: rgb(var(--color-foreground));
+  opacity: 0.35;
+}
+
+slider-dots-component .slider-counter__link--active.slider-counter__link--dots .dot {
+  opacity: 1;
 }
 
 slider-component.slider-component-full-width {
