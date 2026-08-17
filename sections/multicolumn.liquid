@@ -20,39 +20,28 @@
   }
 
   /* Match the reference site: pagination dots sit in the same row as the
-     title (top-right), not below the grid. slider-dots-component is
-     display:contents so its children (the grid + the dots/arrows row)
-     become direct flex items of this row instead of stacking inside it. */
+     title (top-right corner), overlaid rather than sharing flex space —
+     sharing space would shrink the title's own box and throw off its
+     centering, since text-align:center only centers within that box. */
   @media screen and (min-width: 750px) {
     #shopify-section-{{ section.id }} .multicolumn > .page-width {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
+      position: relative;
     }
 
-    #shopify-section-{{ section.id }} .multicolumn__title {
-      flex: 1 1 auto;
-      order: 1;
-      margin-bottom: 0;
-    }
-
+    /* Cancel slider-dots-component's own position:relative so
+       .slider-buttons (position:absolute below) positions against the
+       .page-width container above, not against this element — which
+       sits right after the title, at the top of the grid, not the title's
+       own row. */
     #shopify-section-{{ section.id }} slider-dots-component {
-      display: contents;
+      position: static;
     }
 
     #shopify-section-{{ section.id }} .slider-buttons {
-      order: 2;
+      position: absolute;
+      top: {{ section.settings.padding_top }}px;
+      right: 5rem;
       margin-bottom: 0;
-    }
-
-    #shopify-section-{{ section.id }} .multicolumn-list {
-      order: 3;
-      flex-basis: 100%;
-    }
-
-    #shopify-section-{{ section.id }} .multicolumn > .page-width > .center {
-      order: 4;
-      flex-basis: 100%;
     }
   }
 {%- endstyle -%}
