@@ -89,6 +89,7 @@
         "clan-a-l": {
           "type": "clan_link",
           "settings": {
+            "image": "shopify://shop_images/clan-finder-clans-a-l.png",
             "title": "Clans A-L",
             "link": "/collections/clans-a-l"
           }
@@ -96,6 +97,7 @@
         "clan-m-y": {
           "type": "clan_link",
           "settings": {
+            "image": "shopify://shop_images/clan-finder-clans-m-y.png",
             "title": "Clans M-Y",
             "link": "/collections/clans-m-y"
           }
@@ -103,6 +105,7 @@
         "canada-province": {
           "type": "clan_link",
           "settings": {
+            "image": "shopify://shop_images/clan-finder-canada-province.png",
             "title": "Canada Province Tartan",
             "link": "/collections/canada-province-tartan"
           }
@@ -110,6 +113,7 @@
         "ireland-a-k": {
           "type": "clan_link",
           "settings": {
+            "image": "shopify://shop_images/clan-finder-ireland-a-k.png",
             "title": "Ireland County Tartan A-K",
             "link": "/collections/ireland-county-tartan-a-k"
           }
@@ -117,6 +121,7 @@
         "ireland-l-w": {
           "type": "clan_link",
           "settings": {
+            "image": "shopify://shop_images/clan-finder-ireland-l-w.png",
             "title": "Ireland County Tartan L-W",
             "link": "/collections/ireland-county-tartan-l-w"
           }

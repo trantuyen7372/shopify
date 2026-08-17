@@ -11,6 +11,51 @@
     }
   }
 
+  .clan-finder__search {
+    max-width: 48rem;
+    margin: 3rem auto 0;
+    display: flex;
+    position: relative;
+  }
+
+  .clan-finder__search-input {
+    width: 100%;
+    padding: 1.4rem 5rem 1.4rem 2rem;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.2);
+    border-radius: 5rem;
+    font-size: 1.6rem;
+    background: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+  }
+
+  .clan-finder__search-input:focus-visible {
+    outline: 0.2rem solid rgb(var(--color-foreground));
+    outline-offset: 0.1rem;
+  }
+
+  .clan-finder__search-submit {
+    position: absolute;
+    right: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3.6rem;
+    height: 3.6rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgb(var(--color-foreground));
+    color: rgb(var(--color-background));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .clan-finder__search-submit svg {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+
   .clan-finder__grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -32,16 +77,28 @@
 
   .clan-finder__link {
     display: block;
-    padding: 2rem 1.5rem;
     text-align: center;
-    border: 1px solid rgba(var(--color-foreground), 0.1);
     text-decoration: none;
     color: rgb(var(--color-foreground));
     font-weight: 600;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    overflow: hidden;
   }
 
   .clan-finder__link:hover {
     border-color: rgb(var(--color-foreground));
+  }
+
+  .clan-finder__link-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .clan-finder__link-title {
+    display: block;
+    padding: 1.5rem;
   }
 
   #shopify-section-{{ section.id }} .title,
@@ -58,6 +115,18 @@
     {%- if section.settings.description != blank -%}
       <div class="rte">{{ section.settings.description }}</div>
     {%- endif -%}
+    <form action="{{ routes.search_url }}" method="get" role="search" class="clan-finder__search">
+      <input
+        type="search"
+        name="q"
+        class="clan-finder__search-input"
+        placeholder="{{ section.settings.search_placeholder | escape }}"
+        autocomplete="off"
+      >
+      <button type="submit" class="clan-finder__search-submit" aria-label="{{ 'general.search.search' | t }}">
+        <span class="svg-wrapper">{{- 'icon-search.svg' | inline_asset_content -}}</span>
+      </button>
+    </form>
     <div class="clan-finder__grid">
       {%- for block in section.blocks -%}
         <a
@@ -65,7 +134,14 @@
           class="clan-finder__link"
           {{ block.shopify_attributes }}
         >
-          {{ block.settings.title | escape }}
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 600
+              | image_tag: class: 'clan-finder__link-image', loading: 'lazy', widths: '300, 450, 600'
+            }}
+          {%- endif -%}
+          <span class="clan-finder__link-title">{{ block.settings.title | escape }}</span>
         </a>
       {%- endfor -%}
     </div>
@@ -92,6 +168,12 @@
       "id": "description",
       "label": "Description",
       "default": "<p>Search our full range of clan and regional tartans.</p>"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search input placeholder",
+      "default": "Search for a clan or tartan..."
     },
     {
       "type": "color_scheme",
@@ -129,6 +211,11 @@
       "type": "clan_link",
       "name": "Clan link",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
         {
           "type": "text",
           "id": "title",
