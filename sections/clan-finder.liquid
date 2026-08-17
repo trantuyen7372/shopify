@@ -77,28 +77,44 @@
 
   .clan-finder__link {
     display: block;
-    text-align: center;
-    text-decoration: none;
-    color: rgb(var(--color-foreground));
-    font-weight: 600;
-    border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: 1.2rem;
     overflow: hidden;
+    text-decoration: none;
+    background-color: rgba(var(--color-foreground), 0.05);
+    transition: transform 0.2s ease;
   }
 
   .clan-finder__link:hover {
-    border-color: rgb(var(--color-foreground));
+    transform: translateY(-0.3rem);
   }
 
   .clan-finder__link-image {
     display: block;
     width: 100%;
-    aspect-ratio: 1 / 1;
+    height: 100%;
     object-fit: cover;
   }
 
+  .clan-finder__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 55%);
+  }
+
   .clan-finder__link-title {
-    display: block;
-    padding: 1.5rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 1.2rem;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.4rem;
+    text-align: left;
   }
 
   #shopify-section-{{ section.id }} .title,
