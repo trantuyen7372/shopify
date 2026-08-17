@@ -740,8 +740,8 @@
     "featured_blog": {
       "type": "featured-blog",
       "settings": {
-        "blog": "news",
-        "post_limit": 3,
+        "blog": "culture",
+        "post_limit": 4,
         "heading": "From the Journal",
         "heading_size": "h1",
         "columns_desktop": 3,
@@ -806,8 +806,8 @@
     "category_grid_dresses",
     "category_grid_decor",
     "category_grid_accessories",
-    "testimonials",
     "featured_blog",
-    "press_logos"
+    "press_logos",
+    "testimonials"
   ]
 }
