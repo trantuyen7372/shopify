@@ -228,6 +228,40 @@ slider-component.slider-component-full-width {
   .slider.slider--desktop.contains-content-container .slider__slide {
     --focus-outline-padding: 0rem;
   }
+
+  /* Dawn's slider--desktop reserves a wide left margin plus extra gap
+     allowance on every item to peek the next page — the reference site's
+     equivalent carousels page in exact, flush sets instead (no partial
+     item hanging off the edge), which reads as far more spacious per
+     item at the same column count. Drop the peek reserve for our dot
+     carousels so each column gets its full equal share of the row. */
+  slider-dots-component.slider-mobile-gutter {
+    --desktop-margin-left-first-item: 0px;
+  }
+
+  /* slider-component-desktop is normally full-bleed to the viewport edge
+     on purpose (so the peek margin above can reveal content right up to
+     the screen edge). We removed that peek margin, so without this the
+     grid would sit flush against the browser edge instead of respecting
+     the page margin like every other section. */
+  slider-dots-component.slider-component-desktop {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    padding: 0 5rem;
+  }
+
+  slider-dots-component .slider--desktop .grid__item:first-child {
+    margin-left: 0;
+    scroll-margin-left: 0;
+  }
+
+  slider-dots-component .slider--desktop.grid--4-col-desktop .grid__item {
+    width: calc((100% - var(--grid-desktop-horizontal-spacing) * 3) / 4);
+  }
+
+  slider-dots-component .slider--desktop.grid--3-col-desktop .grid__item {
+    width: calc((100% - var(--grid-desktop-horizontal-spacing) * 2) / 3);
+  }
 }
 
 @media (prefers-reduced-motion) {
