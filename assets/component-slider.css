@@ -254,12 +254,24 @@ slider-component.slider-component-full-width {
     scroll-margin-left: 0;
   }
 
-  slider-dots-component .slider--desktop.grid--4-col-desktop .grid__item {
+  slider-dots-component .slider--desktop.grid--4-col-desktop .grid__item,
+  slider-dots-component .slider--everywhere.grid--4-col-desktop .grid__item {
     width: calc((100% - var(--grid-desktop-horizontal-spacing) * 3) / 4);
   }
 
-  slider-dots-component .slider--desktop.grid--3-col-desktop .grid__item {
+  slider-dots-component .slider--desktop.grid--3-col-desktop .grid__item,
+  slider-dots-component .slider--everywhere.grid--3-col-desktop .grid__item {
     width: calc((100% - var(--grid-desktop-horizontal-spacing) * 2) / 3);
+  }
+
+  /* Without an explicit width, flex-grow:1 (base.css .grid__item) lets
+     items in a non-wrapping row absorb the fractional remainder
+     unevenly depending on how many blocks the section has (7 vs 8
+     items landed 30px apart at the same column count/gap). Pin it so
+     every dot-carousel is identically sized regardless of item count. */
+  slider-dots-component .slider--everywhere .grid__item,
+  slider-dots-component .multicolumn-list__item {
+    flex-grow: 0;
   }
 }
 
