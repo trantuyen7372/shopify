@@ -11,158 +11,280 @@
     }
   }
 
-  .clan-finder__search {
-    max-width: 48rem;
-    margin: 3rem auto 0;
-    display: flex;
+  #ClanFinder-{{ section.id }} {
+    margin: 0 auto;
+    max-width: 128rem;
+    text-align: center;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__title {
+    margin: 0 0 1.8rem;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__search {
+    margin: 0 auto 2rem;
+    max-width: 36rem;
     position: relative;
   }
 
-  .clan-finder__search-input {
-    width: 100%;
-    padding: 1.4rem 5rem 1.4rem 2rem;
-    border: 0.1rem solid rgba(var(--color-foreground), 0.2);
-    border-radius: 5rem;
-    font-size: 1.6rem;
+  #ClanFinder-{{ section.id }} .clan-finder__search-input {
+    appearance: none;
     background: rgb(var(--color-background));
+    border: 0.1rem solid rgba(var(--color-foreground), 0.12);
     color: rgb(var(--color-foreground));
+    font: inherit;
+    min-height: 3.6rem;
+    padding: 0 3.8rem 0 1.2rem;
+    width: 100%;
   }
 
-  .clan-finder__search-input:focus-visible {
-    outline: 0.2rem solid rgb(var(--color-foreground));
-    outline-offset: 0.1rem;
-  }
-
-  .clan-finder__search-submit {
+  #ClanFinder-{{ section.id }} .clan-finder__search-icon {
+    align-items: center;
+    color: rgba(var(--color-foreground), 0.72);
+    display: inline-flex;
+    inset-inline-end: 1rem;
+    pointer-events: none;
     position: absolute;
-    right: 0.6rem;
     top: 50%;
     transform: translateY(-50%);
-    width: 3.6rem;
-    height: 3.6rem;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: rgb(var(--color-foreground));
-    color: rgb(var(--color-background));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
   }
 
-  .clan-finder__search-submit svg {
-    width: 1.8rem;
-    height: 1.8rem;
-  }
-
-  .clan-finder__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-
-  @media screen and (min-width: 750px) {
-    .clan-finder__grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media screen and (min-width: 990px) {
-    .clan-finder__grid {
-      grid-template-columns: repeat(5, 1fr);
-    }
-  }
-
-  .clan-finder__link {
-    display: block;
-    position: relative;
-    aspect-ratio: 1 / 1;
-    border-radius: 1.2rem;
+  #ClanFinder-{{ section.id }} .clan-finder__viewport {
     overflow: hidden;
+    position: relative;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__track {
+    display: flex;
+    gap: 1.6rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding-bottom: 0.4rem;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__card {
+    color: inherit;
+    flex: 0 0 calc(25% - 1.2rem);
+    min-width: 22rem;
+    position: relative;
     text-decoration: none;
-    background-color: rgba(var(--color-foreground), 0.05);
-    transition: transform 0.2s ease;
   }
 
-  .clan-finder__link:hover {
-    transform: translateY(-0.3rem);
+  #ClanFinder-{{ section.id }} .clan-finder__card[hidden] {
+    display: none;
   }
 
-  .clan-finder__link-image {
+  #ClanFinder-{{ section.id }} .clan-finder__image-wrap {
+    aspect-ratio: 1 / 1;
+    background: rgba(var(--color-foreground), 0.04);
+    overflow: hidden;
+    position: relative;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__image-wrap::after {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.42), transparent 50%);
+    content: '';
+    inset: 0;
+    position: absolute;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__image {
     display: block;
-    width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.35s ease;
+    width: 100%;
   }
 
-  .clan-finder__link::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, transparent 55%);
+  #ClanFinder-{{ section.id }} .clan-finder__card:hover .clan-finder__image {
+    transform: scale(1.03);
   }
 
-  .clan-finder__link-title {
+  #ClanFinder-{{ section.id }} .clan-finder__label {
+    bottom: 0.8rem;
+    color: #ffffff;
+    font-size: 1.1rem;
+    inset-inline: 0.8rem;
+    line-height: 1.2;
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    padding: 1.2rem;
-    color: #fff;
-    font-weight: 600;
-    font-size: 1.4rem;
     text-align: left;
+    z-index: 1;
   }
 
-  #shopify-section-{{ section.id }} .title,
-  #shopify-section-{{ section.id }} .rte {
-    text-align: center;
+  #ClanFinder-{{ section.id }} .clan-finder__controls {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__empty {
+    color: rgba(var(--color-foreground), 0.7);
+    margin: 1.2rem 0 0;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__next {
+    align-items: center;
+    background: rgb(var(--color-background));
+    border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+    border-radius: 50%;
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    height: 3rem;
+    justify-content: center;
+    padding: 0;
+    width: 3rem;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__next[disabled] {
+    opacity: 0.35;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__cta {
+    margin-top: 1rem;
+  }
+
+  #ClanFinder-{{ section.id }} .clan-finder__cta-link {
+    color: inherit;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 989px) {
+    #ClanFinder-{{ section.id }} .clan-finder__card {
+      flex-basis: calc(33.333% - 1.1rem);
+      min-width: 18rem;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    #ClanFinder-{{ section.id }} .clan-finder__card {
+      flex-basis: calc(70% - 0.8rem);
+      min-width: 20rem;
+    }
   }
 {%- endstyle -%}
 
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width section-{{ section.id }}-padding">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="title h1">{{ section.settings.heading | escape }}</h2>
-    {%- endif -%}
-    {%- if section.settings.description != blank -%}
-      <div class="rte">{{ section.settings.description }}</div>
-    {%- endif -%}
-    <form action="{{ routes.search_url }}" method="get" role="search" class="clan-finder__search">
-      <input
-        type="search"
-        name="q"
-        class="clan-finder__search-input"
-        placeholder="{{ section.settings.search_placeholder | escape }}"
-        autocomplete="off"
-      >
-      <button type="submit" class="clan-finder__search-submit" aria-label="{{ 'general.search.search' | t }}">
-        <span class="svg-wrapper">{{- 'icon-search.svg' | inline_asset_content -}}</span>
-      </button>
-    </form>
-    <div class="clan-finder__grid">
-      {%- for block in section.blocks -%}
-        <a
-          href="{{ block.settings.link | default: '#' }}"
-          class="clan-finder__link"
-          {{ block.shopify_attributes }}
+    <div id="ClanFinder-{{ section.id }}">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="clan-finder__title title h1">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      <div class="clan-finder__search">
+        <input
+          type="search"
+          class="clan-finder__search-input"
+          placeholder="{{ section.settings.search_placeholder | escape }}"
+          autocomplete="off"
+          data-clan-filter
         >
-          {%- if block.settings.image != blank -%}
-            {{
-              block.settings.image
-              | image_url: width: 600
-              | image_tag: class: 'clan-finder__link-image', loading: 'lazy', widths: '300, 450, 600'
-            }}
-          {%- endif -%}
-          <span class="clan-finder__link-title">{{ block.settings.title | escape }}</span>
-        </a>
-      {%- endfor -%}
+        <span class="clan-finder__search-icon">
+          <span class="svg-wrapper">{{- 'icon-search.svg' | inline_asset_content -}}</span>
+        </span>
+      </div>
+      <div class="clan-finder__viewport">
+        <div class="clan-finder__track" data-clan-track>
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign encoded_title = block.settings.title | url_encode
+              assign fallback_url = routes.search_url | append: '?q=' | append: encoded_title | append: '&options%5Bprefix%5D=last'
+              assign clan_url = block.settings.link | default: fallback_url
+            -%}
+            <a
+              href="{{ clan_url }}"
+              class="clan-finder__card"
+              data-clan-card
+              data-title="{{ block.settings.title | downcase | escape }}"
+              {{ block.shopify_attributes }}
+            >
+              <div class="clan-finder__image-wrap">
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 800
+                    | image_tag: class: 'clan-finder__image', loading: 'lazy', widths: '320, 480, 640, 800'
+                  }}
+                {%- else -%}
+                  {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg clan-finder__image' }}
+                {%- endif -%}
+                <span class="clan-finder__label">{{ block.settings.title | escape }}</span>
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="clan-finder__controls">
+        <button type="button" class="clan-finder__next" aria-label="Next clans" data-clan-next>
+          <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+        </button>
+      </div>
+      <p class="clan-finder__empty" data-clan-empty hidden>No clans found</p>
+      {%- if section.settings.cta_label != blank -%}
+        <div class="clan-finder__cta">
+          <a href="{{ section.settings.cta_link | default: routes.search_url }}" class="clan-finder__cta-link">
+            {{- section.settings.cta_label | escape -}}
+            <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+          </a>
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </div>
+
+<script>
+  (() => {
+    const section = document.getElementById('ClanFinder-{{ section.id }}');
+    if (!section) return;
+
+    const input = section.querySelector('[data-clan-filter]');
+    const track = section.querySelector('[data-clan-track]');
+    const cards = Array.from(section.querySelectorAll('[data-clan-card]'));
+    const emptyState = section.querySelector('[data-clan-empty]');
+    const nextButton = section.querySelector('[data-clan-next]');
+
+    const syncButton = () => {
+      if (!track || !nextButton) return;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      nextButton.disabled = maxScroll <= 4 || track.scrollLeft >= maxScroll - 4;
+    };
+
+    const applyFilter = () => {
+      const query = input ? input.value.trim().toLowerCase() : '';
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const matches = query === '' || card.dataset.title.includes(query);
+        card.hidden = !matches;
+        if (matches) visibleCount += 1;
+      });
+
+      if (emptyState) emptyState.hidden = visibleCount !== 0;
+      if (track) track.scrollTo({ left: 0, behavior: 'instant' });
+      syncButton();
+    };
+
+    if (input) input.addEventListener('input', applyFilter);
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        track.scrollBy({ left: Math.max(track.clientWidth * 0.82, 260), behavior: 'smooth' });
+      });
+    }
+    if (track) {
+      track.addEventListener('scroll', syncButton, { passive: true });
+      window.addEventListener('resize', syncButton);
+    }
+
+    applyFilter();
+  })();
+</script>
 
 {% schema %}
 {
@@ -177,25 +299,30 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Find Your Tartan"
-    },
-    {
-      "type": "richtext",
-      "id": "description",
-      "label": "Description",
-      "default": "<p>Search our full range of clan and regional tartans.</p>"
+      "default": "Find Your Clan"
     },
     {
       "type": "text",
       "id": "search_placeholder",
       "label": "Search input placeholder",
-      "default": "Search for a clan or tartan..."
+      "default": "Search your clan name..."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Call to action label",
+      "default": "Explore All Clans & Tartans"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Call to action link"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "scheme-1"
+      "default": "scheme-2"
     },
     {
       "type": "header",
@@ -209,7 +336,7 @@
       "step": 4,
       "unit": "px",
       "label": "Top padding",
-      "default": 36
+      "default": 48
     },
     {
       "type": "range",
@@ -219,7 +346,7 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom padding",
-      "default": 36
+      "default": 48
     }
   ],
   "blocks": [
@@ -236,7 +363,7 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Clan name"
+          "default": "Stewart (Stuart)"
         },
         {
           "type": "url",
@@ -250,6 +377,7 @@
     {
       "name": "Clan finder",
       "blocks": [
+        { "type": "clan_link" },
         { "type": "clan_link" },
         { "type": "clan_link" },
         { "type": "clan_link" }

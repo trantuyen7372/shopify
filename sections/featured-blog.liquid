@@ -15,6 +15,15 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  #shopify-section-{{ section.id }} .title-wrapper-with-link {
+    justify-content: center;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .blog__view-all {
+    margin-top: 2rem;
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -40,13 +49,16 @@
 
         {%- if section.settings.blog != blank
           and section.settings.show_view_all
-          and section.settings.post_limit < section.settings.blog.articles_count
         -%}
           <a
             href="{{ section.settings.blog.url }}"
             class="link underlined-link large-up-hide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           >
-            {{ 'sections.featured_blog.view_all' | t }}
+            {%- if section.settings.view_all_label != blank -%}
+              {{ section.settings.view_all_label | escape }}
+            {%- else -%}
+              {{ 'sections.featured_blog.view_all' | t }}
+            {%- endif -%}
           </a>
         {%- endif -%}
       </div>
@@ -170,7 +182,7 @@
       {%- endif -%}
     </slider-component>
 
-    {%- if section.settings.show_view_all and section.settings.post_limit < section.settings.blog.articles_count -%}
+    {%- if section.settings.show_view_all and section.settings.blog != blank -%}
       <div
         class="blog__view-all center small-hide medium-hide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         {% if settings.animations_reveal_on_scroll %}
@@ -183,7 +195,11 @@
           class="blog__button button"
           aria-labelledby="ViewAll-{{ section.id }} SectionHeading-{{ section.id }}"
         >
-          {{ 'sections.featured_blog.view_all' | t }}
+          {%- if section.settings.view_all_label != blank -%}
+            {{ section.settings.view_all_label | escape }}
+          {%- else -%}
+            {{ 'sections.featured_blog.view_all' | t }}
+          {%- endif -%}
         </a>
       </div>
     {%- endif -%}
@@ -269,7 +285,12 @@
       "default": true,
       "label": "t:sections.featured-blog.settings.show_view_all.label",
       "info": "t:sections.featured-blog.settings.show_view_all.info"
-    },    
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label"
+    },
     {
       "type": "checkbox",
       "id": "show_image",

@@ -29,7 +29,33 @@
   assign parent_2_title = blank
   assign parent_2_url = blank
 
-  if crumb_url != blank
+  if product and collection == blank
+    for product_collection in product.collections
+      assign found_menu_match = false
+      for level_1 in linklists['main-menu'].links
+        for level_2 in level_1.links
+          if level_2.url == product_collection.url
+            assign parent_1_title = level_1.title
+            assign parent_1_url = level_1.url
+            assign found_menu_match = true
+          endif
+          for level_3 in level_2.links
+            if level_3.url == product_collection.url
+              assign parent_1_title = level_1.title
+              assign parent_1_url = level_1.url
+              assign parent_2_title = level_2.title
+              assign parent_2_url = level_2.url
+              assign found_menu_match = true
+            endif
+          endfor
+        endfor
+      endfor
+      if found_menu_match
+        assign crumb_url = product_collection.url
+        break
+      endif
+    endfor
+  elsif crumb_url != blank
     for level_1 in linklists['main-menu'].links
       for level_2 in level_1.links
         if level_2.url == crumb_url

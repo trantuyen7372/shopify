@@ -1,0 +1,168 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #ReviewHighlight-{{ section.id }} {
+    align-items: center;
+    display: grid;
+    gap: 1.2rem;
+    grid-template-columns: 1fr auto;
+    margin: 0 auto;
+    max-width: 72rem;
+  }
+
+  #ReviewHighlight-{{ section.id }} .review-highlight__content {
+    text-align: center;
+  }
+
+  #ReviewHighlight-{{ section.id }} .review-highlight__quote {
+    margin: 0 0 0.6rem;
+  }
+
+  #ReviewHighlight-{{ section.id }} .review-highlight__stars {
+    color: #f5b301;
+    font-size: 2rem;
+    letter-spacing: 0.18rem;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+
+  #ReviewHighlight-{{ section.id }} .review-highlight__author,
+  #ReviewHighlight-{{ section.id }} .review-highlight__source {
+    color: rgba(var(--color-foreground), 0.66);
+    display: block;
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+
+  #ReviewHighlight-{{ section.id }} .review-highlight__next {
+    align-items: center;
+    color: inherit;
+    display: inline-flex;
+    height: 4rem;
+    justify-content: center;
+    text-decoration: none;
+    width: 4rem;
+  }
+
+  #ReviewHighlight-{{ section.id }} .review-highlight__next svg {
+    height: 1.8rem;
+    width: 1.8rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    #ReviewHighlight-{{ section.id }} {
+      grid-template-columns: 1fr;
+    }
+
+    #ReviewHighlight-{{ section.id }} .review-highlight__next {
+      margin: 0 auto;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div id="ReviewHighlight-{{ section.id }}">
+      <div class="review-highlight__content">
+        <p class="review-highlight__quote">{{ section.settings.quote | escape }}</p>
+        <div class="review-highlight__stars" aria-hidden="true">★★★★★</div>
+        <span class="review-highlight__author">{{ section.settings.author | escape }}</span>
+        <span class="review-highlight__source">{{ section.settings.source | escape }}</span>
+      </div>
+      <a
+        href="{{ section.settings.link | default: '#' }}"
+        class="review-highlight__next"
+        aria-label="{{ section.settings.link_label | default: 'Read more reviews' | escape }}"
+      >
+        <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Review highlight",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "Quote",
+      "default": "Vibrant colors and good quality fabrics."
+    },
+    {
+      "type": "text",
+      "id": "author",
+      "label": "Author",
+      "default": "Patrick C. B"
+    },
+    {
+      "type": "text",
+      "id": "source",
+      "label": "Source",
+      "default": "Powered by Loox"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Read more reviews"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 28
+    }
+  ],
+  "presets": [
+    {
+      "name": "Review highlight"
+    }
+  ]
+}
+{% endschema %}

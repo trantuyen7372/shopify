@@ -16,61 +16,23 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hero-slide-heritage-photo.jpg",
-            "image_overlay_opacity": 0,
-            "heading": "Wear Your Heritage",
+            "image_overlay_opacity": 10,
+            "heading": "Wear Your Heritage with Pride",
             "heading_size": "h0",
-            "subheading": "Original tartan-inspired apparel and home goods, made to last.",
-            "button_label": "Shop New Arrivals",
-            "link": "shopify://collections/new-arrivals",
+            "subheading": "Scottish Clan and Irish County Tartans, and more. Perfect for family matching looks and timeless everyday styles.",
+            "button_label": "Shop Now",
+            "link": "shopify://collections/tartan-tees",
             "button_style_secondary": false,
             "show_text_box": true,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-3"
-          }
-        },
-        "slide-outerwear": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/hero-slide-outerwear-photo.jpg",
-            "image_overlay_opacity": 0,
-            "heading": "Layer Up For Autumn",
-            "heading_size": "h0",
-            "subheading": "Bombers, parkas and hoodies cut from tartans built to last the season.",
-            "button_label": "Shop Outerwear",
-            "link": "shopify://collections/men-outerwear-jackets",
-            "button_style_secondary": false,
-            "show_text_box": true,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-3"
-          }
-        },
-        "slide-decor": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/hero-slide-decor-photo.jpg",
-            "image_overlay_opacity": 0,
-            "heading": "Tartan For The Home",
-            "heading_size": "h0",
-            "subheading": "Throws, quilts and table linens woven in the same setts as the clothing.",
-            "button_label": "Shop Home Decor",
-            "link": "shopify://collections/home-decor",
-            "button_style_secondary": false,
-            "show_text_box": true,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": "scheme-3"
+            "box_align": "middle-left",
+            "text_alignment": "left",
+            "text_alignment_mobile": "left",
+            "color_scheme": "scheme-1"
           }
         }
       },
       "block_order": [
-        "slide-heritage",
-        "slide-outerwear",
-        "slide-decor"
+        "slide-heritage"
       ],
       "settings": {
         "layout": "full_bleed",
@@ -80,93 +42,133 @@
         "change_slides_speed": 5,
         "image_behavior": "none",
         "show_text_below": false,
-        "accessibility_info": "Slideshow about our brand"
+        "accessibility_info": "Homepage hero"
+      }
+    },
+    "review_highlight": {
+      "type": "review-highlight",
+      "settings": {
+        "quote": "Vibrant colors and good quality fabrics.",
+        "author": "Patrick C. B",
+        "source": "Powered by Loox",
+        "link": "/pages/reviews",
+        "link_label": "Read more reviews",
+        "color_scheme": "scheme-1",
+        "padding_top": 24,
+        "padding_bottom": 28
       }
     },
     "clan_finder": {
       "type": "clan-finder",
       "blocks": {
-        "clan-a-l": {
+        "stewart": {
           "type": "clan_link",
           "settings": {
             "image": "shopify://shop_images/clan-finder-clans-a-l.png",
-            "title": "Clans A-L",
-            "link": "/collections/clans-a-l"
-          }
-        },
-        "clan-m-y": {
-          "type": "clan_link",
-          "settings": {
-            "image": "shopify://shop_images/clan-finder-clans-m-y.png",
-            "title": "Clans M-Y",
+            "title": "Stewart (Stuart)",
             "link": "/collections/clans-m-y"
           }
         },
-        "canada-province": {
+        "campbell": {
+          "type": "clan_link",
+          "settings": {
+            "image": "shopify://shop_images/clan-finder-clans-m-y.png",
+            "title": "Campbell",
+            "link": "/collections/clans-a-l"
+          }
+        },
+        "macdonald": {
           "type": "clan_link",
           "settings": {
             "image": "shopify://shop_images/clan-finder-canada-province.png",
-            "title": "Canada Province Tartan",
-            "link": "/collections/canada-province-tartan"
+            "title": "MacDonald (McDonald)",
+            "link": "/collections/clans-m-y"
           }
         },
-        "ireland-a-k": {
+        "macleod": {
           "type": "clan_link",
           "settings": {
             "image": "shopify://shop_images/clan-finder-ireland-a-k.png",
-            "title": "Ireland County Tartan A-K",
-            "link": "/collections/ireland-county-tartan-a-k"
+            "title": "MacLeod (McLeod)",
+            "link": "/collections/clans-m-y"
           }
         },
-        "ireland-l-w": {
+        "mackenzie": {
           "type": "clan_link",
           "settings": {
             "image": "shopify://shop_images/clan-finder-ireland-l-w.png",
-            "title": "Ireland County Tartan L-W",
-            "link": "/collections/ireland-county-tartan-l-w"
+            "title": "Mackenzie (Mckenzie)",
+            "link": "/collections/clans-m-y"
+          }
+        },
+        "kennedy": {
+          "type": "clan_link",
+          "settings": {
+            "title": "Kennedy",
+            "link": "/collections/clans-a-l"
+          }
+        },
+        "maclean": {
+          "type": "clan_link",
+          "settings": {
+            "title": "MacLean (McLean)",
+            "link": "/collections/clans-m-y"
+          }
+        },
+        "gordon": {
+          "type": "clan_link",
+          "settings": {
+            "title": "Gordon",
+            "link": "/collections/clans-a-l"
           }
         }
       },
       "block_order": [
-        "clan-a-l",
-        "clan-m-y",
-        "canada-province",
-        "ireland-a-k",
-        "ireland-l-w"
+        "stewart",
+        "campbell",
+        "macdonald",
+        "macleod",
+        "mackenzie",
+        "kennedy",
+        "maclean",
+        "gordon"
       ],
       "settings": {
-        "heading": "Find Your Tartan",
-        "description": "<p>Search our full range of clan and regional tartans.</p>",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "heading": "Find Your Clan",
+        "search_placeholder": "Search your clan name...",
+        "cta_label": "Explore All Clans & Tartans",
+        "cta_link": "/pages/find-your-clans",
+        "color_scheme": "scheme-2",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "collection": "new-arrivals",
+        "collection": "tartan-flat-caps",
         "products_to_show": 8,
-        "title": "New Arrivals",
+        "title": "Tartan Flat Cap",
         "heading_size": "h1",
-        "description": "<p>⭐️⭐️⭐️⭐️⭐️ Rated 4.8 out of 5 by 214+ happy customers</p>",
+        "description": "<p>⭐️⭐️⭐️⭐️⭐️ Trusted by 2000+ happy customers with 5-star reviews!</p>",
         "show_description": false,
         "description_style": "subtitle",
         "columns_desktop": 4,
         "enable_desktop_slider": true,
         "full_width": false,
         "show_view_all": true,
-        "view_all_style": "solid",
+        "view_all_style": "outline",
+        "view_all_label": "SHOP MORE",
         "color_scheme": "scheme-1",
         "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": true,
-        "quick_add": "standard",
+        "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
-        "padding_top": 44,
+        "padding_top": 32,
         "padding_bottom": 36
       }
     },
@@ -260,7 +262,7 @@
         "image_ratio": "square",
         "button_label": "",
         "button_link": "",
-        "columns_desktop": 4,
+        "columns_desktop": 5,
         "column_alignment": "center",
         "background_style": "none",
         "color_scheme": "scheme-1",
@@ -317,7 +319,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/category-borg-fleece-hoodie.png",
-            "title": "Borg Fleece Hoodie",
+            "title": "Women' Borg Fleece Hoodie With Half Zip",
             "text": "",
             "link_label": "Shop now",
             "link": "/collections/borg-fleece-hoodie"
@@ -371,10 +373,10 @@
         "image_ratio": "square",
         "button_label": "",
         "button_link": "",
-        "columns_desktop": 4,
+        "columns_desktop": 5,
         "column_alignment": "center",
         "background_style": "none",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
         "padding_top": 36,
@@ -448,7 +450,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/category-pleated-midi-skirt.png",
-            "title": "Pleated Midi Skirt",
+            "title": "Tartan Melete Pleated Midi Skirt",
             "text": "",
             "link_label": "Shop now",
             "link": "/collections/pleated-midi-skirt"
@@ -471,7 +473,7 @@
         "image_ratio": "square",
         "button_label": "",
         "button_link": "",
-        "columns_desktop": 4,
+        "columns_desktop": 5,
         "column_alignment": "center",
         "background_style": "none",
         "color_scheme": "scheme-1",
@@ -558,10 +560,10 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/category-tartan-tapestry.png",
-            "title": "Tartan Tapestry",
+            "title": "Christmas Tree Skirt",
             "text": "",
             "link_label": "Shop now",
-            "link": "/collections/tapestry"
+            "link": "/search?q=Christmas%20Tree%20Skirt&options%5Bprefix%5D=last"
           }
         }
       },
@@ -576,16 +578,16 @@
         "c8"
       ],
       "settings": {
-        "title": "Home Decor",
+        "title": "Home Setting & Decor",
         "heading_size": "h1",
         "image_width": "full",
         "image_ratio": "square",
         "button_label": "",
         "button_link": "",
-        "columns_desktop": 4,
+        "columns_desktop": 5,
         "column_alignment": "center",
         "background_style": "none",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "columns_mobile": "2",
         "swipe_on_mobile": true,
         "padding_top": 36,
@@ -659,10 +661,10 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/category-tartan-watches.png",
-            "title": "Tartan Watches",
+            "title": "Tartan Umbrellas",
             "text": "",
             "link_label": "Shop now",
-            "link": "/collections/tartan-watches"
+            "link": "/search?q=Tartan%20Umbrellas&options%5Bprefix%5D=last"
           }
         }
       },
@@ -682,7 +684,7 @@
         "image_ratio": "square",
         "button_label": "",
         "button_link": "",
-        "columns_desktop": 4,
+        "columns_desktop": 5,
         "column_alignment": "center",
         "background_style": "none",
         "color_scheme": "scheme-1",
@@ -724,20 +726,31 @@
             "verified": true,
             "date_label": "1 month ago"
           }
+        },
+        "t4": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Great clan selection, crisp printing, and the cap fits exactly as expected.",
+            "author": "Gary W.",
+            "rating": 5,
+            "verified": true,
+            "date_label": "11 days ago"
+          }
         }
       },
       "block_order": [
         "t1",
         "t2",
-        "t3"
+        "t3",
+        "t4"
       ],
       "settings": {
-        "heading": "What Our Customers Say",
-        "subheading": "Real reviews from real customers",
+        "heading": "What our customers say",
+        "subheading": "",
         "color_scheme": "scheme-1",
         "show_summary": true,
         "average_rating": 4.8,
-        "review_count": 214,
+        "review_count": 2459,
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -745,12 +758,13 @@
     "featured_blog": {
       "type": "featured-blog",
       "settings": {
-        "blog": "culture",
+        "blog": "news",
         "post_limit": 4,
-        "heading": "From the Journal",
+        "heading": "Blog Posts",
         "heading_size": "h1",
-        "columns_desktop": 3,
+        "columns_desktop": 4,
         "show_view_all": true,
+        "view_all_label": "View More",
         "show_image": true,
         "show_date": true,
         "show_author": false,
@@ -765,24 +779,42 @@
         "p1": {
           "type": "press_logo",
           "settings": {
+            "label": "BENZINGA",
             "link": ""
           }
         },
         "p2": {
           "type": "press_logo",
           "settings": {
+            "label": "barchart",
             "link": ""
           }
         },
         "p3": {
           "type": "press_logo",
           "settings": {
+            "label": "MINYANVILLE",
             "link": ""
           }
         },
         "p4": {
           "type": "press_logo",
           "settings": {
+            "label": "myMOTHERLODE.com",
+            "link": ""
+          }
+        },
+        "p5": {
+          "type": "press_logo",
+          "settings": {
+            "label": "The Chronicle Journal",
+            "link": ""
+          }
+        },
+        "p6": {
+          "type": "press_logo",
+          "settings": {
+            "label": "RITZ HERALD",
             "link": ""
           }
         }
@@ -791,11 +823,13 @@
         "p1",
         "p2",
         "p3",
-        "p4"
+        "p4",
+        "p5",
+        "p6"
       ],
       "settings": {
-        "heading": "As Seen On",
-        "subheading": "And over 400 news sites",
+        "heading": "AS SEEN ON",
+        "subheading": "AND OVER 400 NEWS SITES",
         "color_scheme": "scheme-1",
         "padding_top": 36,
         "padding_bottom": 36
@@ -804,6 +838,7 @@
   },
   "order": [
     "image_banner",
+    "review_highlight",
     "clan_finder",
     "featured_collection",
     "category_grid_apparel",

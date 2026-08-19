@@ -1,0 +1,208 @@
+{{ 'component-search.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .search-store {
+    margin: 0 auto;
+    max-width: 84rem;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__title {
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__form {
+    margin-top: 2rem;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__form .field {
+    min-height: 5.8rem;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__form .field:after,
+  #shopify-section-{{ section.id }} .search-store__form .field:before {
+    border-radius: 999rem;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__form .field__input {
+    border-radius: 999rem;
+    min-height: 5.8rem;
+    padding-inline-end: 8rem;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__form .field__label {
+    left: 2rem;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__form .field__button {
+    right: 1.2rem;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__popular {
+    margin-top: 1.8rem;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__popular-label {
+    color: rgba(var(--color-foreground), 0.72);
+    display: block;
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__tags {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__tag {
+    border: 0.1rem solid rgba(var(--color-foreground), 0.14);
+    border-radius: 999rem;
+    color: inherit;
+    display: inline-flex;
+    font-size: 1.3rem;
+    line-height: 1;
+    padding: 1rem 1.4rem;
+    text-decoration: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .search-store__tag:hover {
+    background: rgba(var(--color-foreground), 0.04);
+    border-color: rgba(var(--color-foreground), 0.3);
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign search_terms = section.settings.popular_searches | newline_to_br | split: '<br />'
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="search-store">
+      {%- if section.settings.title != blank -%}
+        <h2 class="search-store__title title h2">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search search-store__form">
+        <div class="field">
+          <input
+            class="search__input field__input"
+            id="SearchStore-{{ section.id }}"
+            type="search"
+            name="q"
+            placeholder="{{ section.settings.placeholder | escape }}"
+            autocomplete="off"
+          >
+          <label class="field__label" for="SearchStore-{{ section.id }}">{{ section.settings.placeholder | escape }}</label>
+          <input type="hidden" name="options[prefix]" value="last">
+          <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+            <span class="svg-wrapper">
+              {{- 'icon-search.svg' | inline_asset_content -}}
+            </span>
+          </button>
+        </div>
+      </form>
+      {%- if section.settings.popular_searches != blank -%}
+        <div class="search-store__popular">
+          <span class="search-store__popular-label">Popular Searches:</span>
+          <div class="search-store__tags">
+            {%- for term in search_terms -%}
+              {%- assign trimmed_term = term | strip -%}
+              {%- if trimmed_term != blank -%}
+                <a
+                  href="{{ routes.search_url }}?q={{ trimmed_term | url_encode }}&options%5Bprefix%5D=last"
+                  class="search-store__tag"
+                >
+                  {{- trimmed_term | escape -}}
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search store",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Search our store"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Search placeholder",
+      "default": "Search products"
+    },
+    {
+      "type": "textarea",
+      "id": "popular_searches",
+      "label": "Popular searches",
+      "info": "Enter one search term per line.",
+      "default": "Stewart Polo\nBlack Watch T-Shirt\nMacLean Hoodie\nMacdonald Jeff Hat"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search store"
+    }
+  ]
+}
+{% endschema %}

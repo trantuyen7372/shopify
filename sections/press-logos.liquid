@@ -16,7 +16,9 @@
   }
 
   .press-logos__subheading {
-    margin-top: 0.4rem;
+    letter-spacing: 0.12em;
+    margin-top: 0.6rem;
+    text-transform: uppercase;
   }
 
   .press-logos__strip {
@@ -24,14 +26,18 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 4rem;
+    gap: 2.4rem 4rem;
     margin-top: 3rem;
   }
 
   .press-logos__logo {
-    display: block;
-    width: 12rem;
-    height: 6rem;
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    min-width: 12rem;
+    min-height: 4rem;
+    padding: 0.4rem 0.8rem;
+    text-align: center;
   }
 
   .press-logos__logo img,
@@ -40,6 +46,25 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  .press-logos__label {
+    color: rgba(var(--color-foreground), 0.78);
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 749px) {
+    .press-logos__strip {
+      gap: 1.8rem 2.4rem;
+    }
+
+    .press-logos__label {
+      font-size: 1.7rem;
+    }
   }
 {%- endstyle -%}
 
@@ -65,6 +90,8 @@
         {%- endif -%}
         {%- if block.settings.image != blank -%}
           {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: logo_alt }}
+        {%- elsif block.settings.label != blank -%}
+          <span class="press-logos__label">{{ block.settings.label | escape }}</span>
         {%- else -%}
           {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
         {%- endif -%}
@@ -139,6 +166,11 @@
           "type": "image_picker",
           "id": "image",
           "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Fallback text label"
         },
         {
           "type": "url",

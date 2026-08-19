@@ -1,0 +1,371 @@
+{%- liquid
+  assign letter_order = 'A,B,C,D,E,F,G,H,I,J,K,L,M,MAC-MC,N,O,P,Q,R,S,T,U,V,W,X,Y,Z' | split: ','
+  assign scottish_groups = 'A:Alberta,Argyll,Armstrong;B:British Columbia,Bruce,Buchanan;C:Cameron,Campbell;D:Douglas;E:Elliot;F:Ferguson,Fraser;G:Gordon,Graham;H:Hamilton,Harris;I:Innes;J:Johnstone;K:Keith;L:Lindsay;M:Manitoba,Maxwell,Moffat,Munro,Murray;MAC-MC:MacAlister,MacBean,MacDonald,MacKenzie,MacKinnon,MacLeod;N:Napier,Nova Scotia;O:Ogilvie,Ontario;Q:Quebec;R:Ramsay,Rose;S:Saskatchewan,Scott,Sinclair,Stewart,Sutherland;U:Urquhart;W:Wallace;Y:Yukon' | split: ';'
+  assign irish_groups = 'A:Antrim;C:Carlow,Clare;D:Donegal;G:Galway;K:Kerry,Kildare,Kilkenny;L:Leitrim,Limerick,Longford;M:Mayo,Meath;R:Roscommon;S:Sligo;T:Tipperary;W:Waterford,Wexford' | split: ';'
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #FindYourClans-{{ section.id }} {
+    margin: 0 auto;
+    max-width: 96rem;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory {
+    margin-bottom: 4.8rem;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory:last-child {
+    margin-bottom: 0;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__header {
+    text-align: center;
+    margin-bottom: 1.6rem;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__heading {
+    margin: 0 0 0.6rem;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__subheading {
+    color: rgba(var(--color-foreground), 0.72);
+    margin: 0;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__search {
+    margin: 0 auto 1.6rem;
+    max-width: 36rem;
+    position: relative;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__search-input {
+    appearance: none;
+    background: rgb(var(--color-background));
+    border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+    color: rgb(var(--color-foreground));
+    font: inherit;
+    min-height: 3.6rem;
+    padding: 0 3.8rem 0 1.2rem;
+    width: 100%;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__search-icon {
+    align-items: center;
+    color: rgba(var(--color-foreground), 0.72);
+    display: inline-flex;
+    inset-inline-end: 1rem;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__tab {
+    appearance: none;
+    background: transparent;
+    border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+    border-radius: 0.4rem;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.2rem;
+    min-width: 2.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__tab[aria-selected='true'] {
+    background: rgb(var(--color-foreground));
+    color: rgb(var(--color-background));
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__tab-empty {
+    align-items: center;
+    color: rgba(var(--color-foreground), 0.32);
+    display: inline-flex;
+    font-size: 1.2rem;
+    justify-content: center;
+    min-width: 2.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__list {
+    columns: 2;
+    column-gap: 2.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    #FindYourClans-{{ section.id }} .clan-directory__list {
+      columns: 3;
+    }
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__item[hidden] {
+    display: none;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__link {
+    break-inside: avoid;
+    color: inherit;
+    display: block;
+    padding: 0.6rem 0;
+    text-decoration: none;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__link:hover {
+    text-decoration: underline;
+  }
+
+  #FindYourClans-{{ section.id }} .clan-directory__empty {
+    color: rgba(var(--color-foreground), 0.7);
+    text-align: center;
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div id="FindYourClans-{{ section.id }}">
+
+      <div class="clan-directory" data-clan-directory>
+        <div class="clan-directory__header">
+          <h2 class="clan-directory__heading title h1">{{ section.settings.scottish_heading | escape }}</h2>
+          <p class="clan-directory__subheading">{{ section.settings.scottish_subheading | escape }}</p>
+        </div>
+        <div class="clan-directory__search">
+          <input
+            type="search"
+            class="clan-directory__search-input"
+            placeholder="{{ section.settings.search_placeholder | escape }}"
+            autocomplete="off"
+            data-directory-filter
+          >
+          <span class="clan-directory__search-icon">
+            <span class="svg-wrapper">{{- 'icon-search.svg' | inline_asset_content -}}</span>
+          </span>
+        </div>
+        <div class="clan-directory__tabs" role="tablist" aria-label="Browse Scottish clans by first letter" data-directory-tabs>
+          {%- for letter in letter_order -%}
+            {%- assign match_prefix = letter | append: ':' -%}
+            {%- assign letter_has_entries = false -%}
+            {%- for group in scottish_groups -%}
+              {%- if group contains match_prefix -%}
+                {%- assign letter_has_entries = true -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if letter_has_entries -%}
+              <button type="button" class="clan-directory__tab" role="tab" aria-selected="false" data-tab="{{ letter }}">{{ letter }}</button>
+            {%- else -%}
+              <span class="clan-directory__tab-empty">{{ letter }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <ul class="clan-directory__list" data-directory-list>
+          {%- for group in scottish_groups -%}
+            {%- assign parts = group | split: ':' -%}
+            {%- assign letter = parts[0] -%}
+            {%- assign names = parts[1] | split: ',' -%}
+            {%- for name in names -%}
+              {%- assign encoded_name = name | url_encode -%}
+              <li class="clan-directory__item" data-name="{{ name | escape }}" data-letter="{{ letter }}" hidden>
+                <a class="clan-directory__link" href="{{ routes.search_url }}?q={{ encoded_name }}&options%5Bprefix%5D=last">{{ name }}</a>
+              </li>
+            {%- endfor -%}
+          {%- endfor -%}
+        </ul>
+        <p class="clan-directory__empty" data-directory-empty hidden>No clans found</p>
+      </div>
+
+      <div class="clan-directory" data-clan-directory>
+        <div class="clan-directory__header">
+          <h2 class="clan-directory__heading title h1">{{ section.settings.irish_heading | escape }}</h2>
+          <p class="clan-directory__subheading">{{ section.settings.irish_subheading | escape }}</p>
+        </div>
+        <div class="clan-directory__search">
+          <input
+            type="search"
+            class="clan-directory__search-input"
+            placeholder="{{ section.settings.search_placeholder | escape }}"
+            autocomplete="off"
+            data-directory-filter
+          >
+          <span class="clan-directory__search-icon">
+            <span class="svg-wrapper">{{- 'icon-search.svg' | inline_asset_content -}}</span>
+          </span>
+        </div>
+        <div class="clan-directory__tabs" role="tablist" aria-label="Browse Irish clans by first letter" data-directory-tabs>
+          {%- for letter in letter_order -%}
+            {%- assign match_prefix = letter | append: ':' -%}
+            {%- assign letter_has_entries = false -%}
+            {%- for group in irish_groups -%}
+              {%- if group contains match_prefix -%}
+                {%- assign letter_has_entries = true -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if letter_has_entries -%}
+              <button type="button" class="clan-directory__tab" role="tab" aria-selected="false" data-tab="{{ letter }}">{{ letter }}</button>
+            {%- else -%}
+              <span class="clan-directory__tab-empty">{{ letter }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <ul class="clan-directory__list" data-directory-list>
+          {%- for group in irish_groups -%}
+            {%- assign parts = group | split: ':' -%}
+            {%- assign letter = parts[0] -%}
+            {%- assign names = parts[1] | split: ',' -%}
+            {%- for name in names -%}
+              {%- assign encoded_name = name | url_encode -%}
+              <li class="clan-directory__item" data-name="{{ name | escape }}" data-letter="{{ letter }}" hidden>
+                <a class="clan-directory__link" href="{{ routes.search_url }}?q={{ encoded_name }}&options%5Bprefix%5D=last">{{ name }}</a>
+              </li>
+            {%- endfor -%}
+          {%- endfor -%}
+        </ul>
+        <p class="clan-directory__empty" data-directory-empty hidden>No clans found</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const root = document.getElementById('FindYourClans-{{ section.id }}');
+    if (!root) return;
+
+    root.querySelectorAll('[data-clan-directory]').forEach((directory) => {
+      const searchInput = directory.querySelector('[data-directory-filter]');
+      const tabs = Array.from(directory.querySelectorAll('[data-tab]'));
+      const items = Array.from(directory.querySelectorAll('[data-name]'));
+      const emptyState = directory.querySelector('[data-directory-empty]');
+      let activeLetter = tabs.length ? tabs[0].dataset.tab : null;
+
+      const render = () => {
+        const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        let visibleCount = 0;
+
+        items.forEach((item) => {
+          const matchesSearch = query === '' || item.dataset.name.toLowerCase().includes(query);
+          const matchesLetter = query !== '' || item.dataset.letter === activeLetter;
+          const show = matchesSearch && matchesLetter;
+          item.hidden = !show;
+          if (show) visibleCount += 1;
+        });
+
+        if (emptyState) emptyState.hidden = visibleCount !== 0;
+      };
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          activeLetter = tab.dataset.tab;
+          tabs.forEach((t) => t.setAttribute('aria-selected', t === tab ? 'true' : 'false'));
+          if (searchInput) searchInput.value = '';
+          render();
+        });
+      });
+
+      if (tabs.length) tabs[0].setAttribute('aria-selected', 'true');
+      if (searchInput) searchInput.addEventListener('input', render);
+      render();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Find Your Clans",
+  "class": "section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "scottish_heading",
+      "label": "Scottish directory heading",
+      "default": "Find Your Scottish Clan"
+    },
+    {
+      "type": "text",
+      "id": "scottish_subheading",
+      "label": "Scottish directory subheading",
+      "default": "Search by clan name or browse by first letter."
+    },
+    {
+      "type": "text",
+      "id": "irish_heading",
+      "label": "Irish directory heading",
+      "default": "Find Your Irish Clan"
+    },
+    {
+      "type": "text",
+      "id": "irish_subheading",
+      "label": "Irish directory subheading",
+      "default": "Search by surname or browse by first letter."
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search input placeholder",
+      "default": "Enter a surname or clan name"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Find Your Clans"
+    }
+  ]
+}
+{% endschema %}

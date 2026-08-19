@@ -21,7 +21,7 @@
     margin-top: 0.4rem;
   }
 
-  .testimonials__grid {
+  .testimonials__body {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -29,14 +29,69 @@
   }
 
   @media screen and (min-width: 750px) {
+    .testimonials__body {
+      grid-template-columns: minmax(18rem, 0.85fr) minmax(0, 3.15fr);
+      align-items: stretch;
+    }
+  }
+
+  .testimonials__summary-card {
+    background: #111111;
+    color: #ffffff;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 20rem;
+    padding: 2.4rem 2rem;
+    text-align: center;
+  }
+
+  .testimonials__summary-card .testimonials__summary-word {
+    font-size: 1.7rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .testimonials__summary-card .rating-star {
+    --letter-spacing: 0.9;
+    --font-size: 2.2;
+  }
+
+  .testimonials__summary-score {
+    font-size: 1.2rem;
+    margin-top: 1.2rem;
+  }
+
+  .testimonials__summary-count {
+    color: rgba(255, 255, 255, 0.74);
+    display: block;
+    margin-top: 0.6rem;
+  }
+
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+
+  @media screen and (min-width: 750px) {
     .testimonials__grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (min-width: 1100px) {
+    .testimonials__grid {
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 
   .testimonials__card {
-    border: 1px solid rgba(var(--color-foreground), 0.1);
-    padding: 2.4rem;
+    background: #ffffff;
+    border: 1px solid rgba(var(--color-foreground), 0.08);
+    border-radius: 0;
+    min-height: 20rem;
+    padding: 1.8rem 1.6rem;
   }
 
   .testimonials__card .rating-star {
@@ -45,39 +100,21 @@
   }
 
   .testimonials__quote {
+    font-size: 1.2rem;
+    line-height: 1.55;
     margin: 1.2rem 0;
   }
 
   .testimonials__author {
+    font-size: 1.25rem;
     font-weight: 600;
     margin: 0;
-  }
-
-  .testimonials__summary {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem 1.2rem;
-    justify-content: center;
-    margin-top: 1.6rem;
-  }
-
-  .testimonials__summary-word {
-    font-weight: 700;
-  }
-
-  .testimonials__summary .rating-star {
-    --letter-spacing: 0.8;
-    --font-size: 1.6;
-  }
-
-  .testimonials__summary-count {
-    color: rgba(var(--color-foreground), 0.7);
   }
 
   .testimonials__card-meta {
     align-items: center;
     display: flex;
+    flex-wrap: wrap;
     gap: 0.8rem;
     margin-top: 0.6rem;
   }
@@ -101,6 +138,21 @@
   }
 {%- endstyle -%}
 
+{%- liquid
+  assign avg = section.settings.average_rating
+  if avg >= 4.5
+    assign rating_word = 'Excellent'
+  elsif avg >= 4.0
+    assign rating_word = 'Great'
+  elsif avg >= 3.5
+    assign rating_word = 'Average'
+  elsif avg >= 2.5
+    assign rating_word = 'Poor'
+  else
+    assign rating_word = 'Bad'
+  endif
+-%}
+
 <div class="color-{{ section.settings.color_scheme }} gradient">
   <div class="page-width section-{{ section.id }}-padding">
     <div class="testimonials__header">
@@ -110,22 +162,10 @@
       {%- if section.settings.subheading != blank -%}
         <p class="testimonials__subheading">{{ section.settings.subheading | escape }}</p>
       {%- endif -%}
+    </div>
+    <div class="testimonials__body">
       {%- if section.settings.show_summary and section.settings.average_rating > 0 -%}
-        {%- liquid
-          assign avg = section.settings.average_rating
-          if avg >= 4.5
-            assign rating_word = 'Excellent'
-          elsif avg >= 4.0
-            assign rating_word = 'Great'
-          elsif avg >= 3.5
-            assign rating_word = 'Average'
-          elsif avg >= 2.5
-            assign rating_word = 'Poor'
-          else
-            assign rating_word = 'Bad'
-          endif
-        -%}
-        <div class="testimonials__summary">
+        <div class="testimonials__summary-card">
           <span class="testimonials__summary-word">{{ rating_word }}</span>
           <div class="rating" role="img" aria-label="{{ avg }} out of 5 stars average">
             <span
@@ -134,45 +174,45 @@
               style="--rating: {{ avg | floor }}; --rating-max: 5; --rating-decimal: 0;"
             ></span>
           </div>
-          <span aria-hidden="true">{{ avg }} average</span>
-          <span class="testimonials__summary-count">· {{ section.settings.review_count }} reviews</span>
+          <span class="testimonials__summary-score" aria-hidden="true">{{ avg }}/5 average</span>
+          <span class="testimonials__summary-count">{{ section.settings.review_count }} reviews</span>
         </div>
       {%- endif -%}
-    </div>
-    <div class="testimonials__grid">
-      {%- for block in section.blocks -%}
-        <div class="testimonials__card" {{ block.shopify_attributes }}>
-          <div class="rating" role="img" aria-label="{{ block.settings.rating }} out of 5 stars">
-            <span
-              aria-hidden="true"
-              class="rating-star"
-              style="--rating: {{ block.settings.rating }}; --rating-max: 5; --rating-decimal: 0;"
-            ></span>
-          </div>
-          {%- if block.settings.quote != blank -%}
-            <blockquote class="testimonials__quote">{{ block.settings.quote | escape }}</blockquote>
-          {%- endif -%}
-          {%- if block.settings.author != blank -%}
-            <p class="testimonials__author">{{ block.settings.author | escape }}</p>
-          {%- endif -%}
-          {%- if block.settings.verified or block.settings.date_label != blank -%}
-            <div class="testimonials__card-meta">
-              {%- if block.settings.verified -%}
-                <span class="testimonials__verified">
-                  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path d="M10 1.5 12.2 4l3.3-.5.9 3.3 3 1.7-1.5 3 1.5 3-3 1.7-.9 3.3-3.3-.5L10 18.5 7.8 16l-3.3.5-.9-3.3-3-1.7 1.5-3-1.5-3 3-1.7.9-3.3 3.3.5L10 1.5Z" />
-                    <path d="m7.2 10.2 1.9 1.9 3.7-3.9" stroke="var(--color-scheme-background, #fff)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                  Verified Customer
-                </span>
-              {%- endif -%}
-              {%- if block.settings.date_label != blank -%}
-                <span class="testimonials__date">{{ block.settings.date_label | escape }}</span>
-              {%- endif -%}
+      <div class="testimonials__grid">
+        {%- for block in section.blocks -%}
+          <div class="testimonials__card" {{ block.shopify_attributes }}>
+            <div class="rating" role="img" aria-label="{{ block.settings.rating }} out of 5 stars">
+              <span
+                aria-hidden="true"
+                class="rating-star"
+                style="--rating: {{ block.settings.rating }}; --rating-max: 5; --rating-decimal: 0;"
+              ></span>
             </div>
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
+            {%- if block.settings.quote != blank -%}
+              <blockquote class="testimonials__quote">{{ block.settings.quote | escape }}</blockquote>
+            {%- endif -%}
+            {%- if block.settings.author != blank -%}
+              <p class="testimonials__author">{{ block.settings.author | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.verified or block.settings.date_label != blank -%}
+              <div class="testimonials__card-meta">
+                {%- if block.settings.verified -%}
+                  <span class="testimonials__verified">
+                    <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path d="M10 1.5 12.2 4l3.3-.5.9 3.3 3 1.7-1.5 3 1.5 3-3 1.7-.9 3.3-3.3-.5L10 18.5 7.8 16l-3.3.5-.9-3.3-3-1.7 1.5-3-1.5-3 3-1.7.9-3.3 3.3.5L10 1.5Z" />
+                      <path d="m7.2 10.2 1.9 1.9 3.7-3.9" stroke="var(--color-scheme-background, #fff)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Verified Customer
+                  </span>
+                {%- endif -%}
+                {%- if block.settings.date_label != blank -%}
+                  <span class="testimonials__date">{{ block.settings.date_label | escape }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 </div>

@@ -40,6 +40,20 @@
   #shopify-section-{{ section.id }} .collection__title {
     text-align: center;
   }
+
+  #shopify-section-{{ section.id }} .collection__title .title {
+    margin-bottom: 0.8rem;
+  }
+
+  #shopify-section-{{ section.id }} .collection__description {
+    color: rgba(var(--color-foreground), 0.8);
+    margin: 0 auto;
+    max-width: 64rem;
+  }
+
+  #shopify-section-{{ section.id }} .collection__description p {
+    margin: 0;
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -197,14 +211,18 @@
       {%- endif -%}
     </slider-dots-component>
 
-    {%- if section.settings.show_view_all and more_in_collection -%}
+    {%- if section.settings.show_view_all and section.settings.collection != blank -%}
       <div class="center collection__view-all{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <a
           href="{{ section.settings.collection.url }}"
           class="{% if section.settings.view_all_style == 'link' %}link underlined-link{% elsif section.settings.view_all_style == 'solid' %}button{% else %}button button--secondary{% endif %}"
           aria-label="{{ 'sections.featured_collection.view_all_label' | t: collection_name: section.settings.collection.title | escape }}"
         >
-          {{ 'sections.featured_collection.view_all' | t }}
+          {%- if section.settings.view_all_label != blank -%}
+            {{ section.settings.view_all_label | escape }}
+          {%- else -%}
+            {{ 'sections.featured_collection.view_all' | t }}
+          {%- endif -%}
         </a>
       </div>
     {%- endif -%}
@@ -357,7 +375,12 @@
         }
       ],
       "default": "solid"
-    }, 
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label"
+    },
     {
       "type": "color_scheme",
       "id": "color_scheme",
