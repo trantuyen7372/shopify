@@ -63,6 +63,98 @@ function buildMergedBodyHtml(itemName, tartanNames) {
   );
 }
 
+function buildMergedProductPayload(group) {
+  const { itemName, members } = group;
+  const first = members[0].product;
+  const sizeOption = first.options.find((o) => o.name === 'Size');
+  const tags = [...new Set(members.flatMap((m) => m.product.tags.split(',').map((t) => t.trim())).filter(Boolean))];
+
+  const options = [{ name: 'Tartan', values: members.map((m) => m.tartan) }];
+  if (sizeOption) options.push({ name: 'Size', values: sizeOption.values });
+
+  const variants = [];
+  for (const member of members) {
+    const sourceVariants = member.product.variants;
+    if (sizeOption) {
+      for (const size of sizeOption.values) {
+        const sourceVariant = sourceVariants.find((v) => v.title === size || v.option1 === size);
+        variants.push({
+          option1: member.tartan,
+          option2: size,
+          price: sourceVariant ? sourceVariant.price : sourceVariants[0].price,
+        });
+      }
+    } else {
+      variants.push({ option1: member.tartan, price: sourceVariants[0].price });
+    }
+  }
+
+  return {
+    title: `Tartan ${itemName}`,
+    vendor: first.vendor,
+    product_type: first.product_type,
+    tags: tags.join(', '),
+    body_html: buildMergedBodyHtml(itemName, members.map((m) => m.tartan)),
+    options,
+    variants,
+    images: members.map((m) => ({ src: m.product.images[0].src })),
+  };
+}
+
+async function assignVariantImages(newProduct, group) {
+  // Images come back in the same order they were submitted (one per member, by tartan).
+  for (let i = 0; i < group.members.length; i++) {
+    const tartan = group.members[i].tartan;
+    const image = newProduct.images[i];
+    const variantsForTartan = newProduct.variants.filter((v) => v.option1 === tartan);
+    for (const variant of variantsForTartan) {
+      await restRequest('PUT', `/variants/${variant.id}.json`, {
+        variant: { id: variant.id, image_id: image.id },
+      });
+      await new Promise((r) => setTimeout(r, 550));
+    }
+  }
+}
+
+async function verifyMerge(newProduct, group) {
+  for (const member of group.members) {
+    const query = encodeURIComponent(`"${member.tartan} tartan"`);
+    // Storefront search isn't reachable via Admin API; this checks the
+    // necessary precondition instead — the phrase is present in the
+    // product we just created, which is what makes search work.
+    if (!newProduct.body_html.includes(`${member.tartan} tartan`)) {
+      throw new Error(`Verification failed: body_html missing "${member.tartan} tartan" (query would be ${query})`);
+    }
+  }
+  const expectedVariantCount = group.members.length * (newProduct.options.find((o) => o.name === 'Size')?.values.length || 1);
+  if (newProduct.variants.length !== expectedVariantCount) {
+    throw new Error(`Verification failed: expected ${expectedVariantCount} variants, got ${newProduct.variants.length}`);
+  }
+}
+
+async function mergeGroup(group, { dryRun }) {
+  const payload = buildMergedProductPayload(group);
+  console.log(`\n=== ${group.itemName} (${group.members.length} tartans) ===`);
+  if (dryRun) {
+    console.log(JSON.stringify(payload, null, 2));
+    return;
+  }
+
+  const { product: newProduct } = await restRequest('POST', '/products.json', { product: payload });
+  console.log(`Created product ${newProduct.id} (${newProduct.handle})`);
+  await new Promise((r) => setTimeout(r, 550));
+
+  await assignVariantImages(newProduct, group);
+  await verifyMerge(newProduct, group);
+  console.log('Verified OK');
+
+  for (const member of group.members) {
+    await restRequest('DELETE', `/products/${member.product.id}.json`);
+    console.log(`Deleted source product ${member.product.id} (${member.product.title})`);
+    await new Promise((r) => setTimeout(r, 550));
+  }
+}
+
 function selfTest() {
   assert.deepEqual(
     extractTartanAndName('Alberta Tartan Bedding Set'),
@@ -168,5 +260,16 @@ async function discover() {
 
 if (process.argv.includes('--discover')) {
   await discover();
+  process.exit(0);
+}
+
+if (process.argv.includes('--group')) {
+  const name = process.argv[process.argv.indexOf('--group') + 1];
+  const dryRun = process.argv.includes('--dry-run');
+  const products = await fetchAllProducts();
+  const groups = buildGroups(products);
+  const group = groups.find((g) => g.itemName === name);
+  if (!group) throw new Error(`No group found for "${name}"`);
+  await mergeGroup(group, { dryRun });
   process.exit(0);
 }
