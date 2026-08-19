@@ -22,6 +22,50 @@ function extractTartanAndName(title) {
   return { tartan: m[1].trim(), itemName: m[2].trim() };
 }
 
+// Some groups contain two separate products with the identical tartan name
+// (a genuine catalog data-quality issue, not a bug in extractTartanAndName —
+// e.g. two distinct "Lindsay Tartan Leggings" products). Merging both as-is
+// would produce two variants with the same option1 value, which Shopify
+// rejects (or silently mishandles) as a duplicate option combination. Keep
+// exactly one member per tartan name — preferring whichever product's tags
+// look more specific to the item type — and record the other for deletion
+// alongside the group's normal source products.
+function dedupeGroupMembers(itemName, members) {
+  const itemWords = itemName.toLowerCase().split(/\s+/).filter(Boolean);
+  const tagsOf = (member) => member.product.tags.split(',').map((t) => t.trim().toLowerCase()).filter(Boolean);
+  const looksSpecific = (member) =>
+    tagsOf(member).some((tag) => itemWords.some((word) => tag.includes(word) || word.includes(tag)));
+
+  const byTartan = new Map();
+  const droppedDuplicates = [];
+  for (const member of members) {
+    const existing = byTartan.get(member.tartan);
+    if (!existing) {
+      byTartan.set(member.tartan, member);
+      continue;
+    }
+
+    // Duplicate tartan within this group. Prefer the one with a tag matching
+    // the item type; if neither/both match, keep whichever was encountered
+    // first and drop the other.
+    let keep = existing;
+    let drop = member;
+    if (looksSpecific(member) && !looksSpecific(existing)) {
+      keep = member;
+      drop = existing;
+    }
+    console.log(
+      `DEDUP: group "${itemName}" — tartan "${member.tartan}" appears twice. ` +
+      `Keeping product ${keep.product.id} ("${keep.product.title}", tags=[${tagsOf(keep).join(', ')}]), ` +
+      `dropping product ${drop.product.id} ("${drop.product.title}", tags=[${tagsOf(drop).join(', ')}]) — ` +
+      `it will still be deleted alongside the group's other source products.`
+    );
+    byTartan.set(member.tartan, keep);
+    droppedDuplicates.push(drop.product);
+  }
+  return { members: [...byTartan.values()], droppedDuplicates };
+}
+
 function buildGroups(products) {
   const byName = new Map();
   for (const product of products) {
@@ -33,7 +77,11 @@ function buildGroups(products) {
   }
   return [...byName.entries()]
     .filter(([, members]) => members.length >= 2)
-    .map(([itemName, members]) => ({ itemName, members }));
+    .map(([itemName, members]) => {
+      const { members: dedupedMembers, droppedDuplicates } = dedupeGroupMembers(itemName, members);
+      return { itemName, members: dedupedMembers, droppedDuplicates };
+    })
+    .filter((group) => group.members.length >= 2);
 }
 
 function maxVariantCount(group) {
@@ -130,6 +178,31 @@ async function verifyMerge(newProduct, group) {
   if (newProduct.variants.length !== expectedVariantCount) {
     throw new Error(`Verification failed: expected ${expectedVariantCount} variants, got ${newProduct.variants.length}`);
   }
+
+  // Image alignment check: buildMergedProductPayload builds newProduct.images
+  // in the same order as group.members (one image per member, by tartan), and
+  // assignVariantImages relies on that same index alignment when assigning
+  // image_id to each tartan's variant(s). Confirm that alignment actually held
+  // by checking each member's variants point at the image at that member's index.
+  for (let i = 0; i < group.members.length; i++) {
+    const member = group.members[i];
+    const expectedImage = newProduct.images[i];
+    if (!expectedImage) {
+      throw new Error(`Verification failed: no image at index ${i} for tartan "${member.tartan}"`);
+    }
+    const variantsForTartan = newProduct.variants.filter((v) => v.option1 === member.tartan);
+    if (variantsForTartan.length === 0) {
+      throw new Error(`Verification failed: no variants found for tartan "${member.tartan}"`);
+    }
+    for (const variant of variantsForTartan) {
+      if (variant.image_id !== expectedImage.id) {
+        throw new Error(
+          `Verification failed: variant ${variant.id} (option1="${member.tartan}") has image_id ${variant.image_id}, ` +
+          `expected ${expectedImage.id} (image[${i}], src=${expectedImage.src})`
+        );
+      }
+    }
+  }
 }
 
 async function mergeGroup(group, { dryRun }) {
@@ -148,9 +221,14 @@ async function mergeGroup(group, { dryRun }) {
   await verifyMerge(newProduct, group);
   console.log('Verified OK');
 
-  for (const member of group.members) {
-    await restRequest('DELETE', `/products/${member.product.id}.json`);
-    console.log(`Deleted source product ${member.product.id} (${member.product.title})`);
+  // Delete the kept source products AND any duplicate-tartan products that
+  // dedupeGroupMembers dropped in buildGroups — those never got a variant or
+  // image of their own, but they still need to be removed so nothing survives
+  // as an orphaned product.
+  const sourceProducts = [...group.members.map((m) => m.product), ...(group.droppedDuplicates || [])];
+  for (const product of sourceProducts) {
+    await restRequest('DELETE', `/products/${product.id}.json`);
+    console.log(`Deleted source product ${product.id} (${product.title})`);
     await new Promise((r) => setTimeout(r, 550));
   }
 }
@@ -193,6 +271,32 @@ function selfTest() {
   for (const name of ['Alberta', 'Antrim', 'Argyll']) {
     assert.ok(html3.includes(`${name} tartan`), `must contain "${name} tartan" for search`);
   }
+
+  // Duplicate-tartan-within-group dedup (the real "Leggings" catalog bug:
+  // two separate "Lindsay Tartan Leggings" products, one tagged "leggings").
+  const legLikeProducts = [
+    { id: 1, title: 'Keith Tartan Leggings', tags: 'clans-a-l, women-bottoms', options: [{ name: 'Title', values: ['Default Title'] }] },
+    { id: 2, title: 'Lindsay Tartan Leggings', tags: 'clans-a-l, women-bottoms', options: [{ name: 'Title', values: ['Default Title'] }] },
+    { id: 3, title: 'Lindsay Tartan Leggings', tags: 'clans-a-l, leggings, women-bottoms', options: [{ name: 'Title', values: ['Default Title'] }] },
+  ];
+  const legGroups = buildGroups(legLikeProducts);
+  assert.equal(legGroups.length, 1, 'Leggings-like fixture should still form exactly one group');
+  const legGroup = legGroups[0];
+  assert.equal(legGroup.members.length, 2, 'duplicate Lindsay should be collapsed to a single member');
+  const lindsayMembers = legGroup.members.filter((m) => m.tartan === 'Lindsay');
+  assert.equal(lindsayMembers.length, 1, 'exactly one Lindsay variant source should remain');
+  assert.equal(lindsayMembers[0].product.id, 3, 'the more specifically-tagged ("leggings") product should be kept');
+  assert.deepEqual(legGroup.droppedDuplicates.map((p) => p.id), [2], 'the less specific duplicate should be recorded for deletion');
+
+  // Tie-break: neither/both duplicate has a matching tag -> keep the first encountered.
+  const tieProducts = [
+    { id: 10, title: 'A Tartan Widget', tags: 'foo', options: [{ name: 'Title', values: ['Default Title'] }] },
+    { id: 20, title: 'A Tartan Widget', tags: 'bar', options: [{ name: 'Title', values: ['Default Title'] }] },
+    { id: 30, title: 'B Tartan Widget', tags: 'baz', options: [{ name: 'Title', values: ['Default Title'] }] },
+  ];
+  const tieGroups = buildGroups(tieProducts);
+  assert.equal(tieGroups[0].members.find((m) => m.tartan === 'A').product.id, 10, 'tie-break keeps first-encountered duplicate');
+  assert.deepEqual(tieGroups[0].droppedDuplicates.map((p) => p.id), [20]);
 
   console.log('selftest OK');
 }
@@ -293,4 +397,28 @@ if (process.argv.includes('--group')) {
   if (!group) throw new Error(`No group found for "${name}"`);
   await mergeGroup(group, { dryRun });
   process.exit(0);
+}
+
+if (process.argv.includes('--all')) {
+  const dryRun = process.argv.includes('--dry-run');
+  const done = [];
+  const failed = [];
+  for (;;) {
+    const products = await fetchAllProducts();
+    const groups = buildGroups(products);
+    if (groups.length === 0) break;
+    const group = groups[0];
+    try {
+      await mergeGroup(group, { dryRun });
+      done.push(group.itemName);
+    } catch (err) {
+      console.error(`FAILED on "${group.itemName}": ${err.message}`);
+      failed.push(group.itemName);
+      break;
+    }
+    if (dryRun) break; // dry-run only previews the next group, doesn't loop
+  }
+  console.log(`\nDone: ${done.length} groups merged.`);
+  if (failed.length) console.log(`Stopped due to failure in: ${failed.join(', ')}`);
+  process.exit(failed.length ? 1 : 0);
 }
