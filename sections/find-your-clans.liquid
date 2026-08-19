@@ -1,7 +1,7 @@
 {%- liquid
   assign letter_order = 'A,B,C,D,E,F,G,H,I,J,K,L,M,MAC-MC,N,O,P,Q,R,S,T,U,V,W,X,Y,Z' | split: ','
-  assign scottish_groups = 'A:Alberta,Argyll,Armstrong;B:British Columbia,Bruce,Buchanan;C:Cameron,Campbell;D:Douglas;E:Elliot;F:Ferguson,Fraser;G:Gordon,Graham;H:Hamilton,Harris;I:Innes;J:Johnstone;K:Keith;L:Lindsay;M:Manitoba,Maxwell,Moffat,Munro,Murray;MAC-MC:MacAlister,MacBean,MacDonald,MacKenzie,MacKinnon,MacLeod;N:Napier,Nova Scotia;O:Ogilvie,Ontario;Q:Quebec;R:Ramsay,Rose;S:Saskatchewan,Scott,Sinclair,Stewart,Sutherland;U:Urquhart;W:Wallace;Y:Yukon' | split: ';'
-  assign irish_groups = 'A:Antrim;C:Carlow,Clare;D:Donegal;G:Galway;K:Kerry,Kildare,Kilkenny;L:Leitrim,Limerick,Longford;M:Mayo,Meath;R:Roscommon;S:Sligo;T:Tipperary;W:Waterford,Wexford' | split: ';'
+  assign scottish_groups = 'A:Alberta,Armstrong;B:Baird,Barclay,Bell,Boyd,Boyle,British Columbia,Bruce,Buchan,Buchanan,Burnett;C:Cameron,Campbell,Carmichael,Carnegie,Chisholm,Colquhoun,Cranstoun,Crawford,Cumming;D:Dalziel,Davidson,Douglas,Drummond,Dunbar,Dundas;E:Elliot,Erskine;F:Farquharson,Fergusson,Forbes,Forsyth,Fraser;G:Gordon,Graham,Grant,Gunn,Guthrie;H:Hamilton,Hay,Henderson,Home,Hume;I:Innes,Irvine;J:Johnstone;K:Keith,Kennedy,Kerr,Kincaid;L:Lamont,Leask,Leslie,Lindsay,Lockhart,Logan;M:Maitland,Malcolm,Manitoba,Matheson,Maxwell,Melville,Menzies,Moffat,Moncreiffe,Montgomery,Morrison,Munro,Murray;MAC-MC:MacAlister,MacArthur,MacAulay,MacBean,MacBeth,MacColl,MacDonald,MacDonell,MacDougall,MacDuff,MacEwen,MacFarlane,MacFie,MacGillivray,MacGregor,MacInnes,MacIntyre,MacKay,MacKenzie,MacKinnon,MacKintosh,MacLachlan,MacLaren,MacLean,MacLellan,MacLeod,MacMillan,MacNab,MacNaughton,MacNeil,MacNicol,MacPherson,MacQuarrie,MacQueen,MacRae,MacTavish,MacThomas;N:Nairn,Napier,Nova Scotia;O:Ogilvie,Oliphant,Ontario;Q:Quebec;R:Ramsay,Robertson,Rollo,Rose,Ross,Rutherford;S:Saskatchewan,Scott,Scrymgeour,Sempill,Shaw,Sinclair,Skene,Stewart,Stirling,Sutherland,Swinton;T:Turnbull;U:Urquhart;W:Wallace,Wemyss;Y:Yukon' | split: ';'
+  assign irish_groups = 'A:Antrim,Armagh;C:Carlow,Cavan,Clare,Cork;D:Derry,Donegal,Down,Dublin;F:Fermanagh;G:Galway;K:Kerry,Kildare,Kilkenny;L:Laois,Leitrim,Limerick,Longford,Louth;M:Mayo,Meath,Monaghan;O:Offaly;R:Roscommon;S:Sligo;T:Tipperary,Tyrone;W:Waterford,Westmeath,Wexford,Wicklow' | split: ';'
 -%}
 
 {%- style -%}
@@ -199,9 +199,9 @@
             {%- assign letter = parts[0] -%}
             {%- assign names = parts[1] | split: ',' -%}
             {%- for name in names -%}
-              {%- assign encoded_name = name | url_encode -%}
+              {%- assign search_phrase = name | append: ' tartan' | prepend: '"' | append: '"' | url_encode -%}
               <li class="clan-directory__item" data-name="{{ name | escape }}" data-letter="{{ letter }}" hidden>
-                <a class="clan-directory__link" href="{{ routes.search_url }}?q={{ encoded_name }}&options%5Bprefix%5D=last">{{ name }}</a>
+                <a class="clan-directory__link" href="{{ routes.search_url }}?q={{ search_phrase }}">{{ name }}</a>
               </li>
             {%- endfor -%}
           {%- endfor -%}
@@ -248,9 +248,9 @@
             {%- assign letter = parts[0] -%}
             {%- assign names = parts[1] | split: ',' -%}
             {%- for name in names -%}
-              {%- assign encoded_name = name | url_encode -%}
+              {%- assign search_phrase = name | append: ' tartan' | prepend: '"' | append: '"' | url_encode -%}
               <li class="clan-directory__item" data-name="{{ name | escape }}" data-letter="{{ letter }}" hidden>
-                <a class="clan-directory__link" href="{{ routes.search_url }}?q={{ encoded_name }}&options%5Bprefix%5D=last">{{ name }}</a>
+                <a class="clan-directory__link" href="{{ routes.search_url }}?q={{ search_phrase }}">{{ name }}</a>
               </li>
             {%- endfor -%}
           {%- endfor -%}
