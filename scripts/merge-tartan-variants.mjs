@@ -66,6 +66,43 @@ function dedupeGroupMembers(itemName, members) {
   return { members: [...byTartan.values()], droppedDuplicates };
 }
 
+// One-off, controller-approved exclusions for specific product ids that are
+// known-bad in a way that would break buildMergedProductPayload (e.g. zero
+// images). This is intentionally a hardcoded, narrow list — NOT a general
+// "skip any member with data problems" mechanism. A full 221-product catalog
+// scan on 2026-08-20 confirmed product 10632330215726 is the only product
+// with zero images, and that it was never published to the Online Store
+// (published_at: null), so it was already invisible to customers. Any OTHER
+// future zero-image product is deliberately left unhandled here — it should
+// still make buildMergedProductPayload throw and mergeGroup fail loudly, so
+// it gets investigated rather than silently dropped.
+const KNOWN_ONE_OFF_EXCLUSIONS = new Map([
+  [
+    10632330215726,
+    'zero images and published_at: null (never published) — confirmed a one-off ' +
+    'catalog gap via a full 221-product scan on 2026-08-20, not a systemic pattern',
+  ],
+]);
+
+function excludeKnownBadMembers(itemName, members) {
+  const kept = [];
+  const excluded = [];
+  for (const member of members) {
+    const reason = KNOWN_ONE_OFF_EXCLUSIONS.get(member.product.id);
+    if (!reason) {
+      kept.push(member);
+      continue;
+    }
+    console.log(
+      `EXCLUDE: group "${itemName}" — tartan "${member.tartan}" (product ${member.product.id}, ` +
+      `"${member.product.title}") is a known one-off exclusion (${reason}). Dropped from the merge; ` +
+      `it will still be deleted alongside the group's other source products.`
+    );
+    excluded.push(member.product);
+  }
+  return { members: kept, excluded };
+}
+
 function buildGroups(products) {
   const byName = new Map();
   for (const product of products) {
@@ -79,9 +116,24 @@ function buildGroups(products) {
     .filter(([, members]) => members.length >= 2)
     .map(([itemName, members]) => {
       const { members: dedupedMembers, droppedDuplicates } = dedupeGroupMembers(itemName, members);
-      return { itemName, members: dedupedMembers, droppedDuplicates };
+      const { members: finalMembers, excluded } = excludeKnownBadMembers(itemName, dedupedMembers);
+      return {
+        itemName,
+        members: finalMembers,
+        // Everything here gets deleted by mergeGroup but gets no variant/image
+        // of its own: duplicate-tartan drops, plus known-bad exclusions.
+        excludedSourceProducts: [...droppedDuplicates, ...excluded],
+        hadKnownExclusion: excluded.length > 0,
+      };
     })
-    .filter((group) => group.members.length >= 2);
+    // Normally a "group" needs 2+ members to be worth merging. The one
+    // exception: a known-bad exclusion (see excludeKnownBadMembers) may
+    // legitimately reduce a group to a single remaining tartan (e.g.
+    // "Knitted Hoodie" had exactly Antrim + Carlow; Carlow is excluded).
+    // We still want that single-tartan product renamed/restructured into
+    // the uniform "Tartan <Item>" shape and the excluded product deleted,
+    // so let it through in that specific case.
+    .filter((group) => group.members.length >= 2 || group.hadKnownExclusion);
 }
 
 function maxVariantCount(group) {
@@ -92,7 +144,13 @@ function maxVariantCount(group) {
 
 function buildMergedBodyHtml(itemName, tartanNames) {
   const itemLower = itemName.toLowerCase();
-  const tartanSentence = tartanNames.length === 2
+  // Normally a merge has 2+ tartans, but a known-bad-member exclusion (see
+  // excludeKnownBadMembers) can leave exactly one (e.g. "Knitted Hoodie"
+  // after Carlow is dropped) — handle that singular case explicitly so it
+  // doesn't fall into the ">=3 tartans" branch and produce a stray ", and".
+  const tartanSentence = tartanNames.length === 1
+    ? `${tartanNames[0]} tartan`
+    : tartanNames.length === 2
     ? `${tartanNames[0]} tartan and ${tartanNames[1]} tartan`
     : `${tartanNames.slice(0, -1).map((t) => `${t} tartan`).join(', ')}, and ${tartanNames[tartanNames.length - 1]} tartan`;
 
@@ -159,6 +217,14 @@ async function assignVariantImages(newProduct, group) {
       await restRequest('PUT', `/variants/${variant.id}.json`, {
         variant: { id: variant.id, image_id: image.id },
       });
+      // Keep the in-memory newProduct object in sync with what we just wrote
+      // to the server. mergeGroup calls verifyMerge(newProduct, ...) right
+      // after this function returns, using this SAME object — without this,
+      // verifyMerge would check the stale image_id (null) captured at
+      // product-creation time instead of the value we just assigned, and
+      // fail every merge with a false-negative regardless of whether the
+      // PUT actually succeeded.
+      variant.image_id = image.id;
       await new Promise((r) => setTimeout(r, 550));
     }
   }
@@ -221,11 +287,11 @@ async function mergeGroup(group, { dryRun }) {
   await verifyMerge(newProduct, group);
   console.log('Verified OK');
 
-  // Delete the kept source products AND any duplicate-tartan products that
-  // dedupeGroupMembers dropped in buildGroups — those never got a variant or
-  // image of their own, but they still need to be removed so nothing survives
-  // as an orphaned product.
-  const sourceProducts = [...group.members.map((m) => m.product), ...(group.droppedDuplicates || [])];
+  // Delete the kept source products AND any excluded products from buildGroups
+  // (duplicate-tartan drops and known-bad-member exclusions) — those never
+  // got a variant or image of their own, but they still need to be removed
+  // so nothing survives as an orphaned product.
+  const sourceProducts = [...group.members.map((m) => m.product), ...(group.excludedSourceProducts || [])];
   for (const product of sourceProducts) {
     await restRequest('DELETE', `/products/${product.id}.json`);
     console.log(`Deleted source product ${product.id} (${product.title})`);
@@ -286,7 +352,7 @@ function selfTest() {
   const lindsayMembers = legGroup.members.filter((m) => m.tartan === 'Lindsay');
   assert.equal(lindsayMembers.length, 1, 'exactly one Lindsay variant source should remain');
   assert.equal(lindsayMembers[0].product.id, 3, 'the more specifically-tagged ("leggings") product should be kept');
-  assert.deepEqual(legGroup.droppedDuplicates.map((p) => p.id), [2], 'the less specific duplicate should be recorded for deletion');
+  assert.deepEqual(legGroup.excludedSourceProducts.map((p) => p.id), [2], 'the less specific duplicate should be recorded for deletion');
 
   // Tie-break: neither/both duplicate has a matching tag -> keep the first encountered.
   const tieProducts = [
@@ -296,7 +362,32 @@ function selfTest() {
   ];
   const tieGroups = buildGroups(tieProducts);
   assert.equal(tieGroups[0].members.find((m) => m.tartan === 'A').product.id, 10, 'tie-break keeps first-encountered duplicate');
-  assert.deepEqual(tieGroups[0].droppedDuplicates.map((p) => p.id), [20]);
+  assert.deepEqual(tieGroups[0].excludedSourceProducts.map((p) => p.id), [20]);
+
+  // Known-bad-member exclusion (the real "Knitted Hoodie" catalog bug:
+  // product 10632330215726 has zero images and was never published). A
+  // 2-member group should be allowed through with just 1 remaining member.
+  const hoodieLikeProducts = [
+    { id: 10632330215726, title: 'Carlow Tartan Knitted Hoodie', tags: 'clans-a-l', images: [], options: [{ name: 'Title', values: ['Default Title'] }] },
+    { id: 999, title: 'Antrim Tartan Knitted Hoodie', tags: 'clans-a-l', images: [{ src: 'antrim.png' }], options: [{ name: 'Title', values: ['Default Title'] }] },
+  ];
+  const hoodieGroups = buildGroups(hoodieLikeProducts);
+  assert.equal(hoodieGroups.length, 1, 'group should survive despite dropping below 2 members, due to known exclusion');
+  const hoodieGroup = hoodieGroups[0];
+  assert.equal(hoodieGroup.members.length, 1, 'only Antrim should remain as a real member');
+  assert.equal(hoodieGroup.members[0].tartan, 'Antrim');
+  assert.deepEqual(hoodieGroup.excludedSourceProducts.map((p) => p.id), [10632330215726], 'the known-bad product should be queued for deletion');
+  assert.equal(hoodieGroup.hadKnownExclusion, true);
+
+  // A group that never hits the known-bad-id list still needs 2+ members.
+  const singleProduct = [
+    { id: 1, title: 'Solo Tartan Gizmo', tags: '', options: [{ name: 'Title', values: ['Default Title'] }] },
+  ];
+  assert.equal(buildGroups(singleProduct).length, 0, 'a lone product with no group-mates is never a merge group');
+
+  const bodyOneTartan = buildMergedBodyHtml('Knitted Hoodie', ['Antrim']);
+  assert.ok(bodyOneTartan.includes('Antrim tartan'), 'single-tartan body must still name the tartan');
+  assert.ok(!bodyOneTartan.includes(', and'), 'single-tartan body must not have a stray ", and" from the multi-tartan branch');
 
   console.log('selftest OK');
 }
