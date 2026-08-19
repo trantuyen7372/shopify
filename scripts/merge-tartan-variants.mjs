@@ -42,6 +42,27 @@ function maxVariantCount(group) {
   return group.members.length * sizeCount;
 }
 
+function buildMergedBodyHtml(itemName, tartanNames) {
+  const itemLower = itemName.toLowerCase();
+  const tartanSentence = tartanNames.length === 2
+    ? `${tartanNames[0]} tartan and ${tartanNames[1]} tartan`
+    : `${tartanNames.slice(0, -1).map((t) => `${t} tartan`).join(', ')}, and ${tartanNames[tartanNames.length - 1]} tartan`;
+
+  return (
+    `<p>Bring a tartan into your everyday with this ${itemLower}. ` +
+    `Available in ${tartanSentence} — choose yours below.</p>` +
+    `<h3>Product Details</h3>` +
+    `<ul>` +
+    `<li>Printed or woven in an authentic tartan sett</li>` +
+    `<li>Made from quality materials built to last</li>` +
+    `<li>A distinctive way to carry your heritage</li>` +
+    `</ul>` +
+    `<h3>Care Instructions</h3>` +
+    `<p>Follow standard care for the material — spot clean fabric pieces, machine wash cold where applicable.</p>` +
+    `<p>Not sure about your clan? Visit our <a href="/pages/find-your-clans">Find Your Clans</a> page to explore the tartan that reflects your heritage.</p>`
+  );
+}
+
 function selfTest() {
   assert.deepEqual(
     extractTartanAndName('Alberta Tartan Bedding Set'),
@@ -71,6 +92,15 @@ function selfTest() {
     ],
   };
   assert.equal(maxVariantCount(sizedGroup), 8);
+
+  const html2 = buildMergedBodyHtml('Pillow Cover', ['Saskatchewan', 'Yukon']);
+  assert.ok(html2.includes('Saskatchewan tartan'), 'must contain "Saskatchewan tartan" for search');
+  assert.ok(html2.includes('Yukon tartan'), 'must contain "Yukon tartan" for search');
+
+  const html3 = buildMergedBodyHtml('Bedding Set', ['Alberta', 'Antrim', 'Argyll']);
+  for (const name of ['Alberta', 'Antrim', 'Argyll']) {
+    assert.ok(html3.includes(`${name} tartan`), `must contain "${name} tartan" for search`);
+  }
 
   console.log('selftest OK');
 }
