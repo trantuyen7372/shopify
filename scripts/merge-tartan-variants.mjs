@@ -202,15 +202,36 @@ if (process.argv.includes('--selftest')) {
   process.exit(0);
 }
 
+const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308]);
+const MAX_REDIRECTS = 3;
+
 async function restRequest(method, path, body) {
-  const response = await fetch(`https://${domain}/admin/api/${API_VERSION}${path}`, {
-    method,
-    headers: {
-      'X-Shopify-Access-Token': token,
-      'Content-Type': 'application/json',
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  let url = `https://${domain}/admin/api/${API_VERSION}${path}`;
+  const headers = {
+    'X-Shopify-Access-Token': token,
+    'Content-Type': 'application/json',
+  };
+  const requestBody = body ? JSON.stringify(body) : undefined;
+
+  let response;
+  for (let redirects = 0; ; redirects++) {
+    // Fetch's automatic redirect-following downgrades POST/PUT/DELETE to GET
+    // and drops the body on a 301/302 (per the Fetch spec). The Admin API
+    // custom-domain host 301s to the canonical myshopify.com host, which
+    // would otherwise silently turn every mutating call into a no-op GET.
+    // So we follow redirects manually, re-issuing the SAME method/headers/body.
+    response = await fetch(url, { method, headers, body: requestBody, redirect: 'manual' });
+    if (!REDIRECT_STATUSES.has(response.status)) break;
+    if (redirects >= MAX_REDIRECTS) {
+      throw new Error(`${method} ${path} -> too many redirects (stopped after ${MAX_REDIRECTS})`);
+    }
+    const location = response.headers.get('location');
+    if (!location) {
+      throw new Error(`${method} ${path} -> ${response.status} redirect with no Location header`);
+    }
+    url = new URL(location, url).toString();
+  }
+
   if (!response.ok) {
     const text = await response.text();
     throw new Error(`${method} ${path} -> ${response.status}: ${text}`);
