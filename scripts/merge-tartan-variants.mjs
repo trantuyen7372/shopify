@@ -9,6 +9,7 @@
 //   node --env-file=.env scripts/merge-tartan-variants.mjs --discover
 //   node --env-file=.env scripts/merge-tartan-variants.mjs --group "Pillow Cover" [--dry-run]
 //   node --env-file=.env scripts/merge-tartan-variants.mjs --all [--dry-run]
+//   node --env-file=.env scripts/merge-tartan-variants.mjs --reenrich [--dry-run]
 
 import assert from 'node:assert/strict';
 
@@ -142,7 +143,100 @@ function maxVariantCount(group) {
   return group.members.length * sizeCount;
 }
 
-function buildMergedBodyHtml(itemName, tartanNames) {
+// Category-specific description templates, ported from the original
+// per-tartan description generator (gen_descriptions.py's CATEGORY dict,
+// used to write body_html for all 222 source products before the merge).
+// Adapted for the merged, multi-tartan case: the Python originals name one
+// specific {tartan} in the opening/details/perfect_for text (since each
+// source product was a single tartan); here a merged product covers 2+
+// tartans, so per-category copy that named a single tartan has been
+// generalized to talk about "a"/"the" tartan generically instead — the
+// specific tartan names are still guaranteed to appear (see tartanSentence
+// below), just in the "Available in ..." sentence rather than repeated
+// through every section.
+const APPAREL_PRODUCT_TYPES = new Set([
+  'Dresses', 'Leggings', 'Outerwear', 'Pants', 'Polos', 'Shirts', 'Skirts', 'Sleepwear', 'Swimwear', 'T-Shirts',
+]);
+
+const CATEGORY_TEMPLATES = {
+  'Accessories': {
+    opening: (item) => `Finish any outfit with this ${item}, a small detail that carries real clan heritage.`,
+    details: [
+      'Woven in an authentic tartan sett',
+      'Made from durable, comfortable materials built for daily use',
+      'A subtle way to show your heritage without overstating it',
+      'Pairs easily with both casual and smart-casual outfits',
+    ],
+    care: 'Spot clean with a damp cloth. Avoid soaking or machine washing.',
+    perfectFor: 'Everyday wear, gifting, or completing a family matching look for a clan gathering or Burns Night.',
+  },
+  'Bags': {
+    opening: (item) => `Carry your heritage with you in this ${item}, built for everyday use with room for what matters.`,
+    details: [
+      'Woven in an authentic tartan sett',
+      'Sturdy construction designed to hold its shape with daily use',
+      'Practical storage for everyday essentials',
+      'A distinctive alternative to plain, unbranded bags',
+    ],
+    care: 'Spot clean with a damp cloth and mild soap. Air dry away from direct heat.',
+    perfectFor: 'Daily errands, travel, or as a thoughtful gift for someone connected to their chosen clan name.',
+  },
+  'Footwear': {
+    opening: (item) => `Step out in this ${item}, comfortable everyday footwear with a clan pattern that stands out.`,
+    details: [
+      'Upper printed in an authentic tartan sett',
+      'Cushioned footbed for all-day comfort',
+      'Durable outsole built for regular wear',
+      'True to size — check the size guide before ordering',
+    ],
+    care: 'Wipe clean with a soft, damp cloth. Air dry away from direct heat.',
+    perfectFor: 'Everyday wear, clan gatherings, or as a distinctive gift for someone with tartan heritage.',
+  },
+  'Hats': {
+    opening: (item) => `Top off your look with this ${item}, a classic shape finished in a clan pattern you can wear all year.`,
+    details: [
+      'Woven in an authentic tartan sett',
+      'Comfortable, breathable construction',
+      'Adjustable or true-to-size fit (see product options)',
+      'A practical, everyday way to carry your heritage',
+    ],
+    care: 'Spot clean with a damp cloth. Do not machine wash.',
+    perfectFor: 'Outdoor wear, clan events, or as a gift for someone with tartan roots.',
+  },
+  'Home Decor': {
+    opening: (item) => `Bring a tartan into your home with this ${item}, a lasting way to display your heritage indoors.`,
+    details: [
+      'Printed or woven in an authentic tartan sett',
+      'Made from quality materials built to last',
+      'Adds a distinctive accent to any room',
+      'A meaningful gift for family gatherings or housewarmings',
+    ],
+    care: 'Follow standard care for the material — spot clean fabric pieces, wipe hard surfaces with a soft cloth.',
+    perfectFor: 'Living rooms, bedrooms, or as a housewarming gift for someone with tartan heritage.',
+  },
+  // Apparel product_types (Dresses, Leggings, Outerwear, Pants, Polos,
+  // Shirts, Skirts, Sleepwear, Swimwear, T-Shirts) share one template shape,
+  // same as gen_descriptions.py's '__apparel__' entry. Also used as the
+  // fallback for any product_type with no dedicated template above.
+  '__apparel__': {
+    opening: (item) => `Wear your heritage with this ${item}, made for everyday comfort with a pattern that means something.`,
+    details: [
+      'Woven in an authentic tartan sett',
+      'Soft, breathable fabric built for all-day wear',
+      'Available in a full size range — see the size chart before ordering',
+      'A natural choice for family matching looks',
+    ],
+    care: 'Machine wash cold, inside out. Tumble dry low or hang to dry. Do not iron directly on the print.',
+    perfectFor: 'Everyday wear, family photos, clan gatherings, or as a gift for someone with tartan heritage.',
+  },
+};
+
+function categoryTemplateFor(productType) {
+  if (APPAREL_PRODUCT_TYPES.has(productType)) return CATEGORY_TEMPLATES['__apparel__'];
+  return CATEGORY_TEMPLATES[productType] || CATEGORY_TEMPLATES['__apparel__'];
+}
+
+export function buildMergedBodyHtml(itemName, tartanNames, productType) {
   const itemLower = itemName.toLowerCase();
   // Normally a merge has 2+ tartans, but a known-bad-member exclusion (see
   // excludeKnownBadMembers) can leave exactly one (e.g. "Knitted Hoodie"
@@ -154,17 +248,17 @@ function buildMergedBodyHtml(itemName, tartanNames) {
     ? `${tartanNames[0]} tartan and ${tartanNames[1]} tartan`
     : `${tartanNames.slice(0, -1).map((t) => `${t} tartan`).join(', ')}, and ${tartanNames[tartanNames.length - 1]} tartan`;
 
+  const cat = categoryTemplateFor(productType);
+  const detailsHtml = cat.details.map((d) => `<li>${d}</li>`).join('');
+
   return (
-    `<p>Bring a tartan into your everyday with this ${itemLower}. ` +
-    `Available in ${tartanSentence} — choose yours below.</p>` +
+    `<p>${cat.opening(itemLower)} Available in ${tartanSentence} — choose yours below.</p>` +
     `<h3>Product Details</h3>` +
-    `<ul>` +
-    `<li>Printed or woven in an authentic tartan sett</li>` +
-    `<li>Made from quality materials built to last</li>` +
-    `<li>A distinctive way to carry your heritage</li>` +
-    `</ul>` +
+    `<ul>${detailsHtml}</ul>` +
     `<h3>Care Instructions</h3>` +
-    `<p>Follow standard care for the material — spot clean fabric pieces, machine wash cold where applicable.</p>` +
+    `<p>${cat.care}</p>` +
+    `<h3>Perfect For</h3>` +
+    `<p>${cat.perfectFor}</p>` +
     `<p>Not sure about your clan? Visit our <a href="/pages/find-your-clans">Find Your Clans</a> page to explore the tartan that reflects your heritage.</p>`
   );
 }
@@ -200,7 +294,7 @@ function buildMergedProductPayload(group) {
     vendor: first.vendor,
     product_type: first.product_type,
     tags: tags.join(', '),
-    body_html: buildMergedBodyHtml(itemName, members.map((m) => m.tartan)),
+    body_html: buildMergedBodyHtml(itemName, members.map((m) => m.tartan), first.product_type),
     options,
     variants,
     images: members.map((m) => ({ src: m.product.images[0].src })),
@@ -341,14 +435,38 @@ function selfTest() {
   };
   assert.equal(maxVariantCount(sizedGroup), 8);
 
-  const html2 = buildMergedBodyHtml('Pillow Cover', ['Saskatchewan', 'Yukon']);
+  const html2 = buildMergedBodyHtml('Pillow Cover', ['Saskatchewan', 'Yukon'], 'Home Decor');
   assert.ok(html2.includes('Saskatchewan tartan'), 'must contain "Saskatchewan tartan" for search');
   assert.ok(html2.includes('Yukon tartan'), 'must contain "Yukon tartan" for search');
+  assert.ok(html2.includes('Bring a tartan into your home'), 'Home Decor category opening should be used');
+  assert.ok(html2.includes('Adds a distinctive accent to any room'), 'Home Decor category details should be used');
+  assert.ok(html2.includes('<h3>Perfect For</h3>'), 'must include a Perfect For section');
+  assert.ok(html2.includes('housewarming gift'), 'Home Decor perfect-for copy should be used');
 
-  const html3 = buildMergedBodyHtml('Bedding Set', ['Alberta', 'Antrim', 'Argyll']);
+  const html3 = buildMergedBodyHtml('Bedding Set', ['Alberta', 'Antrim', 'Argyll'], 'Home Decor');
   for (const name of ['Alberta', 'Antrim', 'Argyll']) {
     assert.ok(html3.includes(`${name} tartan`), `must contain "${name} tartan" for search`);
   }
+
+  // Category-awareness: an apparel product_type (via the shared __apparel__
+  // template) and Accessories should each pull distinct, category-specific
+  // copy while still satisfying the tartan-phrase requirement.
+  const htmlApparel = buildMergedBodyHtml('T-Shirt', ['Gordon', 'Hunter'], 'T-Shirts');
+  assert.ok(htmlApparel.includes('Gordon tartan') && htmlApparel.includes('Hunter tartan'), 'apparel body must name both tartans');
+  assert.ok(htmlApparel.includes('Wear your heritage with this t-shirt'), 'apparel category opening should be used');
+  assert.ok(htmlApparel.includes('see the size chart before ordering'), 'apparel category details should be used');
+  assert.ok(htmlApparel.includes('Machine wash cold, inside out'), 'apparel category care instructions should be used');
+
+  const htmlAccessories = buildMergedBodyHtml('Bow Tie', ['Bruce', 'Cameron'], 'Accessories');
+  assert.ok(htmlAccessories.includes('Bruce tartan') && htmlAccessories.includes('Cameron tartan'), 'accessories body must name both tartans');
+  assert.ok(htmlAccessories.includes('Finish any outfit with this bow tie'), 'Accessories category opening should be used');
+  assert.ok(htmlAccessories.includes('Spot clean with a damp cloth. Avoid soaking'), 'Accessories category care instructions should be used');
+  assert.ok(htmlAccessories.includes('Burns Night'), 'Accessories perfect-for copy should be used');
+
+  // Unknown/unmapped product_type falls back to the apparel template rather
+  // than throwing or silently omitting sections.
+  const htmlUnknown = buildMergedBodyHtml('Gadget', ['Bruce', 'Cameron'], 'SomeUnmappedType');
+  assert.ok(htmlUnknown.includes('Wear your heritage with this gadget'), 'unmapped product_type should fall back to the apparel template');
 
   // Duplicate-tartan-within-group dedup (the real "Leggings" catalog bug:
   // two separate "Lindsay Tartan Leggings" products, one tagged "leggings").
@@ -397,7 +515,7 @@ function selfTest() {
   ];
   assert.equal(buildGroups(singleProduct).length, 0, 'a lone product with no group-mates is never a merge group');
 
-  const bodyOneTartan = buildMergedBodyHtml('Knitted Hoodie', ['Antrim']);
+  const bodyOneTartan = buildMergedBodyHtml('Knitted Hoodie', ['Antrim'], 'Outerwear');
   assert.ok(bodyOneTartan.includes('Antrim tartan'), 'single-tartan body must still name the tartan');
   assert.ok(!bodyOneTartan.includes(', and'), 'single-tartan body must not have a stray ", and" from the multi-tartan branch');
 
@@ -524,4 +642,65 @@ if (process.argv.includes('--all')) {
   console.log(`\nDone: ${done.length} groups merged.`);
   if (failed.length) console.log(`Stopped due to failure in: ${failed.join(', ')}`);
   process.exit(failed.length ? 1 : 0);
+}
+
+// One-off re-enrichment pass (Finding 2, Part B): the merge already ran and
+// replaced each of the 222 original per-tartan products' rich,
+// category-differentiated body_html with buildMergedBodyHtml's old
+// category-blind generic template. This regenerates body_html for every
+// already-merged live product using the fixed, category-aware
+// buildMergedBodyHtml — a content-only PUT, no creates/deletes. Safe to
+// re-run: it recomputes body_html fresh each time from title/options, so
+// running it twice just rewrites the same (correct) content again.
+//
+// Merged products are identified the same way the merge leaves them: title
+// starts with "Tartan " and there's a "Tartan" option — this doesn't require
+// the original group data (which no longer exists; the source products were
+// deleted), just the shape the merge produced.
+function isMergedProduct(product) {
+  return product.title.startsWith('Tartan ') && product.options.some((o) => o.name === 'Tartan');
+}
+
+// Shopify reformats body_html on save (observed: it inserts newlines between
+// sibling <li> elements inside a <ul>), so a raw string comparison against
+// what we generate will never match even when the content is identical.
+// Normalize whitespace between tags on both sides before comparing so the
+// "already up to date" skip actually works on a second run.
+const normalizeHtmlForCompare = (html) => html.replace(/>\s+</g, '><').trim();
+
+async function reenrich({ dryRun }) {
+  const products = await fetchAllProducts();
+  const targets = products.filter(isMergedProduct);
+  console.log(`Found ${targets.length} merged products (title starts with "Tartan " and has a "Tartan" option).`);
+
+  let updated = 0;
+  let skipped = 0;
+  for (const product of targets) {
+    const itemName = product.title.replace(/^Tartan\s+/, '');
+    const tartanOption = product.options.find((o) => o.name === 'Tartan');
+    const tartanNames = [...new Set(tartanOption.values)];
+    const productType = product.product_type;
+
+    const newBodyHtml = buildMergedBodyHtml(itemName, tartanNames, productType);
+    if (normalizeHtmlForCompare(newBodyHtml) === normalizeHtmlForCompare(product.body_html)) {
+      console.log(`SKIP (already up to date): ${product.id} "${product.title}" [${productType}] (${tartanNames.length} tartans)`);
+      skipped++;
+      continue;
+    }
+
+    console.log(`${dryRun ? 'DRY-RUN would update' : 'Updating'}: ${product.id} "${product.title}" [${productType}] (${tartanNames.length} tartans: ${tartanNames.join(', ')})`);
+    if (!dryRun) {
+      await restRequest('PUT', `/products/${product.id}.json`, { product: { id: product.id, body_html: newBodyHtml } });
+      await new Promise((r) => setTimeout(r, 550));
+    }
+    updated++;
+  }
+
+  console.log(`\nReenrich done: ${updated} ${dryRun ? 'would be updated' : 'updated'}, ${skipped} already up to date, ${targets.length} total merged products.`);
+}
+
+if (process.argv.includes('--reenrich')) {
+  const dryRun = process.argv.includes('--dry-run');
+  await reenrich({ dryRun });
+  process.exit(0);
 }
