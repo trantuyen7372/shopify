@@ -230,7 +230,7 @@ async function assignVariantImages(newProduct, group) {
   }
 }
 
-async function verifyMerge(newProduct, group) {
+export async function verifyMerge(newProduct, group) {
   for (const member of group.members) {
     const query = encodeURIComponent(`"${member.tartan} tartan"`);
     // Storefront search isn't reachable via Admin API; this checks the
@@ -250,13 +250,25 @@ async function verifyMerge(newProduct, group) {
   // assignVariantImages relies on that same index alignment when assigning
   // image_id to each tartan's variant(s). Confirm that alignment actually held
   // by checking each member's variants point at the image at that member's index.
+  //
+  // This MUST be checked against a fresh GET, not the in-memory `newProduct`
+  // parameter. assignVariantImages mutates `newProduct.variants[*].image_id`
+  // directly (see the comment there) so that this same in-memory object can
+  // be inspected without going stale — but that means checking image_id
+  // against `newProduct` here would just be comparing that mutation against
+  // itself: it can only ever fail if the earlier PUT request in
+  // assignVariantImages already threw. Re-fetching from the server is what
+  // makes this an actual verification of server state (the safety gate
+  // mergeGroup relies on before deleting the source products), rather than a
+  // check that always trivially passes.
+  const { product: freshProduct } = await restGet(`/products/${newProduct.id}.json`);
   for (let i = 0; i < group.members.length; i++) {
     const member = group.members[i];
-    const expectedImage = newProduct.images[i];
+    const expectedImage = freshProduct.images[i];
     if (!expectedImage) {
       throw new Error(`Verification failed: no image at index ${i} for tartan "${member.tartan}"`);
     }
-    const variantsForTartan = newProduct.variants.filter((v) => v.option1 === member.tartan);
+    const variantsForTartan = freshProduct.variants.filter((v) => v.option1 === member.tartan);
     if (variantsForTartan.length === 0) {
       throw new Error(`Verification failed: no variants found for tartan "${member.tartan}"`);
     }
